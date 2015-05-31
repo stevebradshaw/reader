@@ -17,3 +17,28 @@
 #messages li:nth-child(odd) {
   background: #eee;
 }
+.folder {
+  padding-bottom: 2px;
+  padding-top: 4px;
+  font-weight: bold;
+  cursor: pointer;
+}
+.feed {
+  border-left: 3px solid #fff;
+  padding-left: 3px;
+  cursor: pointer;
+}
+.folder:hover,
+.feed:hover {
+  background-color: #def;
+}
+ul {
+  padding-left: 0px;
+}
+li {
+  list-style-type: none;
+}
+.colIco {
+  position: relative;
+  display: none;
+}
