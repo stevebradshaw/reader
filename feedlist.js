@@ -1,5 +1,16 @@
 var mysql      = require('mysql');
 
+var data = [] ;
+
+function myCB(folder, feeds) {
+	var n = folder ;
+	n.feeds = feeds ;
+
+	data.push(n) ;
+	console.log(data) ;
+	console.log('     ') ;
+}
+
 var connection = mysql.createConnection({
   host     : 'localhost',
   user     : 'reader_dev',
@@ -9,7 +20,8 @@ var connection = mysql.createConnection({
 
 connection.connect();
 
-var q1 = "select id, folder_name from (select id, folder_name from user_folders where user_id = ? order by folder_name) uf union select 0 id,'Uncategorised' folder_name limit 5" ;
+//var q1 = "select id, folder_name from (select id, folder_name from user_folders where user_id = ? order by folder_name) uf union select 0 id,'Uncategorised' folder_name limit 5" ;
+var q1 = "select id, folder_name from user_folders where user_id = 1 union select 0 id,'Uncategorised' folder_name  order by if(folder_name='Uncategorised', 'ZZZZZZZZZZ', folder_name) limit 5" ;
 
 var query = connection.query(q1,1) ;
 
@@ -36,11 +48,7 @@ connection.connect();
   var q2 = "select f.id, uf.feed_title from feeds f, user_feeds uf where uf.user_id = ? and f.id = uf.feed_id and uf.folder_id = ? limit 2" ;
 //  var query2 = connection.query(q2,[1, row.id]) ;
 connection.query(q2,[1, row.id], function(err, rows, fields)  {
-var e = row ; 
-e.feeds = rows ;
-console.log('') ;
-console.log(e) ;
-//  console.log(rows) ;
+myCB(row, rows) ;
 }) ;
 
 connection.end() ;
@@ -63,6 +71,7 @@ console.log(err) ;
     console.log('Error while performing Query.');
 });
 */
+console.log(data) ;
 connection.end();
 
 //
