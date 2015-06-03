@@ -8,7 +8,15 @@ var app = express() ;
 
 var http = require('http').Server(app) ;
 
+
 app.locals.basedir = __dirname ;
+
+var feedlist = require('./services/feedlist') ;
+
+
+var router = express.Router();
+
+feedlist.initRouting(router) ;
 
 function compile(str, path) {
   return stylus(str)

@@ -40,5 +40,7 @@ li {
 }
 .colIco {
   position: relative;
-  display: none;
+}
+.feedSelected {
+  border-color: #aad;
 }
