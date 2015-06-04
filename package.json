@@ -9,6 +9,7 @@
   "author": "Steve Bradshaw",
   "license": "ISC",
   "dependencies": {
+    "async": "^1.2.0",
     "express": "^4.12.4",
     "jade": "^1.10.0",
     "morgan": "^1.5.3",
