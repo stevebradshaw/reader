@@ -39,7 +39,7 @@ function populateFeedList() {
 					 for (var idx in json) {
 						 node = json[idx]
 html = html + '<div id="folder_' + node.id + '" class="folder">' + node.folder_name + '</div>' ;
-html = html + '<div id="feeds_' + node.id + '" class="feeds">' ;
+html = html + '<div id="feeds_' + node.id + '" class="feeds" style="display:none">' ;
 var feeds = JSON.parse(node.feeds) ;
 
 for (var j in feeds) {
