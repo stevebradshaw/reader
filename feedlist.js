@@ -33,6 +33,10 @@ query.on('field', function(fields) {
   console.log(fields) ;
 }) ;
 
+query.on('end', function() {
+console.log('done!') ;
+}) ;
+
 query.on('result', function(row) {
 //  console.log(row) ;
 

@@ -40,10 +40,12 @@ async.waterfall([
 	},
 	function() {
 	  connection.end() ;
+params.res.send(data) ;
 //	  console.log(data) ;
 	}) ;
   }
 ], function (err,res) {
+
 }) ;
 	  return data ;
 } ;
@@ -58,9 +60,7 @@ module.exports.initRouting = function(router) {
 console.log('feedlist routing') ;
   router.route('/feedlist')
       .get(function(req,res) {
-		  var d = get({userid: 1}) ;
-		  console.log(d) ;
-		res.end() ;
+		  get({userid: 1, res: res}) ;
 	  })
 	  
 /*	  .post(function(req,res) {
