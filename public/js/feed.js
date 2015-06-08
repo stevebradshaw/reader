@@ -4,6 +4,17 @@ function setupButtons() {
 
 function showFeed(id) {
 console.log(id) ;
+  $.ajax({url: "/api/feed",
+          type: 'GET',
+          contentType: "application/json",
+          dataType: "text",
+          data : { folder_name: request.term },
+          dataType : 'json',
+          context: this,
+          success: function(data) {
+
+          }
+  }) ;
 }
 
 function populateFeedList() {

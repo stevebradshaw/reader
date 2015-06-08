@@ -11,12 +11,14 @@ var http = require('http').Server(app) ;
 
 app.locals.basedir = __dirname ;
 
-var feedlist = require('./services/feedlist') ;
+var feedlist = require('./services/feedlist'),
+    feed = require('./services/feed') ;
 
 
 var router = express.Router();
 
 feedlist.initRouting(router) ;
+feed.initRouting(router) ;
 
 function compile(str, path) {
   return stylus(str)
