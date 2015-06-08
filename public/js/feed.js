@@ -8,7 +8,7 @@ console.log(id) ;
           type: 'GET',
           contentType: "application/json",
           dataType: "text",
-          data : { folder_name: request.term },
+          data : { feed: id },
           dataType : 'json',
           context: this,
           success: function(data) {
