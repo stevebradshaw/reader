@@ -34,6 +34,7 @@ async.waterfall([
 		  function(results,next) {
 			var d = item ;
 			d.feeds = JSON.stringify(results) ;
+console.log(d) ; 
 			data.push(d) ;
             t() ;
 		  }]) ;
@@ -42,6 +43,7 @@ async.waterfall([
 	function() {
 	  connection.end() ;
       //params.res.send(data) ;
+
       res.send(data) ;
 //	  console.log(data) ;
 	}) ;
