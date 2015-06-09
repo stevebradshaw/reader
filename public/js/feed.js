@@ -4,7 +4,7 @@ function setupButtons() {
 
 function showFeed(id) {
 console.log(id) ;
-  $.ajax({url: "/api/feed",
+  $.ajax({url: "/api/feedentries",
           type: 'GET',
           contentType: "application/json",
           dataType: "text",
@@ -12,14 +12,14 @@ console.log(id) ;
           dataType : 'json',
           context: this,
           success: function(data) {
-
+console.log(data) ;
           }
   }) ;
 }
 
 function populateFeedList() {
 
-  $.ajax({url: "api/feedlist",
+  $.ajax({url: "api/folderlist",
           type: 'GET',
           contentType: "application/json",
           dataType: "text",

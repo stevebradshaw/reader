@@ -40,7 +40,6 @@ async.waterfall([
 	connection.query(q,[ params.feed, params.userid ],next) ;
   },
   function(results, next) {
-	  res.setEncoding('utf8');
 	  res.send(results) ;
 
 /*	async.forEachSeries(results, function(item, next) {
@@ -72,7 +71,7 @@ async.waterfall([
 
 module.exports.initRouting = function(router) {
 
-  router.route('/feed')
+  router.route('/feedentries')
       .get(function(rq,rs) {
 		  req = rq ;
 		  res = rs ;

@@ -56,7 +56,7 @@ console.log(d) ;
 
 module.exports.initRouting = function(router) {
 
-  router.route('/feedlist')
+  router.route('/folderlist')
       .get(function(rq,rs) {
 		  req = rq ;
 		  res = rs ;
