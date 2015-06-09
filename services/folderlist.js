@@ -2,7 +2,7 @@ var mysql = require('mysql'),
     async = require('async') ;
 
 var req, res ;
-var t ;
+//var t ;
 
 function get(params) {
 	var data = [] ;
@@ -34,7 +34,6 @@ async.waterfall([
 		  function(results,next) {
 			var d = item ;
 			d.feeds = JSON.stringify(results) ;
-console.log(d) ; 
 			data.push(d) ;
             t() ;
 		  }]) ;

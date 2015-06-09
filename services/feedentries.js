@@ -18,7 +18,7 @@ var connection = mysql.createConnection({
 
 var q = "select reader.fe.id as id, "
              + "reader.fe.entry_key as entry_key, "
-             + "'<![CDATA[' || reader.fe.entry_title || ']]>' as entry_title, "
+             + "reader.fe.entry_title as entry_title, "
              + "reader.fe.entry_html as entry_html, "
              + "reader.fe.entry_author as entry_author, "
              + "reader.fe.entry_uri as entry_uri, "

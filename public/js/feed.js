@@ -2,6 +2,12 @@ function setupButtons() {
 
 }
 
+function displayFeed(feed) {
+  for (var i in feed) {
+	  console.log(feed[i]) ;
+  }
+}
+
 function showFeed(id) {
 console.log(id) ;
   $.ajax({url: "/api/feedentries",
@@ -12,7 +18,8 @@ console.log(id) ;
           dataType : 'json',
           context: this,
           success: function(data) {
-console.log(data) ;
+			         displayFeed(data) ;
+
           }
   }) ;
 }
