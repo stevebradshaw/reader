@@ -44,3 +44,12 @@ li {
 .feedSelected {
   border-color: #aad;
 }
+.entry {
+  border: 0px;
+  border-bottom: 1px;
+  border-style: solid;
+  border-color: #ddd;
+}
+.entry:hover {
+  background-color: #ff0;
+}
