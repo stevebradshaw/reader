@@ -50,6 +50,20 @@ li {
   border-style: solid;
   border-color: #ddd;
 }
-.entry:hover {
-  background-color: #ff0;
+#header {
+  padding-top: 4px;
+  padding-bottom: 4px;
+}
+.header:hover {
+  background-color: #ddd;
+}
+.pubdate {
+  float: right;
+}
+.unread {
+  font-weight: bold;
+}
+hr {
+  margin-top: 5px;
+  margin-bottom: 0px;
 }

@@ -25,7 +25,7 @@ status: 'unread' }
 */
 function displayFeed(feed) {
   console.log('displayFeed') ;
-  var frag = '<div id="entrylist">', node ;
+  var frag = '', node ;
   for (var i in feed) {
 	  node = feed[i] ;
 	  frag = frag + '<div class="entry" uri="' + node.entry_uri + '" id="' + node.entry_key + '">'
@@ -33,13 +33,16 @@ function displayFeed(feed) {
                   + '<span class="title">' + node.entry_title + '</span>'
                   + '<span class="pubdate">' + node.publication_date + '</span>'
                   + '</div>'
-                  + '<div class="content collapsed" id="content"></div>' ;
-
+                  + '<div class="content collapsed" id="content"></div>' 
+				  + '</div>' 
+				  + '</div>' ;
 
 	  console.log(feed[i]) ;
   }
-  frag = frag + '</div>' ;
+ // frag = frag + '</div>' ;
   $("#entrylist").html(frag) ;
+
+  $("#header").click(function(t) { console.log(t.target.parentNode.parentNode.id) }) ;
 }
 
 function showFeed(id) {

@@ -1,0 +1,583 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html>
+<head>
+  <meta name="generator" content=
+  "HTML Tidy for Linux/x86 (vers 25 March 2009), see www.w3.org">
+
+  <title></title>
+</head>
+
+<body>
+  <div id="feedcontents">
+    <b><span id="feedtitle">MacRumors : Mac News and Rumors</span></b>
+
+    <div style="float:right">
+      <span id="btn_view" class="button">View: Unread</span>&nbsp;
+      <span id="btn_mark" class="button">Mark all</span>&nbsp;
+      <span id="btn_refresh" class="button">Refresh</span>&nbsp;
+    </div><br>
+    <hr>
+
+    <div id="entrylist">
+      <div class="entry" uri=
+      "http://www.macrumors.com/2014/08/07/siri-for-mac-patent/"
+      id="d1d7c2bee48ee67e51d2ad4181def765">
+        <div class="header" id="header">
+          <span class="title">'Siri for Mac' Virtual Assistant
+          Described in New Apple Patent
+          Application</span><span class="pubdate">2014-08-07
+          14:20:35 UTC</span>
+        </div>
+
+        <div class="content collapsed" id="content">
+          <a href=
+          "http://www.macrumors.com/2014/08/07/siri-for-mac-patent/"
+          target="_blank">'Siri for Mac' Virtual Assistant
+          Described in New Apple Patent Application</a><br>
+          <span id="author">by&nbsp;Kelly Hodgkins</span><br>
+          Rumors suggesting Siri <a href=
+          "http://www.macrumors.com/2012/11/19/os-x-10-9-to-include-siri-and-maps-integration/">
+          will make its way into OS X</a> have been circulating
+          <a href=
+          "http://www.macrumors.com/2013/02/05/apple-job-posting-hints-at-siri-for-macs-in-os-x-10-9/">
+          for years</a>, but the personal assistant has yet to
+          debut on the Mac. A new <a href=
+          "http://appft.uspto.gov/netacgi/nph-Parser?Sect1=PTO2&amp;Sect2=HITOFF&amp;u=%2Fnetahtml%2FPTO%2Fsearch-adv.html&amp;r=2&amp;p=1&amp;f=G&amp;l=50&amp;d=PG01&amp;S1=(345%2F473.CCLS.+AND+20140807.PD.)&amp;OS=ccl/345/473+and+pd/8/7/2014&amp;RS=(CCL/345/473+AND+PD/20140807)">
+          patent application</a> published by the U.S. patent and
+          Trademark Office and spotted by <a href=
+          "http://appleinsider.com/articles/14/08/07/apple-details-siri-for-mac-desktop-virtual-assistant-in-new-patent-application-">
+          <em>AppleInsider</em></a> revives these rumors with the
+          description of an intelligent assistant for the desktop
+          that provides features far beyond the current dictation
+          available in OS X.<br>
+          <br>
+          <img src=
+          "http://cdn.macrumors.com/article-new/2014/08/siri_mac_patent_help.jpg"
+          alt="siri_mac_patent_help" width="800" height="623"
+          class="aligncenter size-full wp-image-418879"><br>
+          The patent application, which was filed in February of
+          this year and based on a provisional application from a
+          year earlier, describes a system that in one iteration
+          can sit in the dock, waiting for touch input or voice
+          commands to activate a personal assistant in a manner
+          similar to Siri in iOS. The assistant would then perform
+          tasks based on input by the user. The same system can
+          function as a third hand, allowing users to interact
+          physically with a mouse and keyboard while simultaneously
+          performing a secondary task using their voice.
+
+          <blockquote>
+            Methods and systems related to interfaces for
+            interacting with a digital assistant in a desktop
+            environment are disclosed. In some embodiments, a
+            digital assistant is invoked on a user device by a
+            gesture following a predetermined motion pattern on a
+            touch-sensitive surface of the user device. In some
+            embodiments, a user device selectively invokes a
+            dictation mode or a command mode to process a speech
+            input depending on whether an input focus of the user
+            device is within a text input area displayed on the
+            user device. In some embodiments, a digital assistant
+            performs various operations in response to one or more
+            objects being dragged and dropped onto an iconic
+            representation of the digital assistant displayed on a
+            graphical user interface. In some embodiments, a
+            digital assistant is invoked to cooperate with the user
+            to complete a task that the user has already started on
+            a user device.
+          </blockquote><img src=
+          "http://cdn.macrumors.com/article-new/2014/08/siri_mac_patent_globe.jpg"
+          alt="siri_mac_patent_globe" width="800" height="610"
+          class="aligncenter size-full wp-image-418880"><br>
+          Though Apple is bringing some aspects of iOS to OS X such
+          as Reminders, Apple has yet to integrate Siri into its
+          desktop platform. The feature was not mentioned when
+          Apple <a href=
+          "http://www.macrumors.com/2014/06/02/apple-announces-os-x-yosemite/">
+          unveiled OS X Yosemite</a>, and there is no known
+          evidence in <a href=
+          "http://www.macrumors.com/2014/08/04/apple-yosemite-developer-preview-5/">
+          the current beta version</a> of Yosemite that suggests
+          Apple may integrate its personal assistant into future
+          versions of the desktop OS. Still, it is clear Apple is
+          thinking about ways to bring Siri-like features to OS
+          X.<br>
+          <br>
+          <br>
+          <b>Recent Mac and iOS Blog Stories</b><br>
+          . <a href=
+          "http://www.macrumors.com/2014/08/07/dragon-quest-iv-ios/">
+          Square-Enix Releases Turn-Based RPG 'Dragon Quest IV' for
+          iOS</a><br>
+          . <a href=
+          "http://www.macrumors.com/2014/08/07/united-airlines-passport-scanning/">
+          United Airlines Rolls Out Passport Scanning for
+          International Flights to iOS App</a><br>
+          . <a href=
+          "http://www.macrumors.com/2014/08/06/apple-sam-sung-auction/">
+          Former Apple Employee Sam Sung Auctioning Business Card
+          and Uniform for Charity</a><br>
+          . <a href=
+          "http://www.macrumors.com/2014/08/06/apple-china-ban-security/">
+          China Said to Ban Government Purchases of Apple Hardware
+          Amid Heightened Security Concerns</a><br>
+          . <a href=
+          "http://www.macrumors.com/2014/08/05/pebble-smart-watch-new-colors/">
+          Pebble Launches Limited Edition Classic Smart Watches in
+          Blue, Pink, and Green</a><br>
+          . <a href=
+          "http://www.macrumors.com/2014/08/05/chrome-canary-64-bit-support/">
+          Google Launches 64-Bit Version of Chrome Canary Browser
+          for OS X</a><br>
+          . <a href=
+          "http://www.macrumors.com/2014/08/05/istat-menus-5/">iStat
+          Menus 5 Brings Refreshed Look, OS X Yosemite Support,
+          More Data</a><br>
+          . <a href=
+          "http://www.macrumors.com/2014/08/05/third-netherlands-apple-store-august-9/">
+          Apple to Open Third Netherlands Retail Store This
+          Saturday, August 9</a><br>
+          <img width="1" height="1" src=
+          "http://rss.feedsportal.com/c/35070/f/648327/s/3d47b79e/sc/28/mf.gif"
+          border="0"><br clear="all">
+          <br>
+          <br>
+          <a href=
+          "http://da.feedsportal.com/r/204366303628/u/49/f/648327/c/35070/s/3d47b79e/sc/28/rc/1/rc.htm"
+          rel="nofollow"><img src=
+          "http://da.feedsportal.com/r/204366303628/u/49/f/648327/c/35070/s/3d47b79e/sc/28/rc/1/rc.img"
+          border="0"></a><br>
+          <a href=
+          "http://da.feedsportal.com/r/204366303628/u/49/f/648327/c/35070/s/3d47b79e/sc/28/rc/2/rc.htm"
+          rel="nofollow"><img src=
+          "http://da.feedsportal.com/r/204366303628/u/49/f/648327/c/35070/s/3d47b79e/sc/28/rc/2/rc.img"
+          border="0"></a><br>
+          <a href=
+          "http://da.feedsportal.com/r/204366303628/u/49/f/648327/c/35070/s/3d47b79e/sc/28/rc/3/rc.htm"
+          rel="nofollow"><img src=
+          "http://da.feedsportal.com/r/204366303628/u/49/f/648327/c/35070/s/3d47b79e/sc/28/rc/3/rc.img"
+          border="0"></a><br>
+          <br>
+          <a href=
+          "http://da.feedsportal.com/r/204366303628/u/49/f/648327/c/35070/s/3d47b79e/sc/28/a2.htm">
+          <img src=
+          "http://da.feedsportal.com/r/204366303628/u/49/f/648327/c/35070/s/3d47b79e/sc/28/a2.img"
+          border="0"></a><img width="1" height="1" src=
+          "http://pi.feedsportal.com/r/204366303628/u/49/f/648327/c/35070/s/3d47b79e/sc/28/a2t.img"
+          border="0">
+
+          <div class="feedflare">
+            <a href=
+            "http://feeds.macrumors.com/~ff/MacRumors-Front?a=_jTzkMFzopw:P_OsZwn_Bdw:yIl2AUoC8zA">
+            <img src=
+            "http://feeds.feedburner.com/~ff/MacRumors-Front?d=yIl2AUoC8zA"
+            border="0"></a> <a href=
+            "http://feeds.macrumors.com/~ff/MacRumors-Front?a=_jTzkMFzopw:P_OsZwn_Bdw:6W8y8wAjSf4">
+            <img src=
+            "http://feeds.feedburner.com/~ff/MacRumors-Front?d=6W8y8wAjSf4"
+            border="0"></a> <a href=
+            "http://feeds.macrumors.com/~ff/MacRumors-Front?a=_jTzkMFzopw:P_OsZwn_Bdw:qj6IDK7rITs">
+            <img src=
+            "http://feeds.feedburner.com/~ff/MacRumors-Front?d=qj6IDK7rITs"
+            border="0"></a>
+          </div><img src=
+          "http://feeds.feedburner.com/~r/MacRumors-Front/~4/_jTzkMFzopw"
+          height="1" width="1">
+
+          <div id="footer">
+            <img id="bookmark" src="images/book-grey-256.png"
+            width="24" height="24" style=
+            "margin:1px ; cursor: pointer;" name=
+            "bookmark"><img id="tag" src="images/tag.png" width=
+            "24" height="24" style="margin:1px ; cursor: pointer;"
+            name="tag"><span id="social" style=
+            "float:right;margin-right:10px"><img id="fb_share" src=
+            "images/facebook.png" width="24" height="24" style=
+            "margin:1px ; cursor: pointer;" name=
+            "fb_share"><img id="google_share" src=
+            "images/google+.png" width="24" height="24" style=
+            "margin:1px ; cursor: pointer;" name=
+            "google_share"><img id="mail_entry" src=
+            "images/mail.png" width="24" height="24" style=
+            "margin:1px ; cursor: pointer;" name=
+            "mail_entry"></span>
+          </div>
+        </div>
+      </div>
+
+      <div class="entry" uri=
+      "http://www.macrumors.com/2014/08/06/sketchy-report-details-iphone-6-features/"
+      id="7ad28ca7fccf87e312ad03d6a596c308">
+        <div class="header unread" id="header">
+          <span class="title">Detailed Yet Sketchy Report Claims
+          802.11ac Wi-Fi, NFC, Improved Touch ID, but No Sapphire
+          Display for iPhone 6</span><span class=
+          "pubdate">2014-08-06 20:10:59 UTC</span>
+        </div>
+
+        <div class="content collapsed" id="content"></div>
+      </div>
+
+      <div class="entry" uri=
+      "http://www.macrumors.com/2014/08/06/apple-wwdc-2015-dates/"
+      id="ac3a22cb7d439fe5bf34d5e6034c2c6a">
+        <div class="header unread" id="header">
+          <span class="title">Moscone Center Schedule Points
+          Towards June 8-12 for 2015 Worldwide Developers
+          Conference</span><span class="pubdate">2014-08-06
+          19:04:39 UTC</span>
+        </div>
+
+        <div class="content collapsed" id="content"></div>
+      </div>
+
+      <div class="entry" uri=
+      "http://www.macrumors.com/2014/08/06/abc-news-apple-tv-usage/"
+      id="a2115f1d9620758205212ca7963dbcb6">
+        <div class="header unread" id="header">
+          <span class="title">ABC News' New Apple TV Channel
+          Showing Strong Live Video Usage</span><span class=
+          "pubdate">2014-08-06 16:10:09 UTC</span>
+        </div>
+
+        <div class="content collapsed" id="content"></div>
+      </div>
+
+      <div class="entry" uri=
+      "http://www.macrumors.com/2014/08/06/apple-european-job-creation/"
+      id="a92aae819f0f83fb6440bf4638a11f0c">
+        <div class="header unread" id="header">
+          <span class="title">Apple Touts European Job Creation
+          Numbers, Including 500K Related to App
+          Store</span><span class="pubdate">2014-08-06 13:42:00
+          UTC</span>
+        </div>
+
+        <div class="content collapsed" id="content"></div>
+      </div>
+
+      <div class="entry" uri=
+      "http://www.macrumors.com/2014/08/06/4-7-iphone-6-2100-mah-battery/"
+      id="67723d5a01ce3bd831a31bc73859cca0">
+        <div class="header unread" id="header">
+          <span class="title">Report Claims 4.7-Inch iPhone 6 Will
+          Feature 2,100 mAh Battery</span><span class=
+          "pubdate">2014-08-06 09:55:57 UTC</span>
+        </div>
+
+        <div class="content collapsed" id="content"></div>
+      </div>
+
+      <div class="entry" uri=
+      "http://www.macrumors.com/2014/08/05/apple-samsung-end-international-patent/"
+      id="d39728fd370f71d27cc585f0559784a6">
+        <div class="header unread" id="header">
+          <span class="title">Apple and Samsung Agree to End
+          Non-U.S. Patent Disputes</span><span class=
+          "pubdate">2014-08-06 02:31:00 UTC</span>
+        </div>
+
+        <div class="content collapsed" id="content"></div>
+      </div>
+
+      <div class="entry" uri=
+      "http://www.macrumors.com/2014/08/05/sprint-abandons-plans-to-purchase-t-mobile/"
+      id="ba67147675e64d2f781c7e4457e02ec7">
+        <div class="header unread" id="header">
+          <span class="title">Sprint Abandons Plans to Purchase
+          T-Mobile</span><span class="pubdate">2014-08-05 23:24:59
+          UTC</span>
+        </div>
+
+        <div class="content collapsed" id="content"></div>
+      </div>
+
+      <div class="entry" uri=
+      "http://www.macrumors.com/roundup/iphone-6/" id=
+      "33d52d719bcdf908919e8eae0b9537d9">
+        <div class="header unread" id="header">
+          <span class="title">iPhone 6 Roundup
+          Update</span><span class="pubdate">2014-08-05 20:12:07
+          UTC</span>
+        </div>
+
+        <div class="content collapsed" id="content"></div>
+      </div>
+
+      <div class="entry" uri=
+      "http://www.macrumors.com/2014/08/05/apple-to-hold-iphone-event-on-september-9/"
+      id="66b2b53c24433541c45b40e02599035c">
+        <div class="header unread" id="header">
+          <span class="title">Apple to Hold iPhone Event on
+          September 9</span><span class="pubdate">2014-08-05
+          17:19:01 UTC</span>
+        </div>
+
+        <div class="content collapsed" id="content"></div>
+      </div>
+
+      <div class="entry" uri=
+      "http://www.macrumors.com/2014/08/05/app-store-july-record/"
+      id="6e886e1b1a2fe15aa8d4e9c4be111af3">
+        <div class="header unread" id="header">
+          <span class="title">Apple Says App Store Saw Record
+          Revenue, Customer Transactions in July</span><span class=
+          "pubdate">2014-08-05 17:11:58 UTC</span>
+        </div>
+
+        <div class="content collapsed" id="content"></div>
+      </div>
+
+      <div class="entry" uri=
+      "http://www.macrumors.com/2014/08/05/steve-jobs-free-wifi/"
+      id="b60d2f25e16d17b7154c0e3c2df03cd3">
+        <div class="header unread" id="header">
+          <span class="title">Steve Jobs' Vision of Widespread Free
+          Public Wi-Fi Guest Networks Yet to Take
+          Hold</span><span class="pubdate">2014-08-05 16:08:42
+          UTC</span>
+        </div>
+
+        <div class="content collapsed" id="content"></div>
+      </div>
+
+      <div class="entry" uri=
+      "http://www.macrumors.com/2014/08/05/apple-samsung-tsmc-a8-profits/"
+      id="8104634021342f6eed206d1eaab4fa48">
+        <div class="header unread" id="header">
+          <span class="title">Apple's Supply Chain Diversification
+          Hitting Samsung's Chip Business Hard</span><span class=
+          "pubdate">2014-08-05 14:13:37 UTC</span>
+        </div>
+
+        <div class="content collapsed" id="content"></div>
+      </div>
+
+      <div class="entry" uri=
+      "http://www.macrumors.com/2014/08/04/dot-ban-on-in-flight-phone-calls/"
+      id="61cdf019559897083dbe87e0f08c8a69">
+        <div class="header unread" id="header">
+          <span class="title">U.S. Department of Transportation to
+          Pursue Ban on In-Flight Cell Phone
+          Calls</span><span class="pubdate">2014-08-04 20:45:45
+          UTC</span>
+        </div>
+
+        <div class="content collapsed" id="content"></div>
+      </div>
+
+      <div class="entry" uri=
+      "http://www.macrumors.com/2014/08/04/apples-sapphire-volume-production/"
+      id="3f9b0bdbf6fa650ab8002d4a417e38ac">
+        <div class="header unread" id="header">
+          <span class="title">Apple's Arizona Sapphire Facility
+          'Commencing the Transition to Volume
+          Production'</span><span class="pubdate">2014-08-04
+          20:40:19 UTC</span>
+        </div>
+
+        <div class="content collapsed" id="content"></div>
+      </div>
+
+      <div class="entry" uri=
+      "http://www.macrumors.com/2014/08/04/ios-8-beta-5-tidbits/"
+      id="7e6294c00e8a6df30f6e5c65327f8c08">
+        <div class="header unread" id="header">
+          <span class="title">iOS 8 Beta 5 Tidbits: SMS Relay, New
+          iCloud Icons, Health App Updates, and
+          More</span><span class="pubdate">2014-08-04 18:19:24
+          UTC</span>
+        </div>
+
+        <div class="content collapsed" id="content"></div>
+      </div>
+
+      <div class="entry" uri=
+      "http://www.macrumors.com/2014/08/04/apple-yosemite-developer-preview-5/"
+      id="37a0a4593ddbf03cbc2d9010f2003df5">
+        <div class="header unread" id="header">
+          <span class="title">Apple Releases OS X Yosemite
+          Developer Preview 5</span><span class=
+          "pubdate">2014-08-04 17:01:19 UTC</span>
+        </div>
+
+        <div class="content collapsed" id="content"></div>
+      </div>
+
+      <div class="entry" uri=
+      "http://www.macrumors.com/2014/08/04/apple-ios-8-beta-5/" id=
+      "9804494f6dccdd17795a84790a49a5f2">
+        <div class="header unread" id="header">
+          <span class="title">Apple Releases iOS 8 Beta 5 to
+          Developers</span><span class="pubdate">2014-08-04
+          16:57:50 UTC</span>
+        </div>
+
+        <div class="content collapsed" id="content"></div>
+      </div>
+
+      <div class="entry" uri=
+      "http://www.macrumors.com/2014/08/04/iphone-6-a8-processor/"
+      id="4c353fd4020bce52b914c51c5827509b">
+        <div class="header unread" id="header">
+          <span class="title">5.5-Inch iPhone 6's A8 Processor May
+          Be More Powerful Than in 4.7-Inch
+          Model</span><span class="pubdate">2014-08-04 15:04:20
+          UTC</span>
+        </div>
+
+        <div class="content collapsed" id="content"></div>
+      </div>
+
+      <div class="entry" uri=
+      "http://www.macrumors.com/2014/08/04/nfl-now-apple-tv-august/"
+      id="1371cb471037695620b96162d46fb816">
+        <div class="header unread" id="header">
+          <span class="title">'NFL Now' Channel Coming to Apple TV
+          Later This Week [Updated]</span><span class=
+          "pubdate">2014-08-04 13:29:59 UTC</span>
+        </div>
+
+        <div class="content collapsed" id="content"></div>
+      </div>
+
+      <div class="entry" uri=
+      "http://www.macrumors.com/2014/08/03/purported-rear-shell-ipad-air-2/"
+      id="76f6518de2c38c484d54d4bf22e765dc">
+        <div class="header unread" id="header">
+          <span class="title">New Photos Claim to Show Purported
+          Rear Shell of iPad Air 2</span><span class=
+          "pubdate">2014-08-04 00:20:53 UTC</span>
+        </div>
+
+        <div class="content collapsed" id="content"></div>
+      </div>
+
+      <div class="entry" uri=
+      "http://www.macrumors.com/2014/08/02/dreams-tv-ad/" id=
+      "821f87d8da5081b69d536a69835bf25b">
+        <div class="header unread" id="header">
+          <span class="title">Apple Continues App-Focused TV Ad
+          Campaign With 'Dreams' Spot</span><span class=
+          "pubdate">2014-08-02 15:55:21 UTC</span>
+        </div>
+
+        <div class="content collapsed" id="content"></div>
+      </div>
+
+      <div class="entry" uri=
+      "http://www.macrumors.com/2014/08/01/ian-rogers-itunes-radio/"
+      id="bf5a098ab0ddb3db650abd17c2211baa">
+        <div class="header unread" id="header">
+          <span class="title">Beats Music CEO Ian Rogers to Also
+          Head Up iTunes Radio</span><span class=
+          "pubdate">2014-08-01 19:24:23 UTC</span>
+        </div>
+
+        <div class="content collapsed" id="content"></div>
+      </div>
+
+      <div class="entry" uri=
+      "http://www.macrumors.com/2014/08/01/cellphone-unlocking-now-legal/"
+      id="b173c98bf7a6a4df69dcf0f5fd2f3624">
+        <div class="header unread" id="header">
+          <span class="title">Obama Signs Cell Phone Unlocking Bill
+          Into Law, iPhone Unlocking No Longer
+          Illegal</span><span class="pubdate">2014-08-01 18:46:34
+          UTC</span>
+        </div>
+
+        <div class="content collapsed" id="content"></div>
+      </div>
+
+      <div class="entry" uri=
+      "http://www.macrumors.com/2014/08/01/apple-welcomes-beats/"
+      id="598bf153af0180378528b9ae8aa2c9f2">
+        <div class="header unread" id="header">
+          <span class="title">Apple Welcomes Beats to the Family as
+          Beats Electronics Closes Its Online
+          Store</span><span class="pubdate">2014-08-01 14:14:41
+          UTC</span>
+        </div>
+
+        <div class="content collapsed" id="content"></div>
+      </div>
+
+      <div class="entry" uri=
+      "http://www.macrumors.com/2014/08/01/home-button-sensor-cables-iphone-6/"
+      id="99c54a8a374dda976ae952c6a5a62ac7">
+        <div class="header unread" id="header">
+          <span class="title">Home Button and Sensor Flex Cables
+          From 4.7-Inch and 5.5-Inch iPhone 6 Shown in New
+          Photos</span><span class="pubdate">2014-08-01 13:43:05
+          UTC</span>
+        </div>
+
+        <div class="content collapsed" id="content"></div>
+      </div>
+
+      <div class="entry" uri=
+      "http://www.macrumors.com/2014/07/31/iwatch-shipments-limited/"
+      id="f4271c12e8928dd245d3b7dff082ecde">
+        <div class="header unread" id="header">
+          <span class="title">Initial iWatch Shipments May Be
+          Limited Due to Sapphire Issues, Half of Devices May Use
+          Glass Displays</span><span class="pubdate">2014-07-31
+          19:55:45 UTC</span>
+        </div>
+
+        <div class="content collapsed" id="content"></div>
+      </div>
+
+      <div class="entry" uri=
+      "http://www.macrumors.com/2014/07/31/microsoft-office-ipad-update/"
+      id="69d8ccd01766ba3a88bbd313494bd3e8">
+        <div class="header unread" id="header">
+          <span class="title">Microsoft's Office for iPad Apps Gain
+          New Picture Tools, Third-Party Fonts, and Ability to Send
+          Files as PDFs</span><span class="pubdate">2014-07-31
+          17:31:25 UTC</span>
+        </div>
+
+        <div class="content collapsed" id="content"></div>
+      </div>
+
+      <div class="entry" uri=
+      "http://www.macrumors.com/2014/07/31/apple-content-delivery-network/"
+      id="91de52e9e168f91db7da3e6b2d9096bb">
+        <div class="header unread" id="header">
+          <span class="title">Apple's Content Delivery Network Now
+          Live, Making Faster OS X/iOS Downloads
+          Possible</span><span class="pubdate">2014-07-31 17:21:44
+          UTC</span>
+        </div>
+
+        <div class="content collapsed" id="content"></div>
+      </div>
+
+      <div class="entry" uri=
+      "http://www.macrumors.com/2014/07/31/apple-cuts-200-beats-jobs/"
+      id="2d42e4cccb43a7e2e27ee9cda212f9d6">
+        <div class="header unread" id="header">
+          <span class="title">Apple Trimming 200 Employees From
+          Beats Team to Streamline Overlapping
+          Functions</span><span class="pubdate">2014-07-31 15:18:46
+          UTC</span>
+        </div>
+
+        <div class="content collapsed" id="content"></div>
+      </div>
+    </div>
+    <hr>
+
+    <div style="float:right;">
+      <span id="entrylist_prev" style=
+      "background-color:#dddddd;padding:2px;">&lt;
+      Prev</span>&nbsp;&nbsp;&nbsp; <span id="entrylist_next"
+      style="background-color:#dddddd;padding:2px;">Next
+      &gt;</span>&nbsp;
+    </div>
+  </div>
+</body>
+</html>
