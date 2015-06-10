@@ -1,11 +1,45 @@
 function setupButtons() {
 
 }
+/*
+   <div id="entrylist">
+     <div class="entry" uri= "http://feedproxy.google.com/~r/CppSoup/~3/BpgUzXm_HXI/rich-pointers-update-and-reflection.html" id="4752653a9c6d0f31d78cb5b61fa5a799">
+       <div class="header unread" id="header">
+         <span class="title">Rich Pointers (Update) and Reflection</span>
+		 <span class="pubdate">2012-09-28 16:00:00 UTC</span>
+       </div>
 
+       <div class="content collapsed" id="content"></div>
+     </div>
+
+{ id: 18973274,
+entry_key: 'dc0168baeec09da8837a1b01a6bdb2e1',
+entry_title: 'Apple\'s future iPhones could hide FaceTime camera & flash inside earpiece grille',
+entry_html: 'The clean and simple design of Apple\'s iconic iPhone could become even simpler, thanks to a new concept that describes concealing the FaceTime camera within the earpiece speaker slot, and even adding a camera flash module that would illuminate forward facing pictures.<img width=\'1\' height=\'1\' src=\'http://appleinsider.com.feedsportal.com/c/33975/f/616168/s/3d476db8/sc/28/mf.gif\' border=\'0\'/><br clear=\'all\'/><br/><br/><a href="http://da.feedsportal.com/r/204366302233/u/0/f/616168/c/33975/s/3d476db8/sc/28/rc/1/rc.htm" rel="nofollow"><img src="http://da.feedsportal.com/r/204366302233/u/0/f/616168/c/33975/s/3d476db8/sc/28/rc/1/rc.img" border="0"/></a><br/><a href="http://da.feedsportal.com/r/204366302233/u/0/f/616168/c/33975/s/3d476db8/sc/28/rc/2/rc.htm" rel="nofollow"><img src="http://da.feedsportal.com/r/204366302233/u/0/f/616168/c/33975/s/3d476db8/sc/28/rc/2/rc.img" border="0"/></a><br/><a href="http://da.feedsportal.com/r/204366302233/u/0/f/616168/c/33975/s/3d476db8/sc/28/rc/3/rc.htm" rel="nofollow"><img src="http://da.feedsportal.com/r/204366302233/u/0/f/616168/c/33975/s/3d476db8/sc/28/rc/3/rc.img" border="0"/></a><br/><br/><a href="http://da.feedsportal.com/r/204366302233/u/0/f/616168/c/33975/s/3d476db8/sc/28/a2.htm"><img src="http://da.feedsportal.com/r/204366302233/u/0/f/616168/c/33975/s/3d476db8/sc/28/a2.img" border="0"/></a><img width="1" height="1" src="http://pi.feedsportal.com/r/204366302233/u/0/f/616168/c/33975/s/3d476db8/sc/28/a2t.img" border="0"/>',
+entry_author: '',
+entry_uri: 'http://appleinsider.com.feedsportal.com/c/33975/f/616168/s/3d476db8/sc/28/l/0Lappleinsider0N0Carticles0C140C0A80C0A70Capples0Efuture0Eiphones0Ecould0Ehide0Efacetime0Ecamera0Eflash0Einside0Eearpiece0Egrille/story01.htm',
+publication_date: Thu Aug 07 2014 13:51:50 GMT+0100 (BST),
+publication_tz: 'UTC',
+feed_title: 'AppleInsider',
+status: 'unread' }
+*/
 function displayFeed(feed) {
+  console.log('displayFeed') ;
+  var frag = '<div id="entrylist">', node ;
   for (var i in feed) {
+	  node = feed[i] ;
+	  frag = frag + '<div class="entry" uri="' + node.entry_uri + '" id="' + node.entry_key + '">'
+                  + '<div class="header ' + node.status + '" id="header">'
+                  + '<span class="title">' + node.entry_title + '</span>'
+                  + '<span class="pubdate">' + node.publication_date + '</span>'
+                  + '</div>'
+                  + '<div class="content collapsed" id="content"></div>' ;
+
+
 	  console.log(feed[i]) ;
   }
+  frag = frag + '</div>' ;
+  $("#entrylist").html(frag) ;
 }
 
 function showFeed(id) {
