@@ -105,4 +105,5 @@ function populateFeedList() {
 $(document).ready(function() {
 	setupButtons() ;
   populateFeedList() ;
+//   $('[data-toggle="tooltip"]').tooltip();   
 }) ;
