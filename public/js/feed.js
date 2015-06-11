@@ -45,13 +45,14 @@ function displayFeed(feed) {
   $("#header").click(function(t) { console.log(t.target.parentNode.parentNode.id) }) ;
 }
 
-function showFeed(id) {
-console.log(id) ;
+function showFeed(params) {
+console.log(params.id) ;
+$('.feedtitle').html(params.title) ;
   $.ajax({url: "/api/feedentries",
           type: 'GET',
           contentType: "application/json",
           dataType: "text",
-          data : { feed: id },
+          data : { feed: params.id },
           dataType : 'json',
           context: this,
           success: function(data) {
@@ -89,12 +90,13 @@ function populateFeedList() {
                      }) ;
 
                      $(".feed").click(function(t) {
+                      console.log(t) ;
                        //  clear feedSelected class
                        $(".feedSelected").removeClass("feedSelected") ;
 
                        //  add feedSelected class
                        $(t.target).addClass("feedSelected") ;
-                       showFeed(t.target.id) ;
+                       showFeed({ id: t.target.id, title: t.target.innerHTML }) ;
                      }) ;
                    }
   }) ;
