@@ -1,6 +1,11 @@
 function setupButtons() {
 
 }
+
+function showFeedEntry(params) {
+  console.log(params.id) ;
+
+}
 /*
    <div id="entrylist">
      <div class="entry" uri= "http://feedproxy.google.com/~r/CppSoup/~3/BpgUzXm_HXI/rich-pointers-update-and-reflection.html" id="4752653a9c6d0f31d78cb5b61fa5a799">
@@ -24,7 +29,7 @@ feed_title: 'AppleInsider',
 status: 'unread' }
 */
 function displayFeed(feed) {
-  console.log('displayFeed') ;
+
   var frag = '', node ;
   for (var i in feed) {
 	  node = feed[i] ;
@@ -37,16 +42,15 @@ function displayFeed(feed) {
 				  + '</div>' 
 				  + '</div>' ;
 
-	  console.log(feed[i]) ;
   }
  // frag = frag + '</div>' ;
   $("#entrylist").html(frag) ;
 
-  $("#header").click(function(t) { console.log(t.target.parentNode.parentNode.id) }) ;
+ // $(".header").click(function(t) { showFeedEntry({ key: t.target.parentNode.parentNode.id }) ;
 }
 
 function showFeed(params) {
-console.log(params.id) ;
+
 $('.feedtitle').html(params.title) ;
   $.ajax({url: "/api/feedentries",
           type: 'GET',
@@ -90,7 +94,6 @@ function populateFeedList() {
                      }) ;
 
                      $(".feed").click(function(t) {
-                      console.log(t) ;
                        //  clear feedSelected class
                        $(".feedSelected").removeClass("feedSelected") ;
 
