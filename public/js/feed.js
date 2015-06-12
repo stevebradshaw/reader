@@ -3,8 +3,21 @@ function setupButtons() {
 }
 
 function showFeedEntry(params) {
-  console.log(params.id) ;
+//  console.log(params.key) ;
 
+  $.ajax({url: "/api/entry",
+          type: 'GET',
+          contentType: "application/json",
+          dataType: "text",
+          data : { key: params.key },
+          dataType : 'json',
+          context: this,
+          success: function(data) {
+			  console.log(data) ;
+//			         displayFeed(data) ;
+
+          }
+  }) ;
 }
 /*
    <div id="entrylist">
@@ -46,7 +59,13 @@ function displayFeed(feed) {
  // frag = frag + '</div>' ;
   $("#entrylist").html(frag) ;
 
- // $(".header").click(function(t) { showFeedEntry({ key: t.target.parentNode.parentNode.id }) ;
+  $("[id^=header]").css("background-color", "yellow");
+  $("[id^=header]").click(function(t) {
+//  $(".header").click(function(t) {
+	  console.log(t) ;
+	  console.log(t.target.parentNode.parentNode.id) ;
+	  showFeedEntry({ key: t.target.parentNode.parentNode.id })
+  });
 }
 
 function showFeed(params) {

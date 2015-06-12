@@ -12,6 +12,7 @@ var http = require('http').Server(app) ;
 app.locals.basedir = __dirname ;
 
 var folderlist = require('./services/folderlist'),
+    entry = require('./services/entry'),
     feedentries = require('./services/feedentries') ;
 
 
@@ -19,6 +20,7 @@ var router = express.Router();
 
 folderlist.initRouting(router) ;
 feedentries.initRouting(router) ;
+entry.initRouting(router) ;
 
 function compile(str, path) {
   return stylus(str)
