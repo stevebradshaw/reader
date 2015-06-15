@@ -51,7 +51,7 @@ function displayFeed(feed) {
                   + '<span class="title">' + node.entry_title + '</span>'
                   + '<span class="pubdate">' + node.publication_date + '</span>'
                   + '</div>'
-                  + '<div class="content collapsed" id="content"></div>' 
+                  + '<div class="content collapsed" id="content">' + node.entry_html + '</div>' 
 				  + '</div>' 
 				  + '</div>' ;
 
@@ -59,7 +59,7 @@ function displayFeed(feed) {
  // frag = frag + '</div>' ;
   $("#entrylist").html(frag) ;
 
-  $("[id^=header]").css("background-color", "yellow");
+//  $("[id^=header]").css("background-color", "yellow");
   $("[id^=header]").click(function(t) {
 //  $(".header").click(function(t) {
 	  console.log(t) ;
