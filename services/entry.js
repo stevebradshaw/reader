@@ -16,30 +16,28 @@ var connection = mysql.createConnection({
 });
 
 
-var q = "select reader.fe.id as id, "
-             + "reader.fe.entry_key as entry_key, "
-             + "reader.fe.entry_title as entry_title, "
-             + "reader.fe.entry_html as entry_html, "
-             + "reader.fe.entry_author as entry_author, "
-             + "reader.fe.entry_uri as entry_uri, "
-             + "reader.fe.publication_date_utc as publication_date, "
-             + "'UTC' as publication_tz, "
-             + "reader.uf.feed_title as feed_title, "
-             + "if(reader.ues.status='U', 'unread', 'read') as status "
-	         + "from reader.user_entry_status ues "
-+ "join reader.user_feeds uf on reader.uf.user_id = reader.ues.user_id and reader.uf.feed_id = reader.ues.feed_id "
-+ "join reader.feed_entries fe "
-+ "on ((reader.fe.url_id = ?) "
-+ "and (reader.ues.user_id = ?) " //. $status_predicate . 
-+ "and (reader.fe.entry_key = reader.ues.entry_key)) "
-+ "order by reader.fe.publication_date_utc desc limit 10" ; //?,?" ;
+var q = "select url_id,"
+      + "entry_key,"
+      + "entry_xml,"
+      + "entry_html,"
+      + "date_extracted,"
+      + "entry_title,"
+      + "publication_date,"
+      + "publication_tz,"
+      + "publication_date_utc,"
+      + "entry_uri,"
+      + "entry_author"
+	  + " from feed_entries"
+	  + " where entry_key = ?" ;
+
 connection.connect() ;
 
 async.waterfall([
   function(next) {
-	connection.query(q,[ params.feed, params.userid ],next) ;
+	connection.query(q,params.entry_key, next) ;
   },
   function(results, next) {
+	  console.log(results) ;
 	  res.send(results) ;
 
 /*	async.forEachSeries(results, function(item, next) {
@@ -73,9 +71,10 @@ module.exports.initRouting = function(router) {
 
   router.route('/entry')
       .get(function(rq,rs) {
+console.log('get entry') ;
 		  req = rq ;
 		  res = rs ;
-		  get({userid: 1, feed: req.query.feed})  ;
+		  get({userid: 1, entry_key: req.query.key})  ;
 //		  get({userid: 1, res: res}) ;
 	  }) ;
 	  
