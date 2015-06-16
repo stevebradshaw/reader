@@ -51,7 +51,7 @@ function displayFeed(feed) {
                   + '<span class="title">' + node.entry_title + '</span>'
                   + '<span class="pubdate">' + node.publication_date + '</span>'
                   + '</div>'
-                  + '<div class="content collapsed" id="content">' + node.entry_html + '</div>' 
+                  + '<div class="content collapsed" id="content_' + node.entry_key + '">' + node.entry_html + '</div>' 
 				  + '</div>' 
 				  + '</div>' ;
 
@@ -65,7 +65,7 @@ function displayFeed(feed) {
 	  console.log(t) ;
 	  console.log(t.target.parentNode.parentNode.id) ;
 //	  showFeedEntry({ key: t.target.parentNode.parentNode.id })
-$(t).toggleClass('collapsed') ;
+$("#content_" + t.target.parentNode.parentNode.id).toggleClass('collapsed') ;
   });
 }
 
