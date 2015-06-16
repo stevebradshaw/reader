@@ -64,7 +64,8 @@ function displayFeed(feed) {
 //  $(".header").click(function(t) {
 	  console.log(t) ;
 	  console.log(t.target.parentNode.parentNode.id) ;
-	  showFeedEntry({ key: t.target.parentNode.parentNode.id })
+//	  showFeedEntry({ key: t.target.parentNode.parentNode.id })
+$(t).toggleClass('collapsed') ;
   });
 }
 
