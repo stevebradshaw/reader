@@ -55,6 +55,7 @@ function displayFeed(feed) {
                   + '<div class="content collapsed" id="content_' + node.entry_key + '">' 
                   + '<div class="content-title " id="tittle_' + node.entry_key + '"><h3>' + node.entry_title + '</h3></div>' 
                   + '<div class="content-body" id="body_' + node.entry_key + '">' + node.entry_html + '</div>' 
+                  + '<div class="content-footer" style="margin-top:10px;background-color:#fafafa" id="footer_' + node.entry_key + '">STUFF</div>' 
 				  + '</div>' 
 				  + '</div>' 
 				  + '</div>' ;
