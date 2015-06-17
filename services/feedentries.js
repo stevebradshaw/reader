@@ -16,6 +16,13 @@ var connection = mysql.createConnection({
 });
 
 
+var status_predicate = '' ;
+
+if (params.status == "U") {
+	 var status_predicate = " and (reader.ues.status = 'U') " ;
+} else if(params.status == "R")  {
+	  status_predicate = " and (reader.ues.status = 'R') " ;
+}
 var q = "select reader.fe.id as id, "
              + "reader.fe.entry_key as entry_key, "
              + "reader.fe.entry_title as entry_title, "
@@ -31,8 +38,10 @@ var q = "select reader.fe.id as id, "
 + "join reader.feed_entries fe "
 + "on ((reader.fe.url_id = ?) "
 + "and (reader.ues.user_id = ?) " //. $status_predicate . 
++ status_predicate
 + "and (reader.fe.entry_key = reader.ues.entry_key)) "
 + "order by reader.fe.publication_date_utc desc limit 10" ; //?,?" ;
+
 connection.connect() ;
 
 async.waterfall([
@@ -75,7 +84,7 @@ module.exports.initRouting = function(router) {
       .get(function(rq,rs) {
 		  req = rq ;
 		  res = rs ;
-		  get({userid: 1, feed: req.query.feed})  ;
+		  get({userid: 1, feed: req.query.feed, status: 'R'})  ;
 //		  get({userid: 1, res: res}) ;
 	  }) ;
 	  
