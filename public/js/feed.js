@@ -2,14 +2,14 @@ function setupButtons() {
 
 }
 
-function showFeedEntry(params) {
+function setEntryStatus(params) {
 //  console.log(params.key) ;
 
   $.ajax({url: "/api/entry",
-          type: 'GET',
+          type: 'PUT',
           contentType: "application/json",
           dataType: "text",
-          data : { key: params.key },
+          data : { key: params.key, status: params.status },
           dataType : 'json',
           context: this,
           success: function(data) {
@@ -53,9 +53,19 @@ function displayFeed(feed) {
                   + '</div>'
 //                  + '<div class="content collapsed" id="content_' + node.entry_key + '">' + node.entry_html + '</div>' 
                   + '<div class="content collapsed" id="content_' + node.entry_key + '">' 
-                  + '<div class="content-title " id="tittle_' + node.entry_key + '"><h3>' + node.entry_title + '</h3></div>' 
+                  + '<div class="content-title " id="tittle_' + node.entry_key + '"><h4>' + node.entry_title + '</h4></div>' 
                   + '<div class="content-body" id="body_' + node.entry_key + '">' + node.entry_html + '</div>' 
-                  + '<div class="content-footer" style="margin-top:10px;background-color:#fafafa" id="footer_' + node.entry_key + '">STUFF</div>' 
+                  + '<div class="content-footer" id="footer_' + node.entry_key + '">'
+                  + '<span class="glyphicon glyphicon-bookmark" aria-hidden="true"></span>'
+                  + '<span class="glyphicon glyphicon-tag" aria-hidden="true"></span>'
+                  + '<img id="bookmark" src="/images/book-grey-256.png" width="24" height="24" style="margin:1px ; cursor: pointer; ">'
+                  + '<img id="tag" src="/images/tag.png" width="24" height="24" style="margin:1px ; cursor: pointer; ">'
+                  + '<span class="social">'
+                  + '<img id="fb_share" src="/images/facebook.png" width="24" height="24" style="margin:1px ; cursor: pointer; ">'
+                  + '<img id="mail_entry" src="/images/twitter.png" width="24" height="24" style="margin:1px ; cursor: pointer; ">'
+                  + '<img id="google_share" src="/images/google+.png" width="24" height="24" style="margin:1px ; cursor: pointer; ">'
+                  + '<img id="mail_entry" src="/images/mail.png" width="24" height="24" style="margin:1px ; cursor: pointer; "></span>'
+                  + '</div>' 
 				  + '</div>' 
 				  + '</div>' 
 				  + '</div>' ;
@@ -70,6 +80,7 @@ function displayFeed(feed) {
 	  console.log(t) ;
 	  console.log(t.target.parentNode.parentNode.id) ;
 //	  showFeedEntry({ key: t.target.parentNode.parentNode.id })
+	  setEntryStatus({ key: t.target.parentNode.parentNode.id, status: 'R' }) ;
 $("#content_" + t.target.parentNode.parentNode.id).toggleClass('collapsed') ;
   });
 }

@@ -84,7 +84,7 @@ module.exports.initRouting = function(router) {
       .get(function(rq,rs) {
 		  req = rq ;
 		  res = rs ;
-		  get({userid: 1, feed: req.query.feed, status: 'R'})  ;
+		  get({userid: 1, feed: req.query.feed, status: 'U'}) ;
 //		  get({userid: 1, res: res}) ;
 	  }) ;
 	  

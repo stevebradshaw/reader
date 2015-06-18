@@ -34,7 +34,7 @@ connection.connect() ;
 
 async.waterfall([
   function(next) {
-	connection.query(q,params.entry_key, next) ;
+	connection.query(q,params.key, next) ;
   },
   function(results, next) {
 	  console.log(results) ;
@@ -59,6 +59,7 @@ async.waterfall([
       //params.res.send(data) ;
       res.send(data) ;
 //	  console.log(data) ;
+          put(
 	}) ;*/
   }
 ], function (err,res) {
@@ -67,6 +68,9 @@ async.waterfall([
 	 
 } 
 
+function put(params) {
+}
+
 module.exports.initRouting = function(router) {
 
   router.route('/entry')
@@ -74,9 +78,16 @@ module.exports.initRouting = function(router) {
 console.log('get entry') ;
 		  req = rq ;
 		  res = rs ;
-		  get({userid: 1, entry_key: req.query.key})  ;
+		  get({userid: 1, key: req.query.key})  ;
 //		  get({userid: 1, res: res}) ;
-	  }) ;
+	  })
+
+      .put(function(rq,rs) {
+console.log('put entyr');
+		  req = rq ;
+		  res = rs ;
+		  put({userid: 1, key: req.query.key, status: req.query.status})  ;
+      })  ;
 	  
 /*	  .post(function(req,res) {
           var burp = new BurpModel() ;
