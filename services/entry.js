@@ -69,6 +69,21 @@ async.waterfall([
 } 
 
 function put(params) {
+console.log(params) ;
+  var connection = mysql.createConnection({
+    host     : 'localhost',
+    user     : 'reader_dev',
+    password : 'dev',
+    database : 'reader'
+  });
+
+  connection.connect() ;
+
+q=   connection.query("UPDATE user_entry_status SET status = ? where entry_key = ? and user_id = ?", [ "R", params.key, 1 ], function(err,result) {
+	  console.log(err) ;
+	  console.log(result) ;
+  });  
+console.log(q.sql);
 }
 
 module.exports.initRouting = function(router) {
@@ -83,8 +98,9 @@ console.log('get entry') ;
 	  })
 
       .put(function(rq,rs) {
-console.log('put entyr');
+console.log('put entry');
 		  req = rq ;
+console.log(req.body) ;
 		  res = rs ;
 		  put({userid: 1, key: req.query.key, status: req.query.status})  ;
       })  ;

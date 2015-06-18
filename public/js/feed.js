@@ -9,7 +9,7 @@ function setEntryStatus(params) {
           type: 'PUT',
           contentType: "application/json",
           dataType: "text",
-          data : { key: params.key, status: params.status },
+          data : "_METHOD=PUT&accessToken=63ce0fde", //{ key: params.key, status: params.status },
           dataType : 'json',
           context: this,
           success: function(data) {
@@ -18,6 +18,7 @@ function setEntryStatus(params) {
 
           }
   }) ;
+console.log(params) ;
 }
 /*
    <div id="entrylist">
