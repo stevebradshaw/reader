@@ -6,6 +6,9 @@ var t ;
 
 
 function get(params) {
+
+	console.log(params) ;
+
 	var data = [] ;
 	
 var connection = mysql.createConnection({
@@ -38,7 +41,7 @@ var q = "select reader.fe.id as id, "
 + "join reader.feed_entries fe "
 + "on ((reader.fe.url_id = ?) "
 + "and (reader.ues.user_id = ?) " //. $status_predicate . 
-//+ status_predicate
++ status_predicate
 + "and (reader.fe.entry_key = reader.ues.entry_key)) "
 + "order by reader.fe.publication_date_utc desc limit 10" ; //?,?" ;
 
@@ -85,7 +88,7 @@ module.exports.initRouting = function(router) {
       .get(function(rq,rs) {
 		  req = rq ;
 		  res = rs ;
-		  get({userid: 1, feed: req.query.feed, status: 'U'}) ;
+		  get({userid: 1, feed: req.query.feed, status: req.query.status}) ;
 //		  get({userid: 1, res: res}) ;
 	  }) ;
 	  

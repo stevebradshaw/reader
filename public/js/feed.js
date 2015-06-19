@@ -1,11 +1,13 @@
 function setupButtons() {
-$("#btn-feed-status").click(function(t) { console.log(t)  ;
-if ($(t.target).text() == "View: Unread") {
-  $(t.target).text("View: Read") ;
-} else{
-  $(t.target).text("View: Unread") ;
-}
-}) ;
+  $("#btn-feed-status").click(function(t) { console.log(t)  ;
+    if ($(t.target).text() == "View: Unread") {
+      $(t.target).text("View: Read") ;
+    } else if ($(t.target).text() == "View: Read"){
+      $(t.target).text("View: All") ;
+    } else {
+      $(t.target).text("View: Unread") ;
+    }
+  }) ;
 }
 
 function setEntryStatus(params) {
@@ -96,12 +98,24 @@ $("#content_" + t.target.parentNode.parentNode.id).toggleClass('collapsed') ;
 
 function showFeed(params) {
 
+console.log($("#btn-feed-status").text()) ;
 $('.feedtitle').html(params.title) ;
+
+var status = 'A' ;
+if ($("#btn-feed-status").text() == 'View: Unread') {
+	status = 'U' ;
+} else if ($("#btn-feed-status").text() == 'View: Read') {
+	status = 'R' ;
+} else {
+    status = 'A' ;
+}
+
+
   $.ajax({url: "/api/feedentries",
           type: 'GET',
           contentType: "application/json",
           dataType: "text",
-          data : { feed: params.id },
+          data : { feed: params.id, status: status },
           dataType : 'json',
           context: this,
           success: function(data) {
