@@ -1,16 +1,22 @@
 function setupButtons() {
-
+$("#btn-feed-status").click(function(t) { console.log(t)  ;
+if ($(t.target).text() == "View: Unread") {
+  $(t.target).text("View: Read") ;
+} else{
+  $(t.target).text("View: Unread") ;
+}
+}) ;
 }
 
 function setEntryStatus(params) {
 //  console.log(params.key) ;
 
-  $.ajax({url: "/api/entry",
+  $.ajax({url: "/api/entry?key=" + params.key + "&status=" + params.status,
           type: 'PUT',
           contentType: "application/json",
-          dataType: "text",
-          data : "_METHOD=PUT&accessToken=63ce0fde", //{ key: params.key, status: params.status },
-          dataType : 'json',
+//          dataType: "text",
+//          data : "_METHOD=PUT&accessToken=63ce0fde", //{ key: params.key, status: params.status },
+//          dataType : 'json',
           context: this,
           success: function(data) {
 			  console.log(data) ;
@@ -47,6 +53,7 @@ function displayFeed(feed) {
   var frag = '', node ;
   for (var i in feed) {
 	  node = feed[i] ;
+console.log(node.entry_key + ' ' + node.status) ;
 	  frag = frag + '<div class="entry" uri="' + node.entry_uri + '" id="' + node.entry_key + '">'
                   + '<div class="header ' + node.status + '" id="header">'
                   + '<span class="title">' + node.entry_title + '</span>'
@@ -79,6 +86,7 @@ function displayFeed(feed) {
   $("[id^=header]").click(function(t) {
 //  $(".header").click(function(t) {
 	  console.log(t) ;
+$(t.target.parentNode).removeClass('unread') ;
 	  console.log(t.target.parentNode.parentNode.id) ;
 //	  showFeedEntry({ key: t.target.parentNode.parentNode.id })
 	  setEntryStatus({ key: t.target.parentNode.parentNode.id, status: 'R' }) ;
