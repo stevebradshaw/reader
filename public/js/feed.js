@@ -1,5 +1,7 @@
+var currentFeedId, currentFeedTitle ;
+
 function setupButtons() {
-  $("#btn-feed-status").click(function(t) { console.log(t)  ;
+  $("#btn-feed-status").click(function(t) {
     if ($(t.target).text() == "View: Unread") {
       $(t.target).text("View: Read") ;
     } else if ($(t.target).text() == "View: Read"){
@@ -7,26 +9,43 @@ function setupButtons() {
     } else {
       $(t.target).text("View: Unread") ;
     }
+
+    showFeed({ id: currentFeedId, title: currentFeedTitle}) ;
+  }) ;
+
+  $("#btn-refresh-feed").click(function(t) {
+    showFeed({ id: currentFeedId, title: currentFeedTitle}) ;
+  }) ;
+
+  $("#btn-mark-all-read").click(function(t) {
+    setFeedStatus({ id: currentFeedId, status: 'R' }) ;
   }) ;
 }
 
+function setFeedStatus(params) {
+
+  $.ajax({url: "/api/entry?feedid=" + params.id + "&status=" + params.status,
+          type: 'PUT',
+          contentType: "application/json",
+          context: this,
+          success: function(data) {
+			  console.log(data) ;
+          }
+  }) ;
+
+}
+
 function setEntryStatus(params) {
-//  console.log(params.key) ;
 
   $.ajax({url: "/api/entry?key=" + params.key + "&status=" + params.status,
           type: 'PUT',
           contentType: "application/json",
-//          dataType: "text",
-//          data : "_METHOD=PUT&accessToken=63ce0fde", //{ key: params.key, status: params.status },
-//          dataType : 'json',
           context: this,
           success: function(data) {
 			  console.log(data) ;
-//			         displayFeed(data) ;
-
           }
   }) ;
-console.log(params) ;
+
 }
 /*
    <div id="entrylist">
@@ -97,6 +116,9 @@ $("#content_" + t.target.parentNode.parentNode.id).toggleClass('collapsed') ;
 }
 
 function showFeed(params) {
+
+currentFeedId = params.id ;
+currentFeedTitle = params.title ;
 
 console.log($("#btn-feed-status").text()) ;
 $('.feedtitle').html(params.title) ;

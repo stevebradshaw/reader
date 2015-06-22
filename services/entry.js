@@ -6,35 +6,35 @@ var t ;
 
 
 function get(params) {
-	var data = [] ;
+  var data = [] ;
 	
-var connection = mysql.createConnection({
-  host     : 'localhost',
-  user     : 'reader_dev',
-  password : 'dev',
-  database : 'reader'
-});
+  var connection = mysql.createConnection({
+    host     : 'localhost',
+    user     : 'reader_dev',
+    password : 'dev',
+    database : 'reader'
+  });
 
 
-var q = "select url_id,"
-      + "entry_key,"
-      + "entry_xml,"
-      + "entry_html,"
-      + "date_extracted,"
-      + "entry_title,"
-      + "publication_date,"
-      + "publication_tz,"
-      + "publication_date_utc,"
-      + "entry_uri,"
-      + "entry_author"
-	  + " from feed_entries"
-	  + " where entry_key = ?" ;
+  var q = "select url_id,"
+        + "entry_key,"
+        + "entry_xml,"
+        + "entry_html,"
+        + "date_extracted,"
+        + "entry_title,"
+        + "publication_date,"
+        + "publication_tz,"
+        + "publication_date_utc,"
+        + "entry_uri,"
+        + "entry_author"
+	    + " from feed_entries"
+	    + " where entry_key = ?" ;
 
-connection.connect() ;
+  connection.connect() ;
 
-async.waterfall([
-  function(next) {
-	connection.query(q,params.key, next) ;
+  async.waterfall([
+    function(next) {
+  	connection.query(q,params.key, next) ;
   },
   function(results, next) {
 	  console.log(results) ;
@@ -79,11 +79,12 @@ console.log(params) ;
 
   connection.connect() ;
 
-q=   connection.query("UPDATE user_entry_status SET status = ? where entry_key = ? and user_id = ?", [ "R", params.key, 1 ], function(err,result) {
+    q = connection.query("UPDATE user_entry_status SET status = ? where entry_key = ? and user_id = ?", [ "R", params.key, 1 ], function(err,result) {
 	  console.log(err) ;
 	  console.log(result) ;
-  });  
-console.log(q.sql);
+    });  
+
+  console.log(q.sql);
 }
 
 module.exports.initRouting = function(router) {

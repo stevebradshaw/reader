@@ -41,6 +41,7 @@ var q = "select reader.fe.id as id, "
 + "join reader.feed_entries fe "
 + "on ((reader.fe.url_id = ?) "
 + "and (reader.ues.user_id = ?) " //. $status_predicate . 
++ "and (reader.ues.feed_id = ?) "
 + status_predicate
 + "and (reader.fe.entry_key = reader.ues.entry_key)) "
 + "order by reader.fe.publication_date_utc desc limit 10" ; //?,?" ;
@@ -49,7 +50,7 @@ connection.connect() ;
 
 async.waterfall([
   function(next) {
-q = connection.query(q,[ params.feed, params.userid ],next) ;
+q = connection.query(q,[ params.feed, params.userid, params.feed ],next) ;
 console.log(q) ;
   },
   function(results, next) {
