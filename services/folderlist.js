@@ -2,7 +2,6 @@ var mysql = require('mysql'),
     async = require('async') ;
 
 var req, res ;
-//var t ;
 
 function get(params) {
 	var data = [] ;
@@ -44,7 +43,7 @@ async.waterfall([
       //params.res.send(data) ;
 
       res.send(data) ;
-//	  console.log(data) ;
+
 	}) ;
   }
 ], function (err,res) {
@@ -60,7 +59,6 @@ module.exports.initRouting = function(router) {
 		  req = rq ;
 		  res = rs ;
 		  get({userid: 1})  ;
-//		  get({userid: 1, res: res}) ;
 	  })
 	  
 /*	  .post(function(req,res) {

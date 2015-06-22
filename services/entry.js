@@ -37,30 +37,7 @@ function get(params) {
   	connection.query(q,params.key, next) ;
   },
   function(results, next) {
-	  console.log(results) ;
 	  res.send(results) ;
-
-/*	async.forEachSeries(results, function(item, next) {
-        var t = next ;
-		async.waterfall([
-		  function(next) {
-            connection.query(q2,[params.userid, item.id],next) ;
-		  },
-		  function(results,next) {
-			var d = item ;
-			d.feeds = JSON.stringify(results) ;
-			data.push(d) ;
-            t() ;
-		  }]) ;
-
-	},
-	function() {
-	  connection.end() ;
-      //params.res.send(data) ;
-      res.send(data) ;
-//	  console.log(data) ;
-          put(
-	}) ;*/
   }
 ], function (err,res) {
 
@@ -69,7 +46,7 @@ function get(params) {
 } 
 
 function put(params) {
-console.log(params) ;
+
   var connection = mysql.createConnection({
     host     : 'localhost',
     user     : 'reader_dev',
@@ -91,18 +68,19 @@ module.exports.initRouting = function(router) {
 
   router.route('/entry')
       .get(function(rq,rs) {
-console.log('get entry') ;
 		  req = rq ;
 		  res = rs ;
 		  get({userid: 1, key: req.query.key})  ;
-//		  get({userid: 1, res: res}) ;
 	  })
 
       .put(function(rq,rs) {
-console.log('put entry');
 		  req = rq ;
-console.log(req.body) ;
 		  res = rs ;
+if (typeof req.query.feedid !== 'undefined') {
+  console.log('key set') ;
+} else {
+  console.log('key not set') ;
+}
 		  put({userid: 1, key: req.query.key, status: req.query.status})  ;
       })  ;
 	  
