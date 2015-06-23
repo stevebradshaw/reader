@@ -44,7 +44,7 @@ var q = "select reader.fe.id as id, "
 + "and (reader.ues.feed_id = ?) "
 + status_predicate
 + "and (reader.fe.entry_key = reader.ues.entry_key)) "
-+ "order by reader.fe.publication_date_utc desc limit 10" ; //?,?" ;
++ "order by reader.fe.publication_date_utc desc limit 50" ; //?,?" ;
 
 connection.connect() ;
 
