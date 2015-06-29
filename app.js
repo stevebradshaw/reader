@@ -49,6 +49,11 @@ app.get('/', function (req,res) {
      )
   }) ;
 
+app.get('/reader', function (req,res) {
+  res.render('reader',
+       { title : 'Feed Reader' }
+     )
+  }) ;
 
 http.listen(appinfo.port, function(){
   console.log('listening on *:3000');

@@ -64,7 +64,7 @@ module.exports.initRouting = function(router) {
 /*	  .post(function(req,res) {
           var burp = new BurpModel() ;
           burp.message = req.body.msg;
-console.log(req.body.msg) ;
+//console.log(req.body.msg) ;
           burp.burper_id = req.session.id ;
 
           burp.save(function (err, burp) {

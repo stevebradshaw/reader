@@ -7,7 +7,7 @@ var t ;
 
 function get(params) {
 
-	console.log(params) ;
+//	console.log(params) ;
 
 	var data = [] ;
 	
@@ -51,7 +51,7 @@ connection.connect() ;
 async.waterfall([
   function(next) {
 q = connection.query(q,[ params.feed, params.userid, params.feed ],next) ;
-console.log(q) ;
+//console.log(q) ;
   },
   function(results, next) {
 	  res.send(results) ;

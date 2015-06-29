@@ -67,22 +67,22 @@ function updateEntry(params) {
   connection.connect() ;*/
 
     q = connection.query("UPDATE user_entry_status SET status = ? where entry_key = ? and user_id = ?", [ "R", params.key, 1 ], function(err,result) {
-	  console.log(err) ;
-	  console.log(result) ;
+//	  console.log(err) ;
+//	  console.log(result) ;
 res.end() ;
     });  
 
-  console.log(q.sql);
+//  console.log(q.sql);
 }
 
 function updateFeed(params) {
     q = connection.query("UPDATE user_entry_status SET status = ? where feed_id = ? and user_id = ?", [ "R", params.feedid, 1 ], function(err,result) {
-	  console.log(err) ;
-	  console.log(result) ;
+//	  console.log(err) ;
+//	  console.log(result) ;
 res.end() ;
     });  
 
-  console.log(q.sql);
+//  console.log(q.sql);
 
 }
 
@@ -91,10 +91,10 @@ req = rq ;
 res = rs ;
 
 if (typeof req.query.feedid !== 'undefined') {
-  console.log('key set') ;
+//  console.log('key set') ;
   updateFeed({userid: 1, feedid: req.query.feedid, status: req.query.status})  ;
 } else if (typeof req.query.key !== 'undefined') {
-  console.log('key not set') ;
+//  console.log('key not set') ;
   updateEntry({userid: 1, key: req.query.key, status: req.query.status})  ;
 } else {
 res.status(400) ;
@@ -118,7 +118,7 @@ module.exports.initRouting = function(router) {
 /*	  .post(function(req,res) {
           var burp = new BurpModel() ;
           burp.message = req.body.msg;
-console.log(req.body.msg) ;
+//console.log(req.body.msg) ;
           burp.burper_id = req.session.id ;
 
           burp.save(function (err, burp) {
