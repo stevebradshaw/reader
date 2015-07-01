@@ -56,5 +56,5 @@ app.get('/reader', function (req,res) {
   }) ;
 
 http.listen(appinfo.port, function(){
-  console.log('listening on *:3000');
+  console.log('listening on ' + appinfo.port);
 }) ;
