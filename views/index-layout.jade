@@ -4,6 +4,7 @@ html
     title #{title}
     link(rel='stylesheet', href='http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css')
     link(rel='stylesheet', href='/stylesheets/feed.css')
+    link(rel='stylesheet', href='/stylesheets/index.css')
 
     script( type="text/javascript", src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js" )
     script( type="text/javascript", src="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js" )
@@ -15,11 +16,22 @@ html
     .container
 
       .row
+        br
+        .col-sm-9
+          | All this awesome can be yours....
 
-        .col-sm-6
-          form.form-signin
-            h2.form-signin-heading Please sign in
-            input#inputEmail.form-control(type="email" placeholder="Email address" required autofocus)
+        .col-sm-3
+
+          ul.nav.nav-tabs
+            li.active
+              a(href="#")
+                | Sign In 
+            li
+              a(href="#")
+                | Sign Up 
+
+          include /public/fragments/signin.html
+//            input#inputEmail.form-control(type="email" placeholder="Email address" required autofocus)
 //        <label for="inputEmail" class="sr-only">Email address</label>
 //        <label for="inputPassword" class="sr-only">Password</label>
 //        <input type="password" id="inputPassword" class="form-control" placeholder="Password" required>
@@ -30,6 +42,7 @@ html
 //        </div>
 //        <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
 // </form>
-        .col-sm-6
-          div
-            h3 Sign Up
+//        .col-sm-6
+//          div
+//            h3 Sign Up
+
