@@ -24,14 +24,15 @@ html
 
           ul.nav.nav-tabs
             li.active
-              a(href="#")
+              a(href="#signin" data-toggle="tab")
                 | Sign In 
             li
-              a(href="#")
+              a(href="#signup" data-toggle="tab")
                 | Sign Up 
 
-          include /public/fragments/signin.html
-          include /public/fragments/signup.html
+          div.tab-content
+            include /public/fragments/signin.html
+            include /public/fragments/signup.html
 //            input#inputEmail.form-control(type="email" placeholder="Email address" required autofocus)
 //        <label for="inputEmail" class="sr-only">Email address</label>
 //        <label for="inputPassword" class="sr-only">Password</label>
