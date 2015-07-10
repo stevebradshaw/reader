@@ -13,6 +13,8 @@ app.locals.basedir = __dirname ;
 
 var folderlist = require('./services/folderlist'),
     entry = require('./services/entry'),
+    user = require('./services/user'),
+    login = require('./services/login'),
     feedentries = require('./services/feedentries') ;
 
 
@@ -21,6 +23,8 @@ var router = express.Router();
 folderlist.initRouting(router) ;
 feedentries.initRouting(router) ;
 entry.initRouting(router) ;
+user.initRouting(router) ;
+login.initRouting(router) ;
 
 function compile(str, path) {
   return stylus(str)
