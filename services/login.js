@@ -4,29 +4,18 @@ var mysql = require('mysql'),
 var req, res ;
 var t ;
 
-
-  var connection = mysql.createConnection({
+var connection = mysql.createConnection({
     host     : 'localhost',
     user     : 'reader_dev',
     password : 'dev',
     database : 'reader'
-  });
+});
 
 connection.connect() ;
 
 function get(params) {
   var data = [] ;
 	
-/*  var connection = mysql.createConnection({
-    host     : 'localhost',
-    user     : 'reader_dev',
-    password : 'dev',
-    database : 'reader'
-  });
-
-  connection.connect() ;*/
-
-
   var q = "select url_id,"
         + "entry_key,"
         + "entry_xml,"
@@ -55,11 +44,16 @@ function get(params) {
 	 
 } 
 
-function delete() {
-}
+//function delete() {
+//}
 
-function post() {
+function post(params) {
+  var q = "select id, email, password_salt, password_md5, admin from users where email = ? and active = 'Y';";
 
+  connection.query(q, params.key, function(err,data) {
+console.log(err) ;
+console.log(data) ;
+                                  }) ;
 }
 
 module.exports.initRouting = function(router) {
@@ -75,13 +69,13 @@ module.exports.initRouting = function(router) {
           res = rs ;
           req = rq ;
 
-          post() ;
+          post({key: req.query.key}) ;
       })
 
       .delete(function(rq,rs) {
           res = rs ;
           req = rq ;
-        delete() ;
+//        delete() ;
       }) ;
 	  
 /*	  .post(function(req,res) {
