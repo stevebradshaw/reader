@@ -1,13 +1,16 @@
 function setupButtons() {
   $("#signin-button").click(function() {
     console.log('do signin') ;
+console.log($("#inputEmail").val()) ;
+console.log($("#inputPassword").val()) ;
+
     $.ajax({ url: "api/login",
              data: { username: $("#inputEmail").val(), password: $("#inputPassword").val(), rememberuser: 'on' },
              type: 'POST',
              success : function(data) {
 console.log('done it!!!!') ;
                           if (CookieMgr.read("loggedin") == "yes") {
-                             window.location = "viewer.php" ;
+    //                         window.location = "viewer.php" ;
                           } else {
                             // TODO:  handle login failed...
                             $("#signin_message").addClass("highlight",150) ;

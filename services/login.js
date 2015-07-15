@@ -48,11 +48,25 @@ function get(params) {
 //}
 
 function post(params) {
-  var q = "select id, email, password_salt, password_md5, admin from users where email = ? and active = 'Y';";
+  var q = "select id, email, password_salt, password_md5, admin from users where email = ? and active = 'Y'";
 
-  connection.query(q, params.key, function(err,data) {
-console.log(err) ;
+  connection.query(q, params.username, function(err,data) {
+
+  if (!err) {
+console.log('found') ;
 console.log(data) ;
+    if (data.length == 0) {
+      res.status(404) ;
+res.end() ;
+    } else {
+console.log('start a session...') ;
+      res.status(200) ;
+res.end() ;
+    } 
+  } else { 
+console.log('error') ;
+console.log(err) ;
+  }
                                   }) ;
 }
 
@@ -68,8 +82,8 @@ module.exports.initRouting = function(router) {
       .post(function(rq,rs) {
           res = rs ;
           req = rq ;
-
-          post({key: req.query.key}) ;
+console.log(req.body) ;
+          post({username: req.body.username, password: req.body.password}) ;
       })
 
       .delete(function(rq,rs) {
