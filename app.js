@@ -1,5 +1,6 @@
 var appinfo = { port: 3000 }
   , bodyParser = require('body-parser')
+  , cookieParser = require('cookie-parser')
   , express = require('express')
   , stylus = require('stylus')
   , nib = require('nib')
@@ -11,6 +12,7 @@ var http = require('http').Server(app) ;
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
+app.use(cookieParser());
 
 app.locals.basedir = __dirname ;
 

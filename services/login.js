@@ -1,4 +1,5 @@
-var mysql = require('mysql'),
+var md5 = require('md5'),
+    mysql = require('mysql'),
     async = require('async') ;
 
 var req, res ;
@@ -59,8 +60,18 @@ console.log(data) ;
       res.status(404) ;
 res.end() ;
     } else {
+console.log('md5(' + data[0].password_salt + params.password + ')') ;
+console.log(md5(data[0].password_salt + params.password)) ;
+      if ( md5(data[0].password_salt + params.password) == data[0].password_md5 ) {
+
 console.log('start a session...') ;
+res.cookie('loggedin', 'yes', { maxAge: 900000 });
+res.cookie('foo', 'bar', { maxAge: 900000 });
       res.status(200) ;
+      } else {
+console.log("password doesn't match") ;
+res.status(401) ;
+      }
 res.end() ;
     } 
   } else { 

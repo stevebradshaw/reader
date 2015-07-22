@@ -1,3 +1,5 @@
+var CookieMgr = new Cookies() ;
+
 function setupButtons() {
   $("#signin-button").click(function() {
     console.log('do signin') ;
@@ -9,8 +11,9 @@ console.log($("#inputPassword").val()) ;
              type: 'POST',
              success : function(data) {
 console.log('done it!!!!') ;
+console.log(document.cookie) ;
                           if (CookieMgr.read("loggedin") == "yes") {
-    //                         window.location = "viewer.php" ;
+                             window.location = "/reader" ;
                           } else {
                             // TODO:  handle login failed...
                             $("#signin_message").addClass("highlight",150) ;
@@ -20,6 +23,9 @@ console.log('done it!!!!') ;
              error : function (xhr, ajaxOptions, thrownError){
                         console.log(xhr.status);
                         console.log(thrownError);
+console.log('bad error!!!!') ;
+                            $("#signin_message").addClass("highlight",150) ;
+                            $("#signin_message").html("Invalid username or password!") ;
                      }
     });
   }) ;
