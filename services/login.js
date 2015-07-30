@@ -1,6 +1,10 @@
 var md5 = require('md5'),
     mysql = require('mysql'),
-    async = require('async') ;
+    async = require('async'),
+    redis = require("redis"),
+    client = redis.createClient(),
+    uuid = require('node-uuid') ;
+
 
 var req, res ;
 var t ;
@@ -66,7 +70,18 @@ console.log(md5(data[0].password_salt + params.password)) ;
 
 console.log('start a session...') ;
 res.cookie('loggedin', 'yes', { maxAge: 900000 });
-res.cookie('foo', 'bar', { maxAge: 900000 });
+
+res.cookie("loggedin", "yes", { maxAge: 3600*1000, path: "/"});
+//res.cookie("user", "yes", { maxAge: 3600*1000, path: "/");
+res.cookie("userid", data[0].id, { maxAge: 3600*1000, path: "/"});
+res.cookie("email", data[0].email, { maxAge: 3600*1000, path: "/"});
+var sessionid = uuid.v1() ;
+
+res.cookie("sessionid", "SESSION:" + sessionid, { maxAge: 3600*1000, path: "/"});
+var sess = { email: data[0].email, id: data[0].id } ;
+
+client.set("SESSION:" + sessionid, JSON.stringify(sess), redis.print);
+client.expire("SESSION:" + sessionid, 24*60*60);
       res.status(200) ;
       } else {
 console.log("password doesn't match") ;
