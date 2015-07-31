@@ -59,9 +59,15 @@ app.get('/', function (req,res) {
   }) ;
 
 app.get('/reader', function (req,res) {
+console.log(req.cookies) ;
+if (req.cookies.loggedin == 'yes') {
   res.render('reader',
        { title : 'Feed Reader' }
      )
+} else {
+//res.render('index', { title : 'Feed Reader' }) ;
+res.redirect('/')
+}
   }) ;
 
 http.listen(appinfo.port, function(){
