@@ -4,7 +4,9 @@ var appinfo = { port: 3000 }
   , express = require('express')
   , stylus = require('stylus')
   , nib = require('nib')
-  , logger = require('morgan') ;
+  , logger = require('morgan')
+  , redis = require("redis")
+  , client = redis.createClient();
 
 var app = express() ;
 
@@ -71,6 +73,9 @@ res.redirect('/')
   }) ;
 
 app.get('/signout',function (req,res) {
+	console.log(req.cookies) ;
+	console.log(req.cookies.sessionid) ;
+	client.expire(req.cookies.sessionid, 0) ;
   res.clearCookie('loggedin') ;
   res.clearCookie('userid') ;
   res.clearCookie('sessionid') ;
