@@ -70,6 +70,13 @@ res.redirect('/')
 }
   }) ;
 
+app.get('/signout',function (req,res) {
+  res.clearCookie('loggedin') ;
+  res.clearCookie('userid') ;
+  res.clearCookie('sessionid') ;
+res.redirect('/') ;
+}) ;
+
 http.listen(appinfo.port, function(){
   console.log('listening on ' + appinfo.port);
 }) ;
