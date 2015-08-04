@@ -75,6 +75,15 @@ res.cookie("loggedin", "yes", { maxAge: 3600*1000, path: "/"});
 //res.cookie("user", "yes", { maxAge: 3600*1000, path: "/");
 res.cookie("userid", data[0].id, { maxAge: 3600*1000, path: "/"});
 res.cookie("email", data[0].email, { maxAge: 3600*1000, path: "/"});
+
+/*console.log('POST: rememberuser = ' + params.rememberuser) ;
+if (params.rememberuser == "on") {
+  res.cookie("rememberuser", "on", { maxAge: 60*60*24*365*1000, path: "/"}) ;
+  res.cookie("rememberemail", params.username, { maxAge: 60*60*24*365*1000, path: "/"}) ;
+} else {
+res.clearCookie("rememberuser") ;
+res.clearCookie("rememberemail") ;
+}*/
 var sessionid = uuid.v1() ;
 
 res.cookie("sessionid", "SESSION:" + sessionid, { maxAge: 3600*1000, path: "/"});
@@ -108,8 +117,10 @@ module.exports.initRouting = function(router) {
       .post(function(rq,rs) {
           res = rs ;
           req = rq ;
+console.log('********************') ;
 console.log(req.body) ;
-          post({username: req.body.username, password: req.body.password}) ;
+console.log('********************') ;
+          post({username: req.body.username, password: req.body.password, rememberuser: req.body.rememberuser}) ;
       })
 
       .delete(function(rq,rs) {

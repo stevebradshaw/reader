@@ -2,16 +2,24 @@ var CookieMgr = new Cookies() ;
 
 function setupButtons() {
   $("#signin-button").click(function() {
-    console.log('do signin') ;
-console.log($("#inputEmail").val()) ;
-console.log($("#inputPassword").val()) ;
+
+    // if rememberme is set, store the email and preference in a cookie to use later
+    // otherwise clear the cookie
+    //
+    if ($("#rememberme").is(":checked")) {
+      console.log('remember me') ;
+      CookieMgr.create( "rememberuser", "on", 365) ;
+      CookieMgr.create( "rememberemail", $("#inputEmail").val(), 365) ;
+    } else {
+      CookieMgr.erase("rememberuser") ;
+      CookieMgr.erase("rememberemail") ;
+    }
 
     $.ajax({ url: "api/login",
-             data: { username: $("#inputEmail").val(), password: $("#inputPassword").val(), rememberuser: 'on' },
+
+             data: { username: $("#inputEmail").val(), password: $("#inputPassword").val(), rememberuser: $("#rememberme").is(':checked') },
              type: 'POST',
              success : function(data) {
-console.log('done it!!!!') ;
-console.log(document.cookie) ;
                           if (CookieMgr.read("loggedin") == "yes") {
                              window.location = "/reader" ;
                           } else {
@@ -37,5 +45,12 @@ console.log('bad error!!!!') ;
 
 $(document).ready(function() {
     setupButtons() ;
+
+if (CookieMgr.read("rememberuser") == "on") {
+  $("#inputEmail").val(CookieMgr.read("rememberemail")) ;
+  $("#rememberme").prop('checked', true);
+  $("#inputPassword").focus() ;
+}
+
 }) ;
 

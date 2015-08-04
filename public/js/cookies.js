@@ -2,6 +2,11 @@ function Cookies() {
 
 }
 
+// TODO: 
+// 
+// 1.  Add a path parameter
+// 2.  Change to accept params object
+// 
 Cookies.prototype.create = function(name, value, days) {
     if (days) {
         var date = new Date();
