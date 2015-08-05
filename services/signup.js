@@ -5,7 +5,6 @@ var md5 = require('md5'),
     client = redis.createClient(),
     uuid = require('node-uuid') ;
 
-
 var req, res ;
 var t ;
 
@@ -53,7 +52,7 @@ function get(params) {
 //}
 
 function post(params) {
-  var q = "select id, email, password_salt, password_md5, admin from users where email = ? and active = 'Y'";
+/*  var q = "select id, email, password_salt, password_md5, admin from users where email = ? and active = 'Y'";
 
   connection.query(q, params.username, function(err,data) {
 
@@ -76,14 +75,6 @@ res.cookie("loggedin", "yes", { maxAge: 3600*1000, path: "/"});
 res.cookie("userid", data[0].id, { maxAge: 3600*1000, path: "/"});
 res.cookie("email", data[0].email, { maxAge: 3600*1000, path: "/"});
 
-/*console.log('POST: rememberuser = ' + params.rememberuser) ;
-if (params.rememberuser == "on") {
-  res.cookie("rememberuser", "on", { maxAge: 60*60*24*365*1000, path: "/"}) ;
-  res.cookie("rememberemail", params.username, { maxAge: 60*60*24*365*1000, path: "/"}) ;
-} else {
-res.clearCookie("rememberuser") ;
-res.clearCookie("rememberemail") ;
-}*/
 var sessionid = uuid.v1() ;
 
 res.cookie("sessionid", "SESSION:" + sessionid, { maxAge: 3600*1000, path: "/"});
@@ -102,7 +93,26 @@ res.end() ;
 console.log('error') ;
 console.log(err) ;
   }
-                                  }) ;
+                                  }) ;*/
+var q = "insert into users (username, email, password_salt, password_md5, date_created, activation_code, active) values (?, ?, ?, ?, ?, ?, 'N')" 
+   , activation_code = uuid.v1()
+   ;
+
+connection.query(q, [ params.email,                         //username
+                      params.email,                         //email
+					  password salt,                        //password_salt
+					  password encrypted,                   //password_md5 TODO: change to bcrypt or something!
+					  date created,
+					  activation_code ]
+					  , function(err,data) {
+
+	if (!err) {
+console.log(data) ;
+	} else {
+      console.log('error') ;
+      console.log(err) ;
+	}
+}) ;
 }
 
 module.exports.initRouting = function(router) {
@@ -120,7 +130,8 @@ module.exports.initRouting = function(router) {
 console.log('********************') ;
 console.log(req.body) ;
 console.log('********************') ;
-//          post({username: req.body.username, password: req.body.password, rememberuser: req.body.rememberuser}) ;
+res.end() ;
+          post({name: req.body.name, password: req.body.password, email: req.body.username}) ;
       })
 
       .delete(function(rq,rs) {
