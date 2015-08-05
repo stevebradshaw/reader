@@ -21,7 +21,8 @@ app.locals.basedir = __dirname ;
 var folderlist = require('./services/folderlist'),
     entry = require('./services/entry'),
     user = require('./services/user'),
-    login = require('./services/login'),
+    signin = require('./services/signin'),
+    signup = require('./services/signup'),
     feedentries = require('./services/feedentries') ;
 
 
@@ -31,7 +32,8 @@ folderlist.initRouting(router) ;
 feedentries.initRouting(router) ;
 entry.initRouting(router) ;
 user.initRouting(router) ;
-login.initRouting(router) ;
+signin.initRouting(router) ;
+signup.initRouting(router) ;
 
 function compile(str, path) {
   return stylus(str)
@@ -55,31 +57,23 @@ app.use(express.static(__dirname + '/public')) ;
 app.use('/api', router) ;
 
 app.get('/', function (req,res) {
-  res.render('index',
-       { title : 'Feed Reader' }
-     )
+    res.render('index', { title : 'Feed Reader' })
   }) ;
 
 app.get('/reader', function (req,res) {
-console.log(req.cookies) ;
-if (req.cookies.loggedin == 'yes') {
-  res.render('reader',
-       { title : 'Feed Reader' }
-     )
-} else {
-//res.render('index', { title : 'Feed Reader' }) ;
-res.redirect('/')
-}
+    if (req.cookies.loggedin == 'yes') {
+      res.render('reader', { title : 'Feed Reader' })
+    } else {
+      res.redirect('/')
+    }
   }) ;
 
 app.get('/signout',function (req,res) {
-	console.log(req.cookies) ;
-	console.log(req.cookies.sessionid) ;
-	client.expire(req.cookies.sessionid, 0) ;
+  client.expire(req.cookies.sessionid, 0) ;
   res.clearCookie('loggedin') ;
   res.clearCookie('userid') ;
   res.clearCookie('sessionid') ;
-res.redirect('/') ;
+  res.redirect('/') ;
 }) ;
 
 http.listen(appinfo.port, function(){

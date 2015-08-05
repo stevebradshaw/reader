@@ -15,15 +15,15 @@ function setupButtons() {
       CookieMgr.erase("rememberemail") ;
     }
 
-    $.ajax({ url: "api/login",
+    $.ajax({ url: "api/signin",
 
-             data: { username: $("#inputEmail").val(), password: $("#inputPassword").val(), rememberuser: $("#rememberme").is(':checked') },
+             data: { username: $("#signin > #inputEmail").val(), password: $("#signin > #inputPassword").val(), rememberuser: $("#signin > #rememberme").is(':checked') },
              type: 'POST',
              success : function(data) {
                           if (CookieMgr.read("loggedin") == "yes") {
                              window.location = "/reader" ;
                           } else {
-                            // TODO:  handle login failed...
+                            // TODO:  handle signin failed...
                             $("#signin_message").addClass("highlight",150) ;
                             $("#signin_message").html("Invalid username or password!") ;
                           }
@@ -40,6 +40,27 @@ console.log('bad error!!!!') ;
 
   $("#signup-button").click(function() {
     console.log('do signup') ;
+    $.ajax({ url: "api/signup",
+
+             data: { username: $("#signup > #inputEmail").val(), password: $("#signup > #inputPassword").val(), name: $("#signup > #inputName").val() },
+             type: 'POST',
+             success : function(data) {
+/*                          if (CookieMgr.read("loggedin") == "yes") {
+                             window.location = "/reader" ;
+                          } else {
+                            // TODO:  handle signin failed...
+                            $("#signin_message").addClass("highlight",150) ;
+                            $("#signin_message").html("Invalid username or password!") ;
+                          }*/
+                       },
+             error : function (xhr, ajaxOptions, thrownError){
+                        console.log(xhr.status);
+                        console.log(thrownError);
+console.log('bad error!!!!') ;
+                            $("#signin_message").addClass("highlight",150) ;
+                            $("#signin_message").html("Invalid username or password!") ;
+                     }
+    });
   }) ;
 }
 
