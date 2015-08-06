@@ -3,7 +3,9 @@ var md5 = require('md5'),
     async = require('async'),
     redis = require("redis"),
     client = redis.createClient(),
-    uuid = require('node-uuid') ;
+    uuid = require('node-uuid'),
+bcrypt = require('bcrypt'),
+SALT_WORK_FACTOR = 10 ;
 
 var req, res ;
 var t ;
@@ -17,7 +19,7 @@ var connection = mysql.createConnection({
 
 connection.connect() ;
 
-function get(params) {
+/*function get(params) {
   var data = [] ;
 	
   var q = "select url_id,"
@@ -46,7 +48,7 @@ function get(params) {
 
 }) ;
 	 
-} 
+}*/
 
 //function delete() {
 //}
@@ -94,15 +96,25 @@ console.log('error') ;
 console.log(err) ;
   }
                                   }) ;*/
-var q = "insert into users (username, email, password_salt, password_md5, date_created, activation_code, active) values (?, ?, ?, ?, ?, ?, 'N')" 
+var q = "insert into users (username, email, password_salt, password_md5, date_created, activation_code, active) values (?, ?, ?, ?, now(), ?, 'N')" 
    , activation_code = uuid.v1()
+   , password_salt = "XYZ"
+   , password_encr = params.password
    ;
 
-connection.query(q, [ params.email,                         //username
-                      params.email,                         //email
-					  password salt,                        //password_salt
-					  password encrypted,                   //password_md5 TODO: change to bcrypt or something!
-					  date created,
+    bcrypt.genSalt(SALT_WORK_FACTOR, function(err, salt) {
+        if (!err) {
+
+            // hash the password using our new salt
+            bcrypt.hash(params.password, salt, function(err, hash) {
+                if (!err) {
+
+
+connection.query(q, [ params.email,                    //username
+                      params.email,                    //email
+					  salt,                   //password_salt
+					  hash,                   //password_md5 TODO: change to bcrypt or something!
+//					  date created,
 					  activation_code ]
 					  , function(err,data) {
 
@@ -113,16 +125,22 @@ console.log(data) ;
       console.log(err) ;
 	}
 }) ;
+                // override the cleartext password with the hashed one
+                password_encr = hash;
+                }
+            });
+        }
+    });
 }
 
 module.exports.initRouting = function(router) {
 
   router.route('/signup')
-      .get(function(rq,rs) {
+/*      .get(function(rq,rs) {
 		  req = rq ;
 		  res = rs ;
 		  get({userid: 1, key: req.query.key})  ;
-	  })
+	  })*/
 
       .post(function(rq,rs) {
           res = rs ;
@@ -134,11 +152,11 @@ res.end() ;
           post({name: req.body.name, password: req.body.password, email: req.body.username}) ;
       })
 
-      .delete(function(rq,rs) {
+/*      .delete(function(rq,rs) {
           res = rs ;
           req = rq ;
 //        delete() ;
-      }) ;
+      }) ;*/
 	  
 /*	  .post(function(req,res) {
           var burp = new BurpModel() ;
