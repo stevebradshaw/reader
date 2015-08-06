@@ -1,4 +1,5 @@
-var md5 = require('md5'),
+var //md5 = require('md5'),
+    bcrypt = require('bcrypt'),
     mysql = require('mysql'),
     async = require('async'),
     redis = require("redis"),
@@ -53,56 +54,55 @@ function get(params) {
 //}
 
 function post(params) {
-  var q = "select id, email, password_salt, password_md5, admin from users where email = ? and active = 'Y'";
+
+  var q = "select id, email, password, admin from users where email = ? and active = 'Y'";
 
   connection.query(q, params.username, function(err,data) {
 
-  if (!err) {
-console.log('found') ;
-console.log(data) ;
-    if (data.length == 0) {
-      res.status(404) ;
-res.end() ;
-    } else {
-console.log('md5(' + data[0].password_salt + params.password + ')') ;
-console.log(md5(data[0].password_salt + params.password)) ;
-      if ( md5(data[0].password_salt + params.password) == data[0].password_md5 ) {
+    if (!err) {
 
-console.log('start a session...') ;
-res.cookie('loggedin', 'yes', { maxAge: 900000 });
-
-res.cookie("loggedin", "yes", { maxAge: 3600*1000, path: "/"});
-//res.cookie("user", "yes", { maxAge: 3600*1000, path: "/");
-res.cookie("userid", data[0].id, { maxAge: 3600*1000, path: "/"});
-res.cookie("email", data[0].email, { maxAge: 3600*1000, path: "/"});
-
-/*console.log('POST: rememberuser = ' + params.rememberuser) ;
-if (params.rememberuser == "on") {
-  res.cookie("rememberuser", "on", { maxAge: 60*60*24*365*1000, path: "/"}) ;
-  res.cookie("rememberemail", params.username, { maxAge: 60*60*24*365*1000, path: "/"}) ;
-} else {
-res.clearCookie("rememberuser") ;
-res.clearCookie("rememberemail") ;
-}*/
-var sessionid = uuid.v1() ;
-
-res.cookie("sessionid", "SESSION:" + sessionid, { maxAge: 3600*1000, path: "/"});
-var sess = { email: data[0].email, id: data[0].id } ;
-
-client.set("SESSION:" + sessionid, JSON.stringify(sess), redis.print);
-client.expire("SESSION:" + sessionid, 24*60*60);
-      res.status(200) ;
+      if (data.length == 0) {
+        res.status(404) ;
+        res.end() ;
       } else {
-console.log("password doesn't match") ;
-res.status(401) ;
-      }
-res.end() ;
-    } 
-  } else { 
-console.log('error') ;
-console.log(err) ;
-  }
-                                  }) ;
+
+
+        bcrypt.compare(params.password, data[0].password, function(err, isMatch) {
+	        if(err) {
+			  return console.error(err);
+			}
+
+			console.log('do they match?', isMatch);
+            if (isMatch) {
+				res.cookie("loggedin", "yes", { maxAge: 3600*1000, path: "/"});
+                res.cookie("userid", data[0].id, { maxAge: 3600*1000, path: "/"});
+                res.cookie("email", data[0].email, { maxAge: 3600*1000, path: "/"});
+
+                var sessionid = "SESSION:" + uuid.v1() ;
+
+                res.cookie("sessionid", sessionid, { maxAge: 3600*1000, path: "/"});
+                var sess = { email: data[0].email, id: data[0].id } ;
+  
+                client.set(sessionid, JSON.stringify(sess), redis.print);
+
+                client.expire(sessionid, 24*60*60);
+                res.status(200) ;
+
+
+		    } else {
+              console.log("password doesn't match") ;
+              res.status(401) ;
+			}
+            res.end() ;
+        });
+      } 
+    } else { 
+      console.log('error') ;
+      console.log(err) ;
+      res.status(500) ;
+      res.end() ;
+    }
+  }) ;
 }
 
 module.exports.initRouting = function(router) {

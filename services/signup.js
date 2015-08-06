@@ -96,7 +96,7 @@ console.log('error') ;
 console.log(err) ;
   }
                                   }) ;*/
-var q = "insert into users (username, email, password_salt, password_md5, date_created, activation_code, active) values (?, ?, ?, ?, now(), ?, 'N')" 
+var q = "insert into users (username, email, password_salt, password, date_created, activation_code, active) values (?, ?, ?, ?, now(), ?, 'N')" 
    , activation_code = uuid.v1()
    , password_salt = "XYZ"
    , password_encr = params.password
@@ -113,7 +113,7 @@ var q = "insert into users (username, email, password_salt, password_md5, date_c
 connection.query(q, [ params.email,                    //username
                       params.email,                    //email
 					  salt,                   //password_salt
-					  hash,                   //password_md5 TODO: change to bcrypt or something!
+					  hash,                   //password
 //					  date created,
 					  activation_code ]
 					  , function(err,data) {
