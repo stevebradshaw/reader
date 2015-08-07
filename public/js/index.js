@@ -17,7 +17,7 @@ function setupButtons() {
 
     $.ajax({ url: "api/signin",
 
-             data: { username: $("#signin > #inputEmail").val(), password: $("#signin > #inputPassword").val(), rememberuser: $("#signin > #rememberme").is(':checked') },
+             data: { username: $("#signin > #inputEmail").val(), password: $("#signin > #inputPassword").val(), rememberuser: $("#rememberme").is(':checked') },
              type: 'POST',
              success : function(data) {
                           if (CookieMgr.read("loggedin") == "yes") {
