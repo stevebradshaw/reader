@@ -1,9 +1,9 @@
 var nodemailer = require("nodemailer");
 
 var generator = require('xoauth2').createXOAuth2Generator({
-    user: "reader.reg@gmail.com", // Your gmail address.
+    user: "sjb1970@gmail.com", // Your gmail address.
 
-    clientId: "",
+    clientId: "720736642590-gkluvm004jenimtoa50gi0t4660e34nq.apps.googleusercontent.com",
     clientSecret: "",
     refreshToken: "",
 });
