@@ -185,32 +185,16 @@ function populateFeedList() {
   }) ;
 }
 
-function clickSuggestionCell(params) {
-  if (params.field=='add') {
-
-    console.log($(params.value).data('url-id')) ;// $resulyypt.text('Event: onClickRow, data: ' + JSON.stringify(row));
-
-    $.ajax({   type: 'post',
-              cache: false,
-                url: '/api/subscribe',
-               data: { feed: { id: $(params.value).data('url-id')} },              
-            success: function (data) {                                      
-                     }                                                      
-    }) ;
-  }
-}
-
-function searchByCategory(params) {
-/*  var suggestID = [] ;
+function searchByCategory() {
+  var suggestID = [] ;
   $("[id^='category-btn'].btn-success").each(function(b) {
     suggestID.push($(this).data('category-id')) ;
-  }) ;*/
+  }) ;
 
-  $.ajax({ type:'get',
+  $.ajax({ type:'post',
            cache:false,
-         context: this,
-             url:"/api/suggestfeeds?category_id=" + params.category_id, 
-//            data:{jObject:  suggestID},
+             url:"/api/suggestfeeds",
+            data:{jObject:  suggestID},
          success: function(data) {
 
                     var frag = "<table id='suggest-table' data-pagination='true' data-toggle='table'><thead><tr><th>Feed</th><th></th></tr></thead><tbody>" ;
@@ -226,12 +210,6 @@ function searchByCategory(params) {
                     $('#suggest-table').bootstrapTable({ pageSize: 5, 
                                                          search: true,
                                                          onClickCell: function (field,value,row,element) {
- clickSuggestionCell({field: field,
-                                                                                        value: value,
-                                                                                          row: row,
-                                                                                        element: element})
-}, 
-/* function (field,value,row,element) {
                                                                         if (field=='add') {
 
                    console.log($(value).data('url-id')) ;// $resulyypt.text('Event: onClickRow, data: ' + JSON.stringify(row));
@@ -244,7 +222,7 @@ $.ajax({   type: 'post',
                  }
        }) ;
                                                                         }
-                                                       },*/
+                                                       },
                                                         columns: [ {field: 'info', sortable:true},
                                                                    {field: 'add', valign:'middle', align: 'center'}]}) ;
                   }
@@ -277,7 +255,7 @@ $("#suggest-feeds").click(function(e) {
 
               $("[id^='category-btn']").removeClass('btn-success') ; 
                 $(e.target).addClass('btn-success') ;
-  searchByCategory({category_id: $(this).data('category-id')}) ;
+  searchByCategory() ;
               }) ;
           }
   }) ;
@@ -293,7 +271,8 @@ $("#add-feed").click(function(e) {
 }) ;
 
 $("#suggest-search").click(function(e) {
-  e.preventDefault() ;
+
+  searchByCategory() ;
 
 }) ;
 

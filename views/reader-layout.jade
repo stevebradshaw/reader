@@ -4,9 +4,12 @@ html(lang="en")
     title #{title}
     link(rel='stylesheet', href='http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css')
     link(rel='stylesheet', href='/stylesheets/feed.css')
+    link(rel='stylesheet', href='//cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.8.1/bootstrap-table.min.css')
 
     script( type="text/javascript", src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js" )
     script( type="text/javascript", src="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js" )
+    script( type="text/javascript", src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.8.1/bootstrap-table.min.js" )
+
     script( type="text/javascript", src="js/feed.js" )
   body(style="padding-top: 60px")
 
@@ -39,3 +42,6 @@ html(lang="en")
             div#entrylist
             div#bottombar
               | TOOLBAR HERE
+
+    include /public/fragments/settings-modal.html
+    include /public/fragments/suggest-modal.html

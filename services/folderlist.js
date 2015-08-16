@@ -4,6 +4,7 @@ var mysql = require('mysql'),
 var req, res ;
 
 function get(params) {
+console.log(params) ;
 	var data = [] ;
 
 var connection = mysql.createConnection({
@@ -25,6 +26,7 @@ async.waterfall([
   },
   function(results, next) {
 	async.forEachSeries(results, function(item, next) {
+console.log(item) ;
         var t = next ;
 		async.waterfall([
 		  function(next) {
@@ -58,7 +60,7 @@ module.exports.initRouting = function(router) {
       .get(function(rq,rs) {
 		  req = rq ;
 		  res = rs ;
-		  get({userid: 1})  ;
+		  get({userid: req.cookies.userid})  ;
 	  })
 	  
 /*	  .post(function(req,res) {

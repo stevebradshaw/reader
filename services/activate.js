@@ -1,10 +1,11 @@
 var //md5 = require('md5'),
-    bcrypt = require('bcrypt'),
+//    bcrypt = require('bcrypt'),
     mysql = require('mysql'),
-    async = require('async'),
-    redis = require("redis"),
-    client = redis.createClient(),
-    uuid = require('node-uuid') ;
+    async = require('async')
+//    redis = require("redis"),
+//    client = redis.createClient(),
+//    uuid = require('node-uuid') ;
+    ;
 
 
 var req, res ;
@@ -48,12 +49,42 @@ function get(params) {
 
 }) ;
 */	 
+    console.log(params.p) ;
+    if (params.p) {
+console.log('p set') ;
+var q = "update users set active = 'Y', date_activated = now() where activation_code = ? and active = 'N'" ;
+      connection.query(q, params.p, function(err,data) {
+
+        if (!err) {
+console.log(data.affectedRows) ;
+          if (data.affectedRows== 0) {
+            res.status(404) ;
+            res.end() ;
+          } else {
+            res.send('Activate account!') ;
+            res.status(200) ;
+            res.end() ;
+          }
+        } else {
+          res.status(500) ;
+          res.end() ;
+        }
+      }) ;
+
+    } else {
+console.log('p not set') ;
+      res.status(500) ;
+      res.end() ;
+    }
+//    res.render('index', { title : 'Feed Reader' })
+
+
 } 
 
 //function delete() {
 //}
 
-function post(params) {
+/*function post(params) {
 
   var q = "select id, email, password, admin from users where email = ? and active = 'Y'";
 
@@ -104,17 +135,17 @@ function post(params) {
     }
   }) ;
 }
-
+*/
 module.exports.initRouting = function(router) {
 
-  router.route('/signin')
-/*      .get(function(rq,rs) {
+  router.route('/activate')
+      .get(function(rq,rs) {
 		  req = rq ;
 		  res = rs ;
-		  get({userid: 1, key: req.query.key})  ;
-	  })*/
+		  get(req.query)  ;
+	  })
 
-      .post(function(rq,rs) {
+/*      .post(function(rq,rs) {
           res = rs ;
           req = rq ;
 console.log('********************') ;
@@ -128,7 +159,7 @@ console.log('********************') ;
           req = rq ;
 //        delete() ;
       }) ;
-	  
+*/	  
 /*	  .post(function(req,res) {
           var burp = new BurpModel() ;
           burp.message = req.body.msg;

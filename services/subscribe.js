@@ -1,11 +1,6 @@
-var //md5 = require('md5'),
-    bcrypt = require('bcrypt'),
-    mysql = require('mysql'),
-    async = require('async'),
-    redis = require("redis"),
-    client = redis.createClient(),
-    uuid = require('node-uuid') ;
-
+var mysql = require('mysql'),
+    async = require('async')
+    ;
 
 var req, res ;
 var t ;
@@ -20,34 +15,36 @@ var connection = mysql.createConnection({
 connection.connect() ;
 
 function get(params) {
-/*  var data = [] ;
-	
-  var q = "select url_id,"
-        + "entry_key,"
-        + "entry_xml,"
-        + "entry_html,"
-        + "date_extracted,"
-        + "entry_title,"
-        + "publication_date,"
-        + "publication_tz,"
-        + "publication_date_utc,"
-        + "entry_uri,"
-        + "entry_author"
-	    + " from feed_entries"
-	    + " where entry_key = ?" ;
+/*
+    console.log(params.p) ;
+    if (params.p) {
+console.log('p set') ;
+var q = "update users set active = 'Y', date_activated = now() where activation_code = ? and active = 'N'" ;
+      connection.query(q, params.p, function(err,data) {
 
+        if (!err) {
+console.log(data.affectedRows) ;
+          if (data.affectedRows== 0) {
+            res.status(404) ;
+            res.end() ;
+          } else {
+            res.send('Activate account!') ;
+            res.status(200) ;
+            res.end() ;
+          }
+        } else {
+          res.status(500) ;
+          res.end() ;
+        }
+      }) ;
 
-  async.waterfall([
-    function(next) {
-  	connection.query(q,params.key, next) ;
-  },
-  function(results, next) {
-	  res.send(results) ;
-  }
-], function (err,res) {
+    } else {
+console.log('p not set') ;
+      res.status(500) ;
+      res.end() ;
+    }
+*/
 
-}) ;
-*/	 
 } 
 
 //function delete() {
@@ -55,7 +52,47 @@ function get(params) {
 
 function post(params) {
 
-  var q = "select id, email, password, admin from users where email = ? and active = 'Y'";
+  console.log(params) ;
+
+  if (params.feed.id) {
+    // feed id populated so just add subscription for user
+    var q = "select title from feeds where id = ?";
+    
+    connection.query(q, params.feed.id, function(err,data) {
+
+      if (!err) {
+
+        if (data.length == 0) {
+          res.status(404) ;
+          res.end() ;
+        } else {
+          console.log(data[0].title) ;
+          var q2 = "insert into user_feeds (user_id, feed_id, folder_id, feed_title) values (?,?,?,?)"
+
+          connection.query(q2, [params.userid, params.feed.id, 0, data[0].title], function(err,data) {
+          
+            if (!err) {
+              res.status(201) ;
+              res.end() ;
+            } else {
+              res.status(500) ;
+              res.send() ;
+              console.log(err) ;
+            }
+
+          }) ;
+        }
+      } else {
+        res.status(500) ;
+        res.send() ;
+        console.log(err) ;
+      }
+    }) ;
+  } else {
+    // need to create feed and subscribe user to it
+  }
+
+/*  var q = "select id, email, password, admin from users where email = ? and active = 'Y'";
 
   connection.query(q, params.username, function(err,data) {
 
@@ -102,17 +139,17 @@ function post(params) {
       res.status(500) ;
       res.end() ;
     }
-  }) ;
+  }) ;*/
 }
 
 module.exports.initRouting = function(router) {
 
-  router.route('/signin')
-/*      .get(function(rq,rs) {
+  router.route('/subscribe')
+      .get(function(rq,rs) {
 		  req = rq ;
 		  res = rs ;
-		  get({userid: 1, key: req.query.key})  ;
-	  })*/
+		  get(req.query)  ;
+	  })
 
       .post(function(rq,rs) {
           res = rs ;
@@ -120,15 +157,15 @@ module.exports.initRouting = function(router) {
 console.log('********************') ;
 console.log(req.body) ;
 console.log('********************') ;
-          post({username: req.body.username, password: req.body.password, rememberuser: req.body.rememberuser}) ;
-      })
+          post({userid: req.cookies.userid, feed: req.body.feed}) ;
+      }) ;
 
-      .delete(function(rq,rs) {
+/*      .delete(function(rq,rs) {
           res = rs ;
           req = rq ;
 //        delete() ;
       }) ;
-	  
+*/	  
 /*	  .post(function(req,res) {
           var burp = new BurpModel() ;
           burp.message = req.body.msg;

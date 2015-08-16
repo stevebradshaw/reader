@@ -89,7 +89,7 @@ module.exports.initRouting = function(router) {
       .get(function(rq,rs) {
 		  req = rq ;
 		  res = rs ;
-		  get({userid: 1, feed: req.query.feed, status: req.query.status}) ;
+		  get({userid: req.cookies.userid, feed: req.query.feed, status: req.query.status}) ;
 //		  get({userid: 1, res: res}) ;
 	  }) ;
 	  
