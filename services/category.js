@@ -31,14 +31,14 @@ function get(params) {
 
   var q = 'select c.category, c.id, count(1) number from categories c'
         + ' join feed_categories fc on fc.category_id = c.id '
-        + 'where not exists (select 1 from user_feeds uf where uf.feed_id = fc.feed_id and uf.user_id = 376) '
+        + 'where not exists (select 1 from user_feeds uf where uf.feed_id = fc.feed_id and uf.user_id = ?) '
         + ' group by c.category, c.id '
 //        + 'union '
 //        + 'select category, id, 0 from categories c where not exists (select 1 from feed_categories fc where fc.category_id = c.id)
         + 'order by category' ;
   async.waterfall([
     function(next) {
-  	connection.query(q,[], next) ;
+  	connection.query(q,params.userid, next) ;
   },
   function(results, next) {
 console.log(results) ;

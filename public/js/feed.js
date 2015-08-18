@@ -216,6 +216,7 @@ $('[data-category-id="' + data[i].category_id + '"]').remove() ;
                        //
                      }                                                      
     }) ;
+
   }
 }
 
@@ -234,12 +235,13 @@ function searchByCategory(params) {
 
                     var frag = "<table id='suggest-table' data-pagination='true' data-toggle='table'><thead><tr><th>Feed</th><th></th></tr></thead><tbody>" ;
                     for (i in data) {
-                      frag = frag + "<tr><td><h5>" + data[i].title + "</h5>" + data[i].url
+                      frag = frag + "<tr 'data-url-id='" + data[i].id + "'><td><h5><b>" + data[i].title + "</b></h5>" + data[i].url
                                   + "</td><td id='add-feed' data-url-id='" + data[i].id
                                   + "' style='vertical-align:middle'><span id='add-feed' data-url-id='"
                                   + data[i].id + "' class='glyphicon glyphicon-plus' aria-hidden='true'></span></td></tr>" ;
                     }
                     frag = frag + "</tbody></table>" ;
+console.log(frag) ;
                     $('#search-results').html(frag) ;
 
                     $('#suggest-table').bootstrapTable({ pageSize: 5, 
@@ -249,8 +251,12 @@ function searchByCategory(params) {
                                                                                                value: value,
                                                                                                  row: row,
                                                                                              element: element}) ;
-console.log($(this)) ;
-$(this).parent('tr').remove() ;
+console.log('remove row') ;
+console.log(field);
+console.log($(value).parent('td'));
+console.log(row);
+console.log(element);
+$(row).remove() ;
                                                                       }, 
 /* function (field,value,row,element) {
                                                                         if (field=='add') {
