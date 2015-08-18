@@ -194,7 +194,26 @@ function clickSuggestionCell(params) {
               cache: false,
                 url: '/api/subscribe',
                data: { feed: { id: $(params.value).data('url-id')} },              
-            success: function (data) {                                      
+            success: function (data) {                                
+var sel ;
+                       for (i in data) {
+//console.log(data[i]) ;
+//console.log($('[data-category-id="' + data[i].category_id + '"]')) ;
+sel = $('[data-category-id="' + data[i].category_id + '"]').children() ;
+val = $(sel).html() ;
+if (val > 1) {
+  $(sel).html(val-1) ;
+} else {
+console.log('remove badge') ;
+$('[data-category-id="' + data[i].category_id + '"]').remove() ;
+}
+//console.log($(sel).html()-) ;
+//console.log($('[data-category-id="' + data[i].category_id + '"]').children().html(666)) ;
+                       }
+                       // subscribed successfully so:
+                       // if category count was > 1, decrease it
+                       //    category count = 1, remove the category, remove the results as no suggestions left in :q
+                       //
                      }                                                      
     }) ;
   }
@@ -226,11 +245,13 @@ function searchByCategory(params) {
                     $('#suggest-table').bootstrapTable({ pageSize: 5, 
                                                          search: true,
                                                          onClickCell: function (field,value,row,element) {
- clickSuggestionCell({field: field,
-                                                                                        value: value,
-                                                                                          row: row,
-                                                                                        element: element})
-}, 
+                                                                        clickSuggestionCell({  field: field,
+                                                                                               value: value,
+                                                                                                 row: row,
+                                                                                             element: element}) ;
+console.log($(this)) ;
+$(this).parent('tr').remove() ;
+                                                                      }, 
 /* function (field,value,row,element) {
                                                                         if (field=='add') {
 

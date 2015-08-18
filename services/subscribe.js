@@ -72,8 +72,15 @@ function post(params) {
           connection.query(q2, [params.userid, params.feed.id, 0, data[0].title], function(err,data) {
           
             if (!err) {
+console.log('**************************') ;
+console.log(data) ;
+console.log('**************************') ;
               res.status(201) ;
+              var q3 = 'select * from user_feeds uf, feed_categories fc where uf.id = ? and uf.feed_id = fc.feed_id' ;
+              connection.query(q3, data.insertId, function (err,data) {
+res.send(data) ;
               res.end() ;
+                                                  }) ;
             } else {
               res.status(500) ;
               res.send() ;
