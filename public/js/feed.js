@@ -1,5 +1,8 @@
 var currentFeedId, currentFeedTitle ;
 
+
+var st ;
+
 function setupButtons() {
   $("#btn-feed-status").click(function(t) {
     if ($(t.target).text() == "View: Unread") {
@@ -233,30 +236,40 @@ function searchByCategory(params) {
 //            data:{jObject:  suggestID},
          success: function(data) {
 
-                    var frag = "<table id='suggest-table' data-pagination='true' data-toggle='table'><thead><tr><th>Feed</th><th></th></tr></thead><tbody>" ;
+                    var frag = "<table id='suggest-table' data-pagination='true' data-toggle='table'><thead><tr><th data-field='id'></th><th>Feed</th><th></th></tr></thead><tbody>" ;
                     for (i in data) {
-                      frag = frag + "<tr 'data-url-id='" + data[i].id + "'><td><h5><b>" + data[i].title + "</b></h5>" + data[i].url
+                      frag = frag + "<tr 'data-url-id='" + data[i].id + "'><td>" + data[i].id + "</td><td><h5><b>" + data[i].title + "</b></h5>" + data[i].url
                                   + "</td><td id='add-feed' data-url-id='" + data[i].id
                                   + "' style='vertical-align:middle'><span id='add-feed' data-url-id='"
                                   + data[i].id + "' class='glyphicon glyphicon-plus' aria-hidden='true'></span></td></tr>" ;
                     }
                     frag = frag + "</tbody></table>" ;
-console.log(frag) ;
                     $('#search-results').html(frag) ;
 
-                    $('#suggest-table').bootstrapTable({ pageSize: 5, 
+st =                     $('#suggest-table').bootstrapTable({ pageSize: 5, 
+                                                         pageList: [5, 10, 25],
                                                          search: true,
                                                          onClickCell: function (field,value,row,element) {
                                                                         clickSuggestionCell({  field: field,
                                                                                                value: value,
                                                                                                  row: row,
                                                                                              element: element}) ;
-console.log('remove row') ;
+console.log(st) ;
+console.log(value);
+var urlid = $(value).data('url-id');
+$('[data-url-id="' + urlid + '"]').html("boo");
+$('#suggest-table').bootstrapTable('remove', {
+                field: 'id',
+                values: [102]})  ;
+/*console.log('remove row') ;
+console.log(this) ;
 console.log(field);
+console.log(value);
+console.log($(value));
 console.log($(value).parent('td'));
 console.log(row);
 console.log(element);
-$(row).remove() ;
+$(row).remove() ;*/
                                                                       }, 
 /* function (field,value,row,element) {
                                                                         if (field=='add') {
@@ -272,7 +285,8 @@ $.ajax({   type: 'post',
        }) ;
                                                                         }
                                                        },*/
-                                                        columns: [ {field: 'info', sortable:true},
+                                                        columns: [ {field: 'id', visible:true},
+                                                                   {field: 'info', sortable:true},
                                                                    {field: 'add', valign:'middle', align: 'center'}]}) ;
                   }
   });
@@ -292,10 +306,9 @@ $("#suggest-feeds").click(function(e) {
           contentType: "application/json",
           context: this,
           success: function(data) {
-              console.log(data) ;
+              
               var frag = "" ;
               for (i in data) {
-                console.log(data[i]) ;
                 frag = frag + "<button class='btn btn-sm' id='category-btn' data-category='" + data[i].category + "' data-category-id='" + data[i].id + "' style='margin:4px' type='button'>" + data[i].category + "&nbsp;&nbsp;<span class='badge'>" + data[i].number + "</span></button>" ;
               }
               $("#category-panel").html(frag) ;
