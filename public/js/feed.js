@@ -246,7 +246,14 @@ function searchByCategory(params) {
                     frag = frag + "</tbody></table>" ;
                     $('#search-results').html(frag) ;
 
-st =                     $('#suggest-table').bootstrapTable({ pageSize: 5, 
+st = $('#suggest-table').dataTable() ;
+
+$('#suggest-table').on('click', 'tr', function(event) {
+console.log(st) ;
+//https://datatables.net/reference/api/row().remove()
+st.row( $(this).parents('tr') ).remove().draw();
+})
+/*st =                     $('#suggest-table').bootstrapTable({ pageSize: 5, 
                                                          pageList: [5, 10, 25],
                                                          search: true,
                                                          onClickCell: function (field,value,row,element) {
@@ -254,40 +261,15 @@ st =                     $('#suggest-table').bootstrapTable({ pageSize: 5,
                                                                                                value: value,
                                                                                                  row: row,
                                                                                              element: element}) ;
-console.log(st) ;
-console.log(value);
-var urlid = $(value).data('url-id');
-$('[data-url-id="' + urlid + '"]').html("boo");
-$('#suggest-table').bootstrapTable('remove', {
-                field: 'id',
-                values: [102]})  ;
-/*console.log('remove row') ;
-console.log(this) ;
-console.log(field);
-console.log(value);
-console.log($(value));
-console.log($(value).parent('td'));
-console.log(row);
-console.log(element);
-$(row).remove() ;*/
-                                                                      }, 
-/* function (field,value,row,element) {
-                                                                        if (field=='add') {
-
-                   console.log($(value).data('url-id')) ;// $resulyypt.text('Event: onClickRow, data: ' + JSON.stringify(row));
-
-$.ajax({   type: 'post',
-          cache: false,
-            url: '/api/subscribe',
-           data: { feed: { id: $(value).data('url-id')} },
-        success: function (data) {
-                 }
-       }) ;
-                                                                        }
-                                                       },*/
+//console.log(st) ;
+//console.log(value);
+//var urlid = $(value).data('url-id');
+//console.log($('[data-url-id="' + urlid + '"]').parent('tr')) ;
+//console.log($('#suggest-table').bootstrapTable('getData')) ;
+//$('[data-url-id="' + urlid + '"]').parent('tr').remove() ;
                                                         columns: [ {field: 'id', visible:true},
                                                                    {field: 'info', sortable:true},
-                                                                   {field: 'add', valign:'middle', align: 'center'}]}) ;
+                                                                   {field: 'add', valign:'middle', align: 'center'}]}) ;*/
                   }
   });
 }
