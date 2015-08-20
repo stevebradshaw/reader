@@ -246,12 +246,16 @@ function searchByCategory(params) {
                     frag = frag + "</tbody></table>" ;
                     $('#search-results').html(frag) ;
 
-st = $('#suggest-table').dataTable() ;
+ $('#suggest-table').dataTable() ;
 
-$('#suggest-table').on('click', 'tr', function(event) {
-console.log(st) ;
+st = $('#suggest-table').DataTable() ;
+
+$('#suggest-table').on('click', '#add-feed', function(event) {
+//console.log($(this).children[0].innerText) ;
+console.log($(this).parent('tr')) ;
+console.log($(this).data('url-id')) ;
 //https://datatables.net/reference/api/row().remove()
-st.row( $(this).parents('tr') ).remove().draw();
+st.row( $(this).parent('tr')).remove().draw();
 })
 /*st =                     $('#suggest-table').bootstrapTable({ pageSize: 5, 
                                                          pageList: [5, 10, 25],
