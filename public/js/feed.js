@@ -1,8 +1,5 @@
 var currentFeedId, currentFeedTitle ;
 
-
-var st ;
-
 function setupButtons() {
   $("#btn-feed-status").click(function(t) {
     if ($(t.target).text() == "View: Unread") {
@@ -103,18 +100,13 @@ function displayFeed(feed) {
 				  + '</div>' ;
 
   }
- // frag = frag + '</div>' ;
-  $("#entrylist").html(frag) ;
 
-//  $("[id^=header]").css("background-color", "yellow");
+  $("#entrylist").html(frag) ;
   $("[id^=header]").click(function(t) {
-//  $(".header").click(function(t) {
-	  console.log(t) ;
-$(t.target.parentNode).removeClass('unread') ;
+      $(t.target.parentNode).removeClass('unread') ;
 	  console.log(t.target.parentNode.parentNode.id) ;
-//	  showFeedEntry({ key: t.target.parentNode.parentNode.id })
 	  setEntryStatus({ key: t.target.parentNode.parentNode.id, status: 'R' }) ;
-$("#content_" + t.target.parentNode.parentNode.id).toggleClass('collapsed') ;
+      $("#content_" + t.target.parentNode.parentNode.id).toggleClass('collapsed') ;
   });
 }
 
@@ -188,20 +180,15 @@ function populateFeedList() {
   }) ;
 }
 
-function clickSuggestionCell(params) {
-  if (params.field=='add') {
-
-    console.log($(params.value).data('url-id')) ;// $resulyypt.text('Event: onClickRow, data: ' + JSON.stringify(row));
+function subscribeFeed(params) {
 
     $.ajax({   type: 'post',
               cache: false,
                 url: '/api/subscribe',
-               data: { feed: { id: $(params.value).data('url-id')} },              
+               data: { feed: { id: params.id } },              
             success: function (data) {                                
 var sel ;
                        for (i in data) {
-//console.log(data[i]) ;
-//console.log($('[data-category-id="' + data[i].category_id + '"]')) ;
 sel = $('[data-category-id="' + data[i].category_id + '"]').children() ;
 val = $(sel).html() ;
 if (val > 1) {
@@ -210,8 +197,6 @@ if (val > 1) {
 console.log('remove badge') ;
 $('[data-category-id="' + data[i].category_id + '"]').remove() ;
 }
-//console.log($(sel).html()-) ;
-//console.log($('[data-category-id="' + data[i].category_id + '"]').children().html(666)) ;
                        }
                        // subscribed successfully so:
                        // if category count was > 1, decrease it
@@ -220,60 +205,34 @@ $('[data-category-id="' + data[i].category_id + '"]').remove() ;
                      }                                                      
     }) ;
 
-  }
 }
 
 function searchByCategory(params) {
-/*  var suggestID = [] ;
-  $("[id^='category-btn'].btn-success").each(function(b) {
-    suggestID.push($(this).data('category-id')) ;
-  }) ;*/
 
   $.ajax({ type:'get',
            cache:false,
          context: this,
              url:"/api/suggestfeeds?category_id=" + params.category_id, 
-//            data:{jObject:  suggestID},
          success: function(data) {
 
-                    var frag = "<table id='suggest-table' data-pagination='true' data-toggle='table'><thead><tr><th data-field='id'></th><th>Feed</th><th></th></tr></thead><tbody>" ;
+                    var frag = "<table id='suggest-table' data-pagination='true' data-toggle='table'><thead><tr>/th><th>Feed</th><th></th></tr></thead><tbody>" ;
                     for (i in data) {
-                      frag = frag + "<tr 'data-url-id='" + data[i].id + "'><td>" + data[i].id + "</td><td><h5><b>" + data[i].title + "</b></h5>" + data[i].url
+                      frag = frag + "<tr 'data-url-id='" + data[i].id + "'><td><h5><b>" + data[i].title + "</b></h5>" + data[i].url
                                   + "</td><td id='add-feed' data-url-id='" + data[i].id
-                                  + "' style='vertical-align:middle'><span id='add-feed' data-url-id='"
+                                  + "' style='vertical-align:middle'><span id='Xadd-feed' data-url-id='"
                                   + data[i].id + "' class='glyphicon glyphicon-plus' aria-hidden='true'></span></td></tr>" ;
                     }
                     frag = frag + "</tbody></table>" ;
                     $('#search-results').html(frag) ;
 
- $('#suggest-table').dataTable() ;
+                    $('#suggest-table').dataTable() ;
 
-st = $('#suggest-table').DataTable() ;
+                    var st = $('#suggest-table').DataTable() ;
 
-$('#suggest-table').on('click', '#add-feed', function(event) {
-//console.log($(this).children[0].innerText) ;
-console.log($(this).parent('tr')) ;
-console.log($(this).data('url-id')) ;
-//https://datatables.net/reference/api/row().remove()
-st.row( $(this).parent('tr')).remove().draw();
-})
-/*st =                     $('#suggest-table').bootstrapTable({ pageSize: 5, 
-                                                         pageList: [5, 10, 25],
-                                                         search: true,
-                                                         onClickCell: function (field,value,row,element) {
-                                                                        clickSuggestionCell({  field: field,
-                                                                                               value: value,
-                                                                                                 row: row,
-                                                                                             element: element}) ;
-//console.log(st) ;
-//console.log(value);
-//var urlid = $(value).data('url-id');
-//console.log($('[data-url-id="' + urlid + '"]').parent('tr')) ;
-//console.log($('#suggest-table').bootstrapTable('getData')) ;
-//$('[data-url-id="' + urlid + '"]').parent('tr').remove() ;
-                                                        columns: [ {field: 'id', visible:true},
-                                                                   {field: 'info', sortable:true},
-                                                                   {field: 'add', valign:'middle', align: 'center'}]}) ;*/
+                    $('#suggest-table').on('click', '#add-feed', function(event) {
+                      subscribeFeed({id: $(this).data('url-id')}) ;
+                      st.row( $(this).parent('tr')).remove().draw();
+                    }) ;
                   }
   });
 }
@@ -281,17 +240,17 @@ st.row( $(this).parent('tr')).remove().draw();
 $(document).ready(function() {
   setupButtons() ;
   populateFeedList() ;
-//   $('[data-toggle="tooltip"]').tooltip();   
-//
-$("#suggest-feeds").click(function(e) {
-  e.preventDefault() ;
 
-  $("#search-results").html("") ;
-  $.ajax({url: "/api/category",
-          type: 'GET',
-          contentType: "application/json",
-          context: this,
-          success: function(data) {
+  $("#suggest-feeds").click(function(e) {
+    e.preventDefault() ;
+
+    $("#search-results").html("") ;
+
+    $.ajax({url: "/api/category",
+            type: 'GET',
+            contentType: "application/json",
+            context: this,
+            success: function(data) {
               
               var frag = "" ;
               for (i in data) {
@@ -299,28 +258,27 @@ $("#suggest-feeds").click(function(e) {
               }
               $("#category-panel").html(frag) ;
               $("[id^='category-btn']").click(function(e) {
-//                $(e.target).toggleClass('btn-success') ;
 
               $("[id^='category-btn']").removeClass('btn-success') ; 
                 $(e.target).addClass('btn-success') ;
-  searchByCategory({category_id: $(this).data('category-id')}) ;
+                searchByCategory({category_id: $(this).data('category-id')}) ;
               }) ;
-          }
-  }) ;
+            }
+    }) ;
 
-}) ;
+  }) ;
 
 $("#settings").click(function(e) {
   e.preventDefault() ;
 }) ;
 
-$("#add-feed").click(function(e) {
+$("#add-new-feed").click(function(e) {
   e.preventDefault() ;
 }) ;
 
 $("#suggest-search").click(function(e) {
   e.preventDefault() ;
-
+  alert('search') ;
 }) ;
 
 }) ;
