@@ -4,16 +4,22 @@ html(lang="en")
     title #{title}
     link(rel='stylesheet', href='http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css')
     link(rel='stylesheet', href='/stylesheets/feed.css')
+    link(rel='stylesheet', href='/stylesheets/tt.css')
     link(rel='stylesheet', href='//cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.8.1/bootstrap-table.min.css')
     link(rel='stylesheet', href='//cdn.datatables.net/1.10.8/css/jquery.dataTables.css')
+    link(rel='stylesheet', href='//cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.7.3/css/bootstrap-select.min.css')
 
     script( type="text/javascript", src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js" )
     script( type="text/javascript", src="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js" )
     script( type="text/javascript", src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.8.1/bootstrap-table.min.js" )
     script( type="text/javascript", src="//cdn.datatables.net/1.10.8/js/jquery.dataTables.js" )
-
+    script( type="text/javascript", src="js/jquery.jeditable.mini.js" )
+    script( type="text/javascript", src="js/jquery.dataTables.editable.js" )
+    script( type="text/javascript", src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.7.3/js/bootstrap-select.min.js") 
 
     script( type="text/javascript", src="js/feed.js" )
+    script( type="text/javascript", src="js/typeahead.js/typeahead.jquery.min.js" )
+    script( type="text/javascript", src="js/typeahead.js/bloodhound.min.js" )
 
   body(style="padding-top: 60px")
 
@@ -48,4 +54,5 @@ html(lang="en")
               | TOOLBAR HERE
 
     include /public/fragments/settings-modal.html
+    include /public/fragments/manage-modal.html
     include /public/fragments/suggest-modal.html

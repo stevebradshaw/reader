@@ -47,28 +47,7 @@ function setEntryStatus(params) {
   }) ;
 
 }
-/*
-   <div id="entrylist">
-     <div class="entry" uri= "http://feedproxy.google.com/~r/CppSoup/~3/BpgUzXm_HXI/rich-pointers-update-and-reflection.html" id="4752653a9c6d0f31d78cb5b61fa5a799">
-       <div class="header unread" id="header">
-         <span class="title">Rich Pointers (Update) and Reflection</span>
-		 <span class="pubdate">2012-09-28 16:00:00 UTC</span>
-       </div>
 
-       <div class="content collapsed" id="content"></div>
-     </div>
-
-{ id: 18973274,
-entry_key: 'dc0168baeec09da8837a1b01a6bdb2e1',
-entry_title: 'Apple\'s future iPhones could hide FaceTime camera & flash inside earpiece grille',
-entry_html: 'The clean and simple design of Apple\'s iconic iPhone could become even simpler, thanks to a new concept that describes concealing the FaceTime camera within the earpiece speaker slot, and even adding a camera flash module that would illuminate forward facing pictures.<img width=\'1\' height=\'1\' src=\'http://appleinsider.com.feedsportal.com/c/33975/f/616168/s/3d476db8/sc/28/mf.gif\' border=\'0\'/><br clear=\'all\'/><br/><br/><a href="http://da.feedsportal.com/r/204366302233/u/0/f/616168/c/33975/s/3d476db8/sc/28/rc/1/rc.htm" rel="nofollow"><img src="http://da.feedsportal.com/r/204366302233/u/0/f/616168/c/33975/s/3d476db8/sc/28/rc/1/rc.img" border="0"/></a><br/><a href="http://da.feedsportal.com/r/204366302233/u/0/f/616168/c/33975/s/3d476db8/sc/28/rc/2/rc.htm" rel="nofollow"><img src="http://da.feedsportal.com/r/204366302233/u/0/f/616168/c/33975/s/3d476db8/sc/28/rc/2/rc.img" border="0"/></a><br/><a href="http://da.feedsportal.com/r/204366302233/u/0/f/616168/c/33975/s/3d476db8/sc/28/rc/3/rc.htm" rel="nofollow"><img src="http://da.feedsportal.com/r/204366302233/u/0/f/616168/c/33975/s/3d476db8/sc/28/rc/3/rc.img" border="0"/></a><br/><br/><a href="http://da.feedsportal.com/r/204366302233/u/0/f/616168/c/33975/s/3d476db8/sc/28/a2.htm"><img src="http://da.feedsportal.com/r/204366302233/u/0/f/616168/c/33975/s/3d476db8/sc/28/a2.img" border="0"/></a><img width="1" height="1" src="http://pi.feedsportal.com/r/204366302233/u/0/f/616168/c/33975/s/3d476db8/sc/28/a2t.img" border="0"/>',
-entry_author: '',
-entry_uri: 'http://appleinsider.com.feedsportal.com/c/33975/f/616168/s/3d476db8/sc/28/l/0Lappleinsider0N0Carticles0C140C0A80C0A70Capples0Efuture0Eiphones0Ecould0Ehide0Efacetime0Ecamera0Eflash0Einside0Eearpiece0Egrille/story01.htm',
-publication_date: Thu Aug 07 2014 13:51:50 GMT+0100 (BST),
-publication_tz: 'UTC',
-feed_title: 'AppleInsider',
-status: 'unread' }
-*/
 function displayFeed(feed) {
 
   var frag = '', node ;
@@ -80,7 +59,6 @@ function displayFeed(feed) {
                   + '<span class="title">' + node.entry_title + '</span>'
                   + '<span class="pubdate">' + node.publication_date + '</span>'
                   + '</div>'
-//                  + '<div class="content collapsed" id="content_' + node.entry_key + '">' + node.entry_html + '</div>' 
                   + '<div class="content collapsed" id="content_' + node.entry_key + '">' 
                   + '<div class="content-title " id="tittle_' + node.entry_key + '"><h4>' + node.entry_title + '</h4></div>' 
                   + '<div class="content-body" id="body_' + node.entry_key + '">' + node.entry_html + '</div>' 
@@ -149,11 +127,11 @@ function populateFeedList() {
           dataType: "text",
           context: this,
           success: function(data) {
-			               var json = JSON.parse(data),
-					               html = "",
-						             node ;
-					           for (var idx in json) {
-						           node = json[idx]
+			         var json = JSON.parse(data),
+					     html = "",
+						 node ;
+					 for (var idx in json) {
+					   node = json[idx] ;
                        html = html + '<div id="folder_' + node.id + '" class="folder">' + node.folder_name + '</div>'
                                    + '<div id="feeds_' + node.id + '" class="feeds" style="display:none">' ;
                        var feeds = JSON.parse(node.feeds) ;
@@ -162,8 +140,9 @@ function populateFeedList() {
                          html = html + '<li class="feed" id="' + feeds[j].id + '">' + feeds[j].feed_title + '</li>' ;
                        }
                        html = html + '</div>' ;
-					           }  
-					           $("#accordion").html(html) ;
+					 }  
+
+					 $("#accordion").html(html) ;
                      $(".folder").click(function(t) {
                        $("#feeds_" + t.target.id.substring(7)).slideToggle("fast") ;
                      }) ;
@@ -182,29 +161,50 @@ function populateFeedList() {
 
 function subscribeFeed(params) {
 
-    $.ajax({   type: 'post',
-              cache: false,
-                url: '/api/subscribe',
-               data: { feed: { id: params.id } },              
-            success: function (data) {                                
-var sel ;
-                       for (i in data) {
-sel = $('[data-category-id="' + data[i].category_id + '"]').children() ;
-val = $(sel).html() ;
-if (val > 1) {
-  $(sel).html(val-1) ;
-} else {
-console.log('remove badge') ;
-$('[data-category-id="' + data[i].category_id + '"]').remove() ;
-}
+  $.ajax({   type: 'post',
+            cache: false,
+              url: '/api/subscribe',
+             data: { feed: { id: params.id } },              
+          success: function (data) {                                
+                     var sel ;
+                     for (i in data) {
+                       sel = $('[data-category-id="' + data[i].category_id + '"]').children() ;
+                       val = $(sel).html() ;
+                       if (val > 1) {
+                         $(sel).html(val-1) ;
+                       } else {
+                         $('[data-category-id="' + data[i].category_id + '"]').remove() ;
                        }
+                     }
                        // subscribed successfully so:
                        // if category count was > 1, decrease it
                        //    category count = 1, remove the category, remove the results as no suggestions left in :q
                        //
-                     }                                                      
-    }) ;
+                   }                                                      
+  }) ;
 
+}
+
+function showSearchResults(data) {
+
+  var frag = "<table id='suggest-table' data-pagination='true' data-toggle='table'><thead><tr><th>Feed</th><th></th></tr></thead><tbody>" ;
+  for (i in data) {
+    frag = frag + "<tr 'data-url-id='" + data[i].id + "'><td><h5><b>" + data[i].title + "</b></h5>" + data[i].url
+         + "</td><td id='add-feed' data-url-id='" + data[i].id
+         + "' style='vertical-align:middle'><span id='Xadd-feed' data-url-id='"
+         + data[i].id + "' class='glyphicon glyphicon-plus' aria-hidden='true'></span></td></tr>" ;
+  }
+  frag = frag + "</tbody></table>" ;
+  $('#search-results').html(frag) ;
+
+  $('#suggest-table').dataTable() ;
+
+  var st = $('#suggest-table').DataTable() ;
+
+  $('#suggest-table').on('click', '#add-feed', function(event) {
+    subscribeFeed({id: $(this).data('url-id')}) ;
+    st.row( $(this).parent('tr')).remove().draw();
+  }) ;
 }
 
 function searchByCategory(params) {
@@ -214,25 +214,19 @@ function searchByCategory(params) {
          context: this,
              url:"/api/suggestfeeds?category_id=" + params.category_id, 
          success: function(data) {
+                    showSearchResults(data) ;
+                  }
+  });
+}
 
-                    var frag = "<table id='suggest-table' data-pagination='true' data-toggle='table'><thead><tr>/th><th>Feed</th><th></th></tr></thead><tbody>" ;
-                    for (i in data) {
-                      frag = frag + "<tr 'data-url-id='" + data[i].id + "'><td><h5><b>" + data[i].title + "</b></h5>" + data[i].url
-                                  + "</td><td id='add-feed' data-url-id='" + data[i].id
-                                  + "' style='vertical-align:middle'><span id='Xadd-feed' data-url-id='"
-                                  + data[i].id + "' class='glyphicon glyphicon-plus' aria-hidden='true'></span></td></tr>" ;
-                    }
-                    frag = frag + "</tbody></table>" ;
-                    $('#search-results').html(frag) ;
+function searchByString(params) {
 
-                    $('#suggest-table').dataTable() ;
-
-                    var st = $('#suggest-table').DataTable() ;
-
-                    $('#suggest-table').on('click', '#add-feed', function(event) {
-                      subscribeFeed({id: $(this).data('url-id')}) ;
-                      st.row( $(this).parent('tr')).remove().draw();
-                    }) ;
+  $.ajax({ type:'get',
+           cache:false,
+         context: this,
+             url:"/api/suggestfeeds?q=" + params.q, 
+         success: function(data) {
+                    showSearchResults(data) ;
                   }
   });
 }
@@ -272,13 +266,117 @@ $("#settings").click(function(e) {
   e.preventDefault() ;
 }) ;
 
-$("#add-new-feed").click(function(e) {
+$("#manage-feeds").click(function(e) {
   e.preventDefault() ;
+  $.ajax({url: "/api/feedlist",
+          type: 'GET',
+          contentType: "application/json",
+          context: this,
+          success: function(data) {
+                     var selfrag ;
+                     var frag = "<table class='table table-striped table-bordered' id='manage-table' data-pagination='true' data-toggle='table'><thead><tr><th>Title</th><th>Folder</th></tr></thead><tbody>" ;
+                     for (i in data) {
+//selfrag = '<div id="the-basics"><input class="typeahead" type="text" placeholder="' + data[i].folder_name + '" value="' + data[i].folder_name +'"></div>' ;
+selfrag = data[i].folder_name ;
+frag = frag + "<tr 'data-url-id='" + data[i].feed_id + "'><td>" + data[i].feed_title + "</td><td>" + selfrag + "</td></tr>" ;
+                     }
+frag = frag + "</tbody></table>" ;
+
+$("#manage-list").html(frag) ;
+$('.selectpicker').selectpicker();
+
+
+
+  $.ajax({url: "/api/userfolders",
+          type: 'GET',
+          contentType: "application/json",
+          context: this,
+          success: function(data) {
+console.log(data) ;
+var substringMatcher = function(strs) {
+  return function findMatches(q, cb) {
+    var matches, substringRegex;
+
+    // an array that will be populated with substring matches
+    matches = [];
+    
+    // regex used to determine if a string contains the substring `q`
+    substrRegex = new RegExp(q, 'i');
+    
+    // iterate through the pool of strings and for any string that
+    // contains the substring `q`, add it to the `matches` array
+    $.each(strs, function(i, str) {
+    if (substrRegex.test(str)) {
+    matches.push(str);
+    }
+    });
+    
+    cb(matches);
+    };
+    };
+    
+/*    var states = ['Alabama', 'Alaska', 'Arizona', 'Arkansas', 'California',
+                  'Colorado', 'Connecticut', 'Delaware', 'Florida', 'Georgia', 'Hawaii',
+                  'Idaho', 'Illinois', 'Indiana', 'Iowa', 'Kansas', 'Kentucky', 'Louisiana',
+                  'Maine', 'Maryland', 'Massachusetts', 'Michigan', 'Minnesota',
+                  'Mississippi', 'Missouri', 'Montana', 'Nebraska', 'Nevada', 'New Hampshire',
+                  'New Jersey', 'New Mexico', 'New York', 'North Carolina', 'North Dakota',
+                  'Ohio', 'Oklahoma', 'Oregon', 'Pennsylvania', 'Rhode Island',
+                  'South Carolina', 'South Dakota', 'Tennessee', 'Texas', 'Utah', 'Vermont',
+                  'Virginia', 'Washington', 'West Virginia', 'Wisconsin', 'Wyoming'
+                 ];*/
+    
+    $('#the-basics .typeahead').typeahead({
+      hint: true,
+      highlight: true,
+      minLength: 1
+    },
+    {
+      name: 'data',
+     source: substringMatcher(data)
+    });
+}
+
+}) ;
+
+  $('#manage-table').dataTable({"aoColumns": [
+//                            {"bVisible": false },//id                                                                                               
+                            {},//feed title
+                            {},//folder
+                            ]
+}).makeEditable({
+                    sUpdateURL: function(value, settings)
+                                {
+                                        return(value);
+                                }
+                }); ;
+          }
+  }) ;
 }) ;
 
 $("#suggest-search").click(function(e) {
   e.preventDefault() ;
-  alert('search') ;
+
+  searchByString({q: $("#q").val()}) ;
+
+}) ;
+
+$("#save-manage-feeds").click(function(e) {
+var table = $('#manage-table').DataTable();
+//table.state.save() ;
+console.log(table.data()) ;
+/*console.log(table.data().length) ;
+var val, placeholder
+table.data().each(function(d) {
+  console.log(d) ;
+val = $($(d[1]).children()[0]).attr('value') ;
+placeholder = $($(d[1]).children()[0]).attr('placeholder') ;
+//console.log(val + ' - ' + placeholder) ;
+if (val != placeholder) {
+//  console.log('folder changed...update') ;
+}
+}) ;
+*/
 }) ;
 
 }) ;
