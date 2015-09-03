@@ -15,7 +15,7 @@ connection.connect() ;
 
 function get(params) {
 
-  var q = "select uf.feed_title, uf.feed_id, ifnull(f.folder_name,'Uncategorised') folder_name, ifnull(f.id,0) folder_id "
+  var q = "select uf.feed_id, uf.feed_title, ifnull(f.folder_name,'Uncategorised') folder_name, ifnull(f.id,0) folder_id "
         + "from user_folders f right join user_feeds uf on f.id = uf.folder_id "
         + "where uf.user_id = ? order by feed_title" ;
 

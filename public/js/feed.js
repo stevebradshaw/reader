@@ -274,11 +274,11 @@ $("#manage-feeds").click(function(e) {
           context: this,
           success: function(data) {
                      var selfrag ;
-                     var frag = "<table class='table table-striped table-bordered' id='manage-table' data-pagination='true' data-toggle='table'><thead><tr><th>Title</th><th>Folder</th></tr></thead><tbody>" ;
+                     var frag = "<table class='table table-striped table-bordered' id='manage-table' data-pagination='true' data-toggle='table'><thead><tr><th></th><th>Title</th><th>Folder</th></tr></thead><tbody>" ;
                      for (i in data) {
 //selfrag = '<div id="the-basics"><input class="typeahead" type="text" placeholder="' + data[i].folder_name + '" value="' + data[i].folder_name +'"></div>' ;
 selfrag = data[i].folder_name ;
-frag = frag + "<tr 'data-url-id='" + data[i].feed_id + "'><td>" + data[i].feed_title + "</td><td>" + selfrag + "</td></tr>" ;
+frag = frag + "<tr 'data-url-id='" + data[i].feed_id + "'><td>" + data[i].feed_id + "</td><td>" + data[i].feed_title + "</td><td>" + selfrag + "</td></tr>" ;
                      }
 frag = frag + "</tbody></table>" ;
 
@@ -339,11 +339,12 @@ var substringMatcher = function(strs) {
 
 }) ;
 
-  $('#manage-table').dataTable({"aoColumns": [
-//                            {"bVisible": false },//id                                                                                               
-                            {},//feed title
-                            {},//folder
-                            ]
+  $('#manage-table').dataTable({"aoColumns": [ { "targets": [ 0 ],
+                                                 "visible": false },
+                                               {},//feed title
+                                               {},//folder
+                                             ],
+                                "aaSorting": [[1,'asc']]
 }).makeEditable({
                     sUpdateURL: function(value, settings)
                                 {
