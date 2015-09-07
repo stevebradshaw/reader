@@ -251,7 +251,7 @@ function showManageFeeds() {
                      frag = frag + "</tbody></table>" ;
 
 //                     $("#manage-list").html(frag) ;
-                     $("#main-window").html(frag) ;
+                     $("#managefeeds").html(frag) ;
                      $('.selectpicker').selectpicker();
 
 
@@ -280,6 +280,12 @@ $('#edit-feed-modal').modal()
                                                 }) ; 
                 }
   }) ;
+}
+
+function refreshFeedList() {
+  // TODO:  refresh feeds, redisplay etc
+
+  populateFeedList() ;
 }
 
 $(document).ready(function() {
@@ -324,9 +330,14 @@ console.log($(this).html()) ;
     // Show manage feeds page, change button to say 'View Feeds'
 $(this).html('<span class="glyphicon glyphicon-arrow-left" aria-hidden="true"></span>&nbsp;&nbsp;View Feeds') ;
 showManageFeeds() ;
+$('#managefeeds').show() ;
+$('#feedcontents').hide() ;
   } else {
     // Show the view feeds page and change button to say 'Manage Feeds'
 $(this).html('<span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span>&nbsp;&nbsp;Manage Feeds') ;
+  refreshFeedList() ;
+$('#managefeeds').hide() ;
+$('#feedcontents').show() ;
 
   }
 console.log($(this))
