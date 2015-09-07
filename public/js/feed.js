@@ -1,5 +1,9 @@
 var currentFeedId, currentFeedTitle ;
 
+function endsWith(str, suffix) {
+    return str.indexOf(suffix, str.length - suffix.length) !== -1;
+}
+
 function setupButtons() {
   $("#btn-feed-status").click(function(t) {
     if ($(t.target).text() == "View: Unread") {
@@ -231,6 +235,53 @@ function searchByString(params) {
   });
 }
 
+function showManageFeeds() {
+  $.ajax({url: "/api/feedlist",
+          type: 'GET',
+          contentType: "application/json",
+          context: this,
+          success: function(data) {
+                     var selfrag ;
+                     var frag = "<table class='table table-striped table-bordered' id='manage-table' data-pagination='true' data-toggle='table'><thead><tr><th></th><th>Title</th><th>Folder</th><th></th></tr></thead><tbody>" ;
+                     for (i in data) {
+                       //selfrag = '<div id="the-basics"><input class="typeahead" type="text" placeholder="' + data[i].folder_name + '" value="' + data[i].folder_name +'"></div>' ;
+                       selfrag = data[i].folder_name ;
+                       frag = frag + "<tr 'data-url-id='" + data[i].feed_id + "'><td>" + data[i].feed_id + "</td><td>" + data[i].feed_title + "</td><td>" + selfrag + "</td><td><button id='edit-feed' class='btn btn-primary'><span class='glyphicon glyphicon-pencil'></span></button></td></tr>" ;
+                     }
+                     frag = frag + "</tbody></table>" ;
+
+//                     $("#manage-list").html(frag) ;
+                     $("#main-window").html(frag) ;
+                     $('.selectpicker').selectpicker();
+
+
+                     $.ajax({url: "/api/userfolders",
+                             type: 'GET',
+                             contentType: "application/json",
+                             context: this,
+                             success: function(data) {
+
+                                      }
+
+                     }) ;
+
+                     $('#manage-table').dataTable({"aoColumns": [ { //"targets": [ 0 ],
+                                                                      "visible": false },
+                                                                    {},//feed title
+                                                                    {},//folder
+					                     						   {},
+                                                                  ],
+                                                     "aaSorting": [[1,'asc']]
+                       }) ; 
+
+                     $('[id^=edit-feed]').click(function(e) {
+console.log(this) ;
+$('#edit-feed-modal').modal()
+                                                }) ; 
+                }
+  }) ;
+}
+
 $(document).ready(function() {
   setupButtons() ;
   populateFeedList() ;
@@ -268,88 +319,18 @@ $("#settings").click(function(e) {
 
 $("#manage-feeds").click(function(e) {
   e.preventDefault() ;
-  $.ajax({url: "/api/feedlist",
-          type: 'GET',
-          contentType: "application/json",
-          context: this,
-          success: function(data) {
-                     var selfrag ;
-                     var frag = "<table class='table table-striped table-bordered' id='manage-table' data-pagination='true' data-toggle='table'><thead><tr><th></th><th>Title</th><th>Folder</th><th></th></tr></thead><tbody>" ;
-                     for (i in data) {
-//selfrag = '<div id="the-basics"><input class="typeahead" type="text" placeholder="' + data[i].folder_name + '" value="' + data[i].folder_name +'"></div>' ;
-selfrag = data[i].folder_name ;
-frag = frag + "<tr 'data-url-id='" + data[i].feed_id + "'><td>" + data[i].feed_id + "</td><td>" + data[i].feed_title + "</td><td>" + selfrag + "</td><td><button class='btn btn-primary'><span class='glyphicon glyphicon-pencil'></span></button></td></tr>" ;
-                     }
-frag = frag + "</tbody></table>" ;
+console.log($(this).html()) ;
+  if (endsWith($(this).html(), "Manage Feeds")) {
+    // Show manage feeds page, change button to say 'View Feeds'
+$(this).html('<span class="glyphicon glyphicon-arrow-left" aria-hidden="true"></span>&nbsp;&nbsp;View Feeds') ;
+showManageFeeds() ;
+  } else {
+    // Show the view feeds page and change button to say 'Manage Feeds'
+$(this).html('<span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span>&nbsp;&nbsp;Manage Feeds') ;
 
-$("#manage-list").html(frag) ;
-$('.selectpicker').selectpicker();
+  }
+console.log($(this))
 
-
-
-  $.ajax({url: "/api/userfolders",
-          type: 'GET',
-          contentType: "application/json",
-          context: this,
-          success: function(data) {
-console.log(data) ;
-var substringMatcher = function(strs) {
-  return function findMatches(q, cb) {
-    var matches, substringRegex;
-
-    // an array that will be populated with substring matches
-    matches = [];
-    
-    // regex used to determine if a string contains the substring `q`
-    substrRegex = new RegExp(q, 'i');
-    
-    // iterate through the pool of strings and for any string that
-    // contains the substring `q`, add it to the `matches` array
-    $.each(strs, function(i, str) {
-    if (substrRegex.test(str)) {
-    matches.push(str);
-    }
-    });
-    
-    cb(matches);
-    };
-    };
-    
-/*    var states = ['Alabama', 'Alaska', 'Arizona', 'Arkansas', 'California',
-                  'Colorado', 'Connecticut', 'Delaware', 'Florida', 'Georgia', 'Hawaii',
-                  'Idaho', 'Illinois', 'Indiana', 'Iowa', 'Kansas', 'Kentucky', 'Louisiana',
-                  'Maine', 'Maryland', 'Massachusetts', 'Michigan', 'Minnesota',
-                  'Mississippi', 'Missouri', 'Montana', 'Nebraska', 'Nevada', 'New Hampshire',
-                  'New Jersey', 'New Mexico', 'New York', 'North Carolina', 'North Dakota',
-                  'Ohio', 'Oklahoma', 'Oregon', 'Pennsylvania', 'Rhode Island',
-                  'South Carolina', 'South Dakota', 'Tennessee', 'Texas', 'Utah', 'Vermont',
-                  'Virginia', 'Washington', 'West Virginia', 'Wisconsin', 'Wyoming'
-                 ];*/
-    
-    $('#the-basics .typeahead').typeahead({
-      hint: true,
-      highlight: true,
-      minLength: 1
-    },
-    {
-      name: 'data',
-     source: substringMatcher(data)
-    });
-}
-
-}) ;
-
-  $('#manage-table').dataTable({"aoColumns": [ { //"targets": [ 0 ],
-                                                 "visible": false },
-                                               {},//feed title
-                                               {},//folder
-											   {},
-                                             ],
-                                "aaSorting": [[1,'asc']]
-}) ; 
-//                }); ;
-          }
-  }) ;
 }) ;
 
 $("#suggest-search").click(function(e) {
