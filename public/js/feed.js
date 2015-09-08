@@ -276,7 +276,7 @@ function showManageFeeds() {
 
                      $('[id^=edit-feed]').click(function(e) {
 console.log(this) ;
-$('#edit-feed-modal').modal()
+$('#edit-feed-modal').modal('show') ;
                                                 }) ; 
                 }
   }) ;
