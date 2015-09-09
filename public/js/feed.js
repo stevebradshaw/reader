@@ -246,7 +246,11 @@ function showManageFeeds() {
                      for (i in data) {
                        //selfrag = '<div id="the-basics"><input class="typeahead" type="text" placeholder="' + data[i].folder_name + '" value="' + data[i].folder_name +'"></div>' ;
                        selfrag = data[i].folder_name ;
-                       frag = frag + "<tr 'data-url-id='" + data[i].feed_id + "'><td>" + data[i].feed_id + "</td><td>" + data[i].feed_title + "</td><td>" + selfrag + "</td><td><button id='edit-feed' class='btn btn-primary'><span class='glyphicon glyphicon-pencil'></span></button></td></tr>" ;
+                       frag = frag + "<tr 'data-url-id='" + data[i].feed_id + "'><td>" + data[i].feed_id
+                            + "</td><td>" + data[i].feed_title + "</td><td>" + selfrag + "</td><td>"
+                            + "<button id='edit-feed' class='btn btn-sm btn-primary'><span class='glyphicon glyphicon-pencil'></span></button>&nbsp;"
+                            + "<button id='delete-feed' class='btn btn-sm btn-danger'><span class='glyphicon glyphicon-trash'></span></button>"
+                            + "</td></tr>" ;
                      }
                      frag = frag + "</tbody></table>" ;
 
@@ -275,7 +279,9 @@ function showManageFeeds() {
                        }) ; 
 
                      $('[id^=edit-feed]').click(function(e) {
-console.log(this) ;
+var tr = $(this).parent().parent()[0].childNodes ;
+console.log($(tr[0])) ;
+$('#feedTitle').val(tr[0]) ;
 $('#edit-feed-modal').modal('show') ;
                                                 }) ; 
                 }
