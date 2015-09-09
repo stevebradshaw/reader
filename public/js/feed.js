@@ -279,8 +279,8 @@ function showManageFeeds() {
                        }) ; 
 
                      $('[id^=edit-feed]').click(function(e) {
-var tr = $(this).parent().parent()[0].childNodes ;
-console.log($(tr[0])) ;
+var tr = $(this).parent().parent()[0] ;
+console.log($(tr).find("td:nth-child(0)").val()) ;
 $('#feedTitle').val(tr[0]) ;
 $('#edit-feed-modal').modal('show') ;
                                                 }) ; 
