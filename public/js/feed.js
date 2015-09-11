@@ -193,7 +193,7 @@ function showSearchResults(data) {
 
   var frag = "<table id='suggest-table' data-pagination='true' data-toggle='table'><thead><tr><th>Feed</th><th></th></tr></thead><tbody>" ;
   for (i in data) {
-    frag = frag + "<tr 'data-url-id='" + data[i].id + "'><td><h5><b>" + data[i].title + "</b></h5>" + data[i].url
+    frag = frag + "<tr data-url-id=" + data[i].id + "'><td><h5><b>" + data[i].title + "</b></h5>" + data[i].url
          + "</td><td id='add-feed' data-url-id='" + data[i].id
          + "' style='vertical-align:middle'><span id='Xadd-feed' data-url-id='"
          + data[i].id + "' class='glyphicon glyphicon-plus' aria-hidden='true'></span></td></tr>" ;
@@ -235,6 +235,50 @@ function searchByString(params) {
   });
 }
 
+function setupFolderSelect() {
+                     $.ajax({url: "/api/userfolders",
+                             type: 'GET',
+                             contentType: "application/json",
+                             context: this,
+                             success: function(data) {
+console.log(data) ;
+var substringMatcher = function(strs) {
+  return function findMatches(q, cb) {
+    var matches, substringRegex;
+
+    // an array that will be populated with substring matches
+    matches = [];
+    
+    // regex used to determine if a string contains the substring `q`
+    substrRegex = new RegExp(q, 'i');
+    
+    // iterate through the pool of strings and for any string that
+    // contains the substring `q`, add it to the `matches` array
+    $.each(strs, function(i, str) {
+    if (substrRegex.test(str)) {
+    matches.push(str);
+    }
+    });
+    
+    cb(matches);
+    };
+    };
+    
+    
+    $('#folder-ta .typeahead').typeahead({
+    hint: true,
+    highlight: true,
+    minLength: 1
+    },
+    {
+    name: 'folders',
+    source: substringMatcher(data)
+    });
+                                      }
+
+                     }) ;
+}
+
 function showManageFeeds() {
   $.ajax({url: "/api/feedlist",
           type: 'GET',
@@ -244,9 +288,10 @@ function showManageFeeds() {
                      var selfrag ;
                      var frag = "<table class='table table-striped table-bordered' id='manage-table' data-pagination='true' data-toggle='table'><thead><tr><th></th><th>Title</th><th>Folder</th><th></th></tr></thead><tbody>" ;
                      for (i in data) {
-                       //selfrag = '<div id="the-basics"><input class="typeahead" type="text" placeholder="' + data[i].folder_name + '" value="' + data[i].folder_name +'"></div>' ;
+//                       selfrag = '<div id="the-basics"><input class="typeahead" type="text" placeholder="' + data[i].folder_name + '" value="' + data[i].folder_name +'"></div>' ;
+//console.log('typeahead: ' + selfrag) ;
                        selfrag = data[i].folder_name ;
-                       frag = frag + "<tr 'data-url-id='" + data[i].feed_id + "'><td>" + data[i].feed_id
+                       frag = frag + "<tr data-url-id=" + data[i].feed_id + "><td>" + data[i].feed_id
                             + "</td><td>" + data[i].feed_title + "</td><td>" + selfrag + "</td><td>"
                             + "<button id='edit-feed' class='btn btn-sm btn-primary'><span class='glyphicon glyphicon-pencil'></span></button>&nbsp;"
                             + "<button id='delete-feed' class='btn btn-sm btn-danger'><span class='glyphicon glyphicon-trash'></span></button>"
@@ -259,15 +304,6 @@ function showManageFeeds() {
                      $('.selectpicker').selectpicker();
 
 
-                     $.ajax({url: "/api/userfolders",
-                             type: 'GET',
-                             contentType: "application/json",
-                             context: this,
-                             success: function(data) {
-
-                                      }
-
-                     }) ;
 
                      $('#manage-table').dataTable({"aoColumns": [ { //"targets": [ 0 ],
                                                                       "visible": false },
@@ -280,9 +316,19 @@ function showManageFeeds() {
 
                      $('[id^=edit-feed]').click(function(e) {
 var tr = $(this).parent().parent()[0] ;
-console.log($(tr).find("td:nth-child(0)").val()) ;
-$('#feedTitle').val(tr[0]) ;
-$('#edit-feed-modal').modal('show') ;
+console.log('edit feed') ;
+//console.log($($(tr)[0].childNodes[0])[0].textContent) ;
+console.log(tr) ;
+console.log($(this).data('url-id')) ;
+console.log($(tr)[0].childNodes[0].textContent) ;
+console.log($(tr)[0].childNodes[1].textContent) ;
+//console.log($(tr).find("td:nth-child(0)")) ;
+//console.log($(tr).find("td:nth-child(0)").val()) ;
+$('#feedTitle').val($(tr)[0].childNodes[0].textContent) ;
+$('#folder-ta').html('<input id="feedFolder" class="typeahead" type="text" placeholder="Folder">') ;
+$('#feedFolder').val($(tr)[0].childNodes[1].textContent) ;
+setupFolderSelect() ;
+$('#modal-edit-feed').modal('show') ;
                                                 }) ; 
                 }
   }) ;
@@ -357,23 +403,28 @@ $("#suggest-search").click(function(e) {
 
 }) ;
 
-$("#save-manage-feeds").click(function(e) {
-var table = $('#manage-table').DataTable();
-//table.state.save() ;
-console.log(table.data()) ;
-/*console.log(table.data().length) ;
-var val, placeholder
-table.data().each(function(d) {
-  console.log(d) ;
-val = $($(d[1]).children()[0]).attr('value') ;
-placeholder = $($(d[1]).children()[0]).attr('placeholder') ;
-//console.log(val + ' - ' + placeholder) ;
-if (val != placeholder) {
-//  console.log('folder changed...update') ;
-}
+$("#save-edit-feed").click(function(e) {
+//alert('save') ;
+$('#modal-edit-feed').modal('hide'); 
 }) ;
-*/
-}) ;
+
+//$("#save-manage-feeds").click(function(e) {
+//var table = $('#manage-table').DataTable();
+////table.state.save() ;
+//console.log(table.data()) ;
+///*console.log(table.data().length) ;
+//var val, placeholder
+//table.data().each(function(d) {
+//  console.log(d) ;
+//val = $($(d[1]).children()[0]).attr('value') ;
+//placeholder = $($(d[1]).children()[0]).attr('placeholder') ;
+////console.log(val + ' - ' + placeholder) ;
+//if (val != placeholder) {
+////  console.log('folder changed...update') ;
+//}
+//}) ;
+//*/
+//}) ;
 
 }) ;
 
