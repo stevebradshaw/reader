@@ -86,7 +86,6 @@ function displayFeed(feed) {
   $("#entrylist").html(frag) ;
   $("[id^=header]").click(function(t) {
       $(t.target.parentNode).removeClass('unread') ;
-	  console.log(t.target.parentNode.parentNode.id) ;
 	  setEntryStatus({ key: t.target.parentNode.parentNode.id, status: 'R' }) ;
       $("#content_" + t.target.parentNode.parentNode.id).toggleClass('collapsed') ;
   });
@@ -241,7 +240,7 @@ function setupFolderSelect() {
                              contentType: "application/json",
                              context: this,
                              success: function(data) {
-console.log(data) ;
+
 var substringMatcher = function(strs) {
   return function findMatches(q, cb) {
     var matches, substringRegex;
@@ -316,14 +315,13 @@ function showManageFeeds() {
 
                      $('[id^=edit-feed]').click(function(e) {
 var tr = $(this).parent().parent()[0] ;
-console.log('edit feed') ;
-//console.log($($(tr)[0].childNodes[0])[0].textContent) ;
+
 console.log(tr) ;
-console.log($(this).data('url-id')) ;
+console.log($(tr).data('url-id')) ;
 console.log($(tr)[0].childNodes[0].textContent) ;
 console.log($(tr)[0].childNodes[1].textContent) ;
-//console.log($(tr).find("td:nth-child(0)")) ;
-//console.log($(tr).find("td:nth-child(0)").val()) ;
+
+$('#edit-url-id').val($(tr).data('url-id')) ;
 $('#feedTitle').val($(tr)[0].childNodes[0].textContent) ;
 $('#folder-ta').html('<input id="feedFolder" class="typeahead" type="text" placeholder="Folder">') ;
 $('#feedFolder').val($(tr)[0].childNodes[1].textContent) ;
@@ -406,6 +404,12 @@ $("#suggest-search").click(function(e) {
 $("#save-edit-feed").click(function(e) {
 //alert('save') ;
 $('#modal-edit-feed').modal('hide'); 
+console.log('update feed: ' + $('#edit-url-id').val()) ;
+console.log('update feed: ' + $('#feedTitle').val()) ;
+console.log('update feed: ' + $('#feedFolder').val()) ;
+feed_id
+folder_id
+feed_title
 }) ;
 
 //$("#save-manage-feeds").click(function(e) {

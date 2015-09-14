@@ -50,6 +50,10 @@ console.log('p not set') ;
 //function delete() {
 //}
 
+function put(params) {
+
+}
+
 function post(params) {
 
   console.log(params) ;
@@ -158,6 +162,14 @@ module.exports.initRouting = function(router) {
 		  get(req.query)  ;
 	  })
 
+      .put(function(rq,rs) {
+          res = rs ;
+          req = rq ;
+console.log('********************') ;
+console.log(req.body) ;
+console.log('********************') ;
+          put({userid: req.cookies.userid, feed: req.body.feed}) ;
+      }) ;
       .post(function(rq,rs) {
           res = rs ;
           req = rq ;
