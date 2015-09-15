@@ -166,7 +166,7 @@ function subscribeFeed(params) {
 
   $.ajax({   type: 'post',
             cache: false,
-              url: '/api/subscribe',
+              url: '/api/subscription',
              data: { feed: { id: params.id } },              
           success: function (data) {                                
                      var sel ;
@@ -279,7 +279,7 @@ var substringMatcher = function(strs) {
 }
 
 function showManageFeeds() {
-  $.ajax({url: "/api/feedlist",
+  $.ajax({url: "/api/subscription",
           type: 'GET',
           contentType: "application/json",
           context: this,
@@ -407,9 +407,9 @@ $('#modal-edit-feed').modal('hide');
 console.log('update feed: ' + $('#edit-url-id').val()) ;
 console.log('update feed: ' + $('#feedTitle').val()) ;
 console.log('update feed: ' + $('#feedFolder').val()) ;
-feed_id
-folder_id
-feed_title
+//feed_id
+//folder_id
+//feed_title
 }) ;
 
 //$("#save-manage-feeds").click(function(e) {

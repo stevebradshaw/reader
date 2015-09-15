@@ -176,7 +176,7 @@ module.exports.initRouting = function(router) {
       .get(function(rq,rs) {
 		  req = rq ;
 		  res = rs ;
-		  get(req.query)  ;
+          get({ userid: req.cookies.userid }) ;
 	  })
 
       .put(function(rq,rs) {

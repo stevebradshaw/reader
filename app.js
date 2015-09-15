@@ -26,8 +26,8 @@ var folderlist = require('./services/folderlist'),
     signin = require('./services/signin'),
     signup = require('./services/signup'),
     activate = require('./services/activate'),
-    subscribe = require('./services/subscribe'),
-    feedlist = require('./services/feedlist'),
+    subscription = require('./services/subscription'),
+//    feedlist = require('./services/feedlist'),
     userfolders = require('./services/userfolders'),
     feedentries = require('./services/feedentries') ;
 
@@ -44,9 +44,9 @@ entry.initRouting(router) ;
 category.initRouting(router) ;
 suggestfeeds.initRouting(router) ;
 user.initRouting(router) ;
-subscribe.initRouting(router) ;
+subscription.initRouting(router) ;
 userfolders.initRouting(router) ;
-feedlist.initRouting(router) ;
+//feedlist.initRouting(router) ;
 signin.initRouting(router) ;
 signup.initRouting(router) ;
 
