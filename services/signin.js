@@ -72,7 +72,6 @@ function post(params) {
 			  return console.error(err);
 			}
 
-			console.log('do they match?', isMatch);
             if (isMatch) {
 				res.cookie("loggedin", "yes", { maxAge: 3600*1000, path: "/"});
                 res.cookie("userid", data[0].id, { maxAge: 3600*1000, path: "/"});
@@ -90,7 +89,6 @@ function post(params) {
 
 
 		    } else {
-              console.log("password doesn't match") ;
               res.status(401) ;
 			}
             res.end() ;
@@ -117,9 +115,7 @@ module.exports.initRouting = function(router) {
       .post(function(rq,rs) {
           res = rs ;
           req = rq ;
-console.log('********************') ;
-console.log(req.body) ;
-console.log('********************') ;
+
           post({username: req.body.username, password: req.body.password, rememberuser: req.body.rememberuser}) ;
       })
 

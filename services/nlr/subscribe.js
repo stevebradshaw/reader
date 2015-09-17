@@ -15,23 +15,6 @@ var connection = mysql.createConnection({
 connection.connect() ;
 
 function get(params) {
-
-  var q = "select uf.feed_id, uf.feed_title, ifnull(f.folder_name,'Uncategorised') folder_name, ifnull(f.id,0) folder_id "
-        + "from user_folders f right join user_feeds uf on f.id = uf.folder_id "
-        + "where uf.user_id = ? order by feed_title" ;
-
-  async.waterfall([
-    function(next) {
-      connection.query(q, [ params.userid ], next) ;
-    },
-    function(results, next) {
-      res.send(results) ;
-      res.end() ;
-    }
-  ], function (err,res) {
-     console.log(err) ;
-  }) ;
-
 /*
     console.log(params.p) ;
     if (params.p) {
@@ -73,6 +56,8 @@ function put(params) {
 
 function post(params) {
 
+  console.log(params) ;
+
   if (params.feed.id) {
     // feed id populated so just add subscription for user
     var q = "select title from feeds where id = ?";
@@ -85,12 +70,15 @@ function post(params) {
           res.status(404) ;
           res.end() ;
         } else {
-  
+          console.log(data[0].title) ;
           var q2 = "insert into user_feeds (user_id, feed_id, folder_id, feed_title) values (?,?,?,?)"
 
           connection.query(q2, [params.userid, params.feed.id, 0, data[0].title], function(err,data) {
           
             if (!err) {
+console.log('**************************') ;
+console.log(data) ;
+console.log('**************************') ;
               res.status(201) ;
               var q3 = 'select * from user_feeds uf, feed_categories fc where uf.id = ? and uf.feed_id = fc.feed_id' ;
               connection.query(q3, data.insertId, function (err,data) {
@@ -167,22 +155,60 @@ res.send(data) ;
 
 module.exports.initRouting = function(router) {
 
-  router.route('/subscription')
+  router.route('/subscribe')
       .get(function(rq,rs) {
 		  req = rq ;
 		  res = rs ;
-          get({ userid: req.cookies.userid }) ;
+		  get(req.query)  ;
 	  })
 
       .put(function(rq,rs) {
           res = rs ;
           req = rq ;
+console.log('********************') ;
+console.log(req.body) ;
+console.log('********************') ;
           put({userid: req.cookies.userid, feed: req.body.feed}) ;
-      })
+      }) ;
       .post(function(rq,rs) {
           res = rs ;
           req = rq ;
+console.log('********************') ;
+console.log(req.body) ;
+console.log('********************') ;
           post({userid: req.cookies.userid, feed: req.body.feed}) ;
       }) ;
 
+/*      .delete(function(rq,rs) {
+          res = rs ;
+          req = rq ;
+//        delete() ;
+      }) ;
+*/	  
+/*	  .post(function(req,res) {
+          var burp = new BurpModel() ;
+          burp.message = req.body.msg;
+//console.log(req.body.msg) ;
+          burp.burper_id = req.session.id ;
+
+          burp.save(function (err, burp) {
+            if (err) {
+              res.status(500) ;
+              res.send(err) ;
+              res.end() ;
+            } else {
+              res.status(201) ;
+              res.setHeader('Location', req.headers.host + req.originalUrl + '/' + burp.id) ;
+              res.end() ;
+            }
+          });
+	  })
+
+	  .patch(function(req,res) {
+
+	  })
+
+	  .delete(function(req,res) {
+
+	  }) ;*/
 } ;

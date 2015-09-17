@@ -407,6 +407,9 @@ $('#modal-edit-feed').modal('hide');
 console.log('update feed: ' + $('#edit-url-id').val()) ;
 console.log('update feed: ' + $('#feedTitle').val()) ;
 console.log('update feed: ' + $('#feedFolder').val()) ;
+
+var json = '[{"feed_id":' + $('#edit-url-id').val() + ', "feed_title":"' + $('#feedTitle').val() + '","folder_name":"' + $('#feedFolder').val() + '"} ]' ;
+console.log(json) ;
 //feed_id
 //folder_id
 //feed_title

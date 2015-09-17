@@ -44,7 +44,7 @@ function post(params) {
 					            , function(err,data) {
 
 	if (!err) {
-console.log(data) ;
+
 	} else {
       console.log('error') ;
       console.log(err) ;
