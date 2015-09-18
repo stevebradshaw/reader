@@ -32,43 +32,19 @@ function get(params) {
      console.log(err) ;
   }) ;
 
-/*
-    console.log(params.p) ;
-    if (params.p) {
-console.log('p set') ;
-var q = "update users set active = 'Y', date_activated = now() where activation_code = ? and active = 'N'" ;
-      connection.query(q, params.p, function(err,data) {
-
-        if (!err) {
-console.log(data.affectedRows) ;
-          if (data.affectedRows== 0) {
-            res.status(404) ;
-            res.end() ;
-          } else {
-            res.send('Activate account!') ;
-            res.status(200) ;
-            res.end() ;
-          }
-        } else {
-          res.status(500) ;
-          res.end() ;
-        }
-      }) ;
-
-    } else {
-console.log('p not set') ;
-      res.status(500) ;
-      res.end() ;
-    }
-*/
-
 } 
 
-//function delete() {
-//}
+function delte() {
+  res.end() ;
+}
 
 function put(params) {
-
+  for (x in params.feed) {
+    console.log(params.feed[x]) ;
+    var f = params.feed[x] ;
+console.log(f.folder_id) ;
+  }
+  res.end() ;
 }
 
 function post(params) {
@@ -177,12 +153,18 @@ module.exports.initRouting = function(router) {
       .put(function(rq,rs) {
           res = rs ;
           req = rq ;
-          put({userid: req.cookies.userid, feed: req.body.feed}) ;
+          put({userid: req.cookies.userid, feed: req.body}) ;
       })
       .post(function(rq,rs) {
           res = rs ;
           req = rq ;
           post({userid: req.cookies.userid, feed: req.body.feed}) ;
+      }) 
+
+      .delete(function(rq,rs) {
+        res = rs ;
+        req = rq ;
+        delte() ;
       }) ;
 
 } ;

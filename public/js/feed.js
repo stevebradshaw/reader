@@ -410,6 +410,16 @@ console.log('update feed: ' + $('#feedFolder').val()) ;
 
 var json = '[{"feed_id":' + $('#edit-url-id').val() + ', "feed_title":"' + $('#feedTitle').val() + '","folder_name":"' + $('#feedFolder').val() + '"} ]' ;
 console.log(json) ;
+
+  $.ajax({url: "/api/subscription",
+          type: 'PUT',
+          contentType: "application/json",
+          context: this,
+          data: json,
+          success: function(data) {
+			  console.log(data) ;
+          }
+  }) ;
 //feed_id
 //folder_id
 //feed_title

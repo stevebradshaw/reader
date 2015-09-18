@@ -4,7 +4,7 @@ var mysql = require('mysql'),
 var req, res ;
 
 function get(params) {
-console.log(params) ;
+
 	var data = [] ;
 
 var connection = mysql.createConnection({
@@ -26,7 +26,6 @@ async.waterfall([
   },
   function(results, next) {
 	async.forEachSeries(results, function(item, next) {
-console.log(item) ;
         var t = next ;
 		async.waterfall([
 		  function(next) {
