@@ -39,10 +39,16 @@ function delte() {
 }
 
 function put(params) {
+
   for (x in params.feed) {
-    console.log(params.feed[x]) ;
+    console.log(params.feed) ;
     var f = params.feed[x] ;
 console.log(f.folder_id) ;
+async.series([
+    function(cb){ console.log('first') ; cb() ;},
+    function(){ console.log('second') ; }
+]);
+
   }
   res.end() ;
 }
