@@ -2,6 +2,7 @@ var mysql = require('mysql'),
     async = require('async')
     ;
 
+var sleep = require('sleep');
 var req, res ;
 var t ;
 
@@ -38,15 +39,29 @@ function delte() {
   res.end() ;
 }
 
+
+function create_uf(params) {
+
+}
+
+function update_uf(params) {
+
+}
+
 function put(params) {
+
+  console.log(params) ;
 
   for (x in params.feed) {
     console.log(params.feed) ;
     var f = params.feed[x] ;
 console.log(f.folder_id) ;
-async.series([
-    function(cb){ console.log('first') ; cb() ;},
-    function(){ console.log('second') ; }
+async.waterfall([
+    function(next) { 
+        var q = "select id from user_folders where user_id = ? and folder_name = 'Blogs'" ;
+		 connection.query(q, [ params.userid ], next) ;
+	},
+    function(results, next){ console.log('second ') ; console.log(results) ; }
 ]);
 
   }
@@ -159,7 +174,8 @@ module.exports.initRouting = function(router) {
       .put(function(rq,rs) {
           res = rs ;
           req = rq ;
-          put({userid: req.cookies.userid, feed: req.body}) ;
+          put({userid: 1,  feed: req.body}) ;
+//          put({userid: req.cookies.userid, feed: req.body}) ;
       })
       .post(function(rq,rs) {
           res = rs ;
