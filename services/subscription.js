@@ -60,13 +60,15 @@ function put(params) {
   console.log(params) ;
 
   for (x in params.feed) {
+	  console.log(x) ;
     console.log(params.feed) ;
     var f = params.feed[x] ;
-console.log(' ') ;
+console.log('=') ;
 console.log(f.folder_id) ;
+console.log('=') ;
 console.log(f) ;
-console.log(' ') ;
-    if (f.folder_id === 'undefined') {
+console.log('=') ;
+    if (typeof f.folder_id === 'undefined') {
 console.log('create') ;
       create_uf( { user_id: params.user_id, feed: f} ) ;
     } else {
@@ -191,12 +193,14 @@ module.exports.initRouting = function(router) {
       .put(function(rq,rs) {
           res = rs ;
           req = rq ;
-          put({userid: 1,  feed: req.body}) ;
+		  console.log(req.body) ;
+          put({userid: 1,  feed: req.body.feed}) ;
 //          put({userid: req.cookies.userid, feed: req.body}) ;
       })
       .post(function(rq,rs) {
           res = rs ;
           req = rq ;
+		  console.log(req.body) ;
           post({userid: req.cookies.userid, feed: req.body.feed}) ;
       }) 
 
