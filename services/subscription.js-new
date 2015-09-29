@@ -34,52 +34,20 @@ function get(params) {
 
 } 
 
-function del() {
+function delte() {
   res.end() ;
-}
-
-
-function create_uf(params) {
-
-console.log(params) ;
-
-  q = 'insert into user_folders (user_id, folder_name) values (?, ?)'
-    + ' on duplicate key update folder_name = ?' ;
-
-  connection.query(q, [ params.user_id, params.f.folder_name, params.f.folder_name], function (err, result) {
-    console.log(result) ;
-  }) ;
-}
-
-function update_uf(params) {
-
 }
 
 function put(params) {
 
-  console.log(params) ;
-
   for (x in params.feed) {
     console.log(params.feed) ;
     var f = params.feed[x] ;
-console.log(' ') ;
 console.log(f.folder_id) ;
-console.log(f) ;
-console.log(' ') ;
-    if (f.folder_id === 'undefined') {
-console.log('create') ;
-      create_uf( { user_id: params.user_id, feed: f} ) ;
-    } else {
-console.log('update') ;
-      update_uf(params) ;
-    }
-/*async.waterfall([
-    function(next) { 
-        var q = "select id from user_folders where user_id = ? and folder_name = 'Blogs'" ;
-		 connection.query(q, [ params.userid ], next) ;
-	},
-    function(results, next){ console.log('second ') ; console.log(results) ; }
-]);*/
+async.series([
+    function(cb){ console.log('first') ; cb() ;},
+    function(){ console.log('second') ; }
+]);
 
   }
   res.end() ;
@@ -191,8 +159,7 @@ module.exports.initRouting = function(router) {
       .put(function(rq,rs) {
           res = rs ;
           req = rq ;
-          put({userid: 1,  feed: req.body}) ;
-//          put({userid: req.cookies.userid, feed: req.body}) ;
+          put({userid: req.cookies.userid, feed: req.body}) ;
       })
       .post(function(rq,rs) {
           res = rs ;
