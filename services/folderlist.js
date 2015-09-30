@@ -22,14 +22,14 @@ connection.connect() ;
 
 async.waterfall([
   function(next) {
-	connection.query(q1,params.userid,next) ;
+	connection.query(q1,params.user_id,next) ;
   },
   function(results, next) {
 	async.forEachSeries(results, function(item, next) {
         var t = next ;
 		async.waterfall([
 		  function(next) {
-            connection.query(q2,[params.userid, item.id],next) ;
+            connection.query(q2,[params.user_id, item.id],next) ;
 		  },
 		  function(results,next) {
 			var d = item ;
@@ -59,7 +59,7 @@ module.exports.initRouting = function(router) {
       .get(function(rq,rs) {
 		  req = rq ;
 		  res = rs ;
-		  get({userid: req.cookies.userid})  ;
+		  get({user_id: req.cookies.user_id})  ;
 	  })
 	  
 /*	  .post(function(req,res) {

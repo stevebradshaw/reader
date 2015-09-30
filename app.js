@@ -86,7 +86,7 @@ app.get('/reader', function (req,res) {
 app.get('/signout',function (req,res) {
   client.expire(req.cookies.sessionid, 0) ;
   res.clearCookie('loggedin') ;
-  res.clearCookie('userid') ;
+  res.clearCookie('user_id') ;
   res.clearCookie('sessionid') ;
   res.redirect('/') ;
 }) ;

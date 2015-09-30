@@ -21,7 +21,7 @@ function get(params) {
 
   async.waterfall([
     function(next) {
-      connection.query(q, [ params.userid ], next) ;
+      connection.query(q, [ params.user_id ], next) ;
     },
     function(results, next) {
 
@@ -47,7 +47,7 @@ module.exports.initRouting = function(router) {
       .get(function(rq,rs) {
 		  req = rq ;
 		  res = rs ;
-		  get({userid: req.cookies.userid})  ;
+		  get({user_id: req.cookies.user_id})  ;
 	  })
 	  
 }

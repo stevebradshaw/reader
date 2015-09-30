@@ -50,7 +50,7 @@ connection.connect() ;
 
 async.waterfall([
   function(next) {
-q = connection.query(q,[ params.feed, params.userid, params.feed ],next) ;
+q = connection.query(q,[ params.feed, params.user_id, params.feed ],next) ;
 //console.log(q) ;
   },
   function(results, next) {
@@ -60,7 +60,7 @@ q = connection.query(q,[ params.feed, params.userid, params.feed ],next) ;
         var t = next ;
 		async.waterfall([
 		  function(next) {
-            connection.query(q2,[params.userid, item.id],next) ;
+            connection.query(q2,[params.user_id, item.id],next) ;
 		  },
 		  function(results,next) {
 			var d = item ;
@@ -89,8 +89,8 @@ module.exports.initRouting = function(router) {
       .get(function(rq,rs) {
 		  req = rq ;
 		  res = rs ;
-		  get({userid: req.cookies.userid, feed: req.query.feed, status: req.query.status}) ;
-//		  get({userid: 1, res: res}) ;
+		  get({user_id: req.cookies.user_id, feed: req.query.feed, status: req.query.status}) ;
+//		  get({user_id: 1, res: res}) ;
 	  }) ;
 	  
 /*	  .post(function(req,res) {

@@ -86,16 +86,14 @@ res.end() ;
 
 }
 
-function put(rq,rs) {
-req = rq ;
-res = rs ;
+function put(params) {
 
 if (typeof req.query.feedid !== 'undefined') {
 //  console.log('key set') ;
-  updateFeed({userid: 1, feedid: req.query.feedid, status: req.query.status})  ;
+  updateFeed({ user_id: params.user_id, feedid: req.query.feedid, status: req.query.status})  ;
 } else if (typeof req.query.key !== 'undefined') {
 //  console.log('key not set') ;
-  updateEntry({userid: 1, key: req.query.key, status: req.query.status})  ;
+  updateEntry({ user_id: params.user_id, key: req.query.key, status: req.query.status})  ;
 } else {
 res.status(400) ;
 res.end() ;
@@ -108,37 +106,13 @@ module.exports.initRouting = function(router) {
       .get(function(rq,rs) {
 		  req = rq ;
 		  res = rs ;
-		  get({userid: 1, key: req.query.key})  ;
+		  get({user_id: req.cookie.user_id, key: req.query.key})  ;
 	  })
 
       .put(function(rq,rs) {
-          put(rq,rs) ;
+		  req = rq ;
+		  res = rs ;
+          put({ user_id: req.cookie.user_id }) ;
       })  ;
 	  
-/*	  .post(function(req,res) {
-          var burp = new BurpModel() ;
-          burp.message = req.body.msg;
-//console.log(req.body.msg) ;
-          burp.burper_id = req.session.id ;
-
-          burp.save(function (err, burp) {
-            if (err) {
-              res.status(500) ;
-              res.send(err) ;
-              res.end() ;
-            } else {
-              res.status(201) ;
-              res.setHeader('Location', req.headers.host + req.originalUrl + '/' + burp.id) ;
-              res.end() ;
-            }
-          });
-	  })
-
-	  .patch(function(req,res) {
-
-	  })
-
-	  .delete(function(req,res) {
-
-	  }) ;*/
 } ;

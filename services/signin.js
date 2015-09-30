@@ -74,7 +74,7 @@ function post(params) {
 
             if (isMatch) {
 				res.cookie("loggedin", "yes", { maxAge: 3600*1000, path: "/"});
-                res.cookie("userid", data[0].id, { maxAge: 3600*1000, path: "/"});
+                res.cookie("user_id", data[0].id, { maxAge: 3600*1000, path: "/"});
                 res.cookie("email", data[0].email, { maxAge: 3600*1000, path: "/"});
 
                 var sessionid = "SESSION:" + uuid.v1() ;
@@ -109,7 +109,7 @@ module.exports.initRouting = function(router) {
 /*      .get(function(rq,rs) {
 		  req = rq ;
 		  res = rs ;
-		  get({userid: 1, key: req.query.key})  ;
+		  get({user_id: 1, key: req.query.key})  ;
 	  })*/
 
       .post(function(rq,rs) {
@@ -125,30 +125,4 @@ module.exports.initRouting = function(router) {
 //        delete() ;
       }) ;
 	  
-/*	  .post(function(req,res) {
-          var burp = new BurpModel() ;
-          burp.message = req.body.msg;
-//console.log(req.body.msg) ;
-          burp.burper_id = req.session.id ;
-
-          burp.save(function (err, burp) {
-            if (err) {
-              res.status(500) ;
-              res.send(err) ;
-              res.end() ;
-            } else {
-              res.status(201) ;
-              res.setHeader('Location', req.headers.host + req.originalUrl + '/' + burp.id) ;
-              res.end() ;
-            }
-          });
-	  })
-
-	  .patch(function(req,res) {
-
-	  })
-
-	  .delete(function(req,res) {
-
-	  }) ;*/
 } ;

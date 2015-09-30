@@ -106,7 +106,7 @@ console.log('p not set') ;
 			console.log('do they match?', isMatch);
             if (isMatch) {
 				res.cookie("loggedin", "yes", { maxAge: 3600*1000, path: "/"});
-                res.cookie("userid", data[0].id, { maxAge: 3600*1000, path: "/"});
+                res.cookie("user_id", data[0].id, { maxAge: 3600*1000, path: "/"});
                 res.cookie("email", data[0].email, { maxAge: 3600*1000, path: "/"});
 
                 var sessionid = "SESSION:" + uuid.v1() ;

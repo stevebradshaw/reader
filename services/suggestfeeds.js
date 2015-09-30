@@ -19,7 +19,7 @@ function get(params) {
   var q = "select * from feeds f"
         + " where not exists (select 1 from user_feeds uf where uf.user_id = ? and uf.feed_id = f.id)" ;
 
-  qparams.push(params.userid) ;
+  qparams.push(params.user_id) ;
 
   if (typeof req.query.q != 'undefined') {
     q = q + " and title like ?" 
@@ -54,7 +54,7 @@ module.exports.initRouting = function(router) {
         req = rq ;
         res = rs ;
 
-        get({ userid: req.cookies.userid, q: req.query.q, category_id: req.query.category_id}) ;
+        get({ user_id: req.cookies.user_id, q: req.query.q, category_id: req.query.category_id}) ;
       })  ;
 	  
 } ;

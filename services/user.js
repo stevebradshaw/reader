@@ -47,14 +47,14 @@ function get(params) {
 
 function updateEntry(params) {
 
-  q = connection.query("UPDATE user_entry_status SET status = ? where entry_key = ? and user_id = ?", [ "R", params.key, 1 ], function(err,result) {
+  q = connection.query("UPDATE user_entry_status SET status = ? where entry_key = ? and user_id = ?", [ "R", params.key, params.user_id ], function(err,result) {
     res.end() ;
   });  
 
 }
 
 function updateFeed(params) {
-  q = connection.query("UPDATE user_entry_status SET status = ? where feed_id = ? and user_id = ?", [ "R", params.feedid, 1 ], function(err,result) {
+  q = connection.query("UPDATE user_entry_status SET status = ? where feed_id = ? and user_id = ?", [ "R", params.feedid, params.user_id ], function(err,result) {
     res.end() ;
   });  
 }
@@ -64,9 +64,9 @@ function put(rq,rs) {
   res = rs ;
 
   if (typeof req.query.feedid !== 'undefined') {
-    updateFeed({userid: 1, feedid: req.query.feedid, status: req.query.status})  ;
+    updateFeed({user_id: 1, feedid: req.query.feedid, status: req.query.status})  ;
   } else if (typeof req.query.key !== 'undefined') {
-    updateEntry({userid: 1, key: req.query.key, status: req.query.status})  ;
+    updateEntry({user_id: 1, key: req.query.key, status: req.query.status})  ;
   } else {
   res.status(400) ;
   res.end() ;
@@ -79,7 +79,7 @@ module.exports.initRouting = function(router) {
       .get(function(rq,rs) {
 		  req = rq ;
 		  res = rs ;
-		  get({userid: 1, key: req.query.key})  ;
+		  get({user_id: req.cookies.user_id, key: req.query.key})  ;
 	  })
 
       .put(function(rq,rs) {

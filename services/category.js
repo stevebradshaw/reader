@@ -38,7 +38,7 @@ function get(params) {
         + 'order by category' ;
   async.waterfall([
     function(next) {
-  	connection.query(q,params.userid, next) ;
+  	connection.query(q,params.user_id, next) ;
   },
   function(results, next) {
 console.log(results) ;
@@ -57,10 +57,10 @@ res = rs ;
 
 /*if (typeof req.query.feedid !== 'undefined') {
 //  console.log('key set') ;
-  updateFeed({userid: 1, feedid: req.query.feedid, status: req.query.status})  ;
+  updateFeed({user_id: 1, feedid: req.query.feedid, status: req.query.status})  ;
 } else if (typeof req.query.key !== 'undefined') {
 //  console.log('key not set') ;
-  updateEntry({userid: 1, key: req.query.key, status: req.query.status})  ;
+  updateEntry({user_id: 1, key: req.query.key, status: req.query.status})  ;
 } else {
 res.status(400) ;
 res.end() ;
@@ -74,7 +74,7 @@ module.exports.initRouting = function(router) {
 console.log(rq) ;
 		  req = rq ;
 		  res = rs ;
-		  get({userid: req.cookies.userid})  ;
+		  get({user_id: req.cookies.user_id})  ;
 	  })
 
       .put(function(rq,rs) {
