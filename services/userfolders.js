@@ -11,13 +11,13 @@ var connection = mysql.createConnection({
   database : 'reader'
 });
 
+connection.connect() ;
+
 function get(params) {
 
   var data = [] ;
 
   var q = "select folder_name from user_folders where user_id = ? union select 'Uncategorised' folder_name  order by if(folder_name='Uncategorised', 'ZZZZZZZZZZ', folder_name)" ;
-
-  connection.connect() ;
 
   async.waterfall([
     function(next) {
@@ -25,10 +25,11 @@ function get(params) {
     },
     function(results, next) {
 
-var array = [] ;
-for (x in results) {
-array.push(results[x].folder_name) ;
-}
+      var array = [] ;
+
+      for (x in results) {
+        array.push(results[x].folder_name) ;
+      }
 
       res.send(array) ;
       res.status(200) ;
@@ -36,6 +37,9 @@ array.push(results[x].folder_name) ;
     }
   ], function (err,res) {
      console.log(err) ;
+     res.status(500) ;
+     res.send(err) ;
+     res.end() ;
   }) ;
 
 	 

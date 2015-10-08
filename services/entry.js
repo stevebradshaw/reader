@@ -17,16 +17,6 @@ connection.connect() ;
 function get(params) {
   var data = [] ;
 	
-/*  var connection = mysql.createConnection({
-    host     : 'localhost',
-    user     : 'reader_dev',
-    password : 'dev',
-    database : 'reader'
-  });
-
-  connection.connect() ;*/
-
-
   var q = "select url_id,"
         + "entry_key,"
         + "entry_xml,"
@@ -57,32 +47,16 @@ function get(params) {
 
 function updateEntry(params) {
 
-/*  var connection = mysql.createConnection({
-    host     : 'localhost',
-    user     : 'reader_dev',
-    password : 'dev',
-    database : 'reader'
-  });
-
-  connection.connect() ;*/
-
     q = connection.query("UPDATE user_entry_status SET status = ? where entry_key = ? and user_id = ?", [ "R", params.key, 1 ], function(err,result) {
-//	  console.log(err) ;
-//	  console.log(result) ;
 res.end() ;
     });  
 
-//  console.log(q.sql);
 }
 
 function updateFeed(params) {
     q = connection.query("UPDATE user_entry_status SET status = ? where feed_id = ? and user_id = ?", [ "R", params.feedid, 1 ], function(err,result) {
-//	  console.log(err) ;
-//	  console.log(result) ;
 res.end() ;
     });  
-
-//  console.log(q.sql);
 
 }
 

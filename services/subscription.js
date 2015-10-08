@@ -101,7 +101,7 @@ function put(params) {
   for (x in params.feed) {
 
     var f = params.feed[x] ;
-
+    // TODO: Update feed title
     if (typeof f.folder_id === 'undefined') {
       create_uf( { user_id: params.user_id, feed: f} ) ;
     } else {
@@ -226,8 +226,8 @@ module.exports.initRouting = function(router) {
           res = rs ;
           req = rq ;
 		  console.log(req.body) ;
-          put({user_id: 1,  feed: req.body}) ;
-//          put({user_id: req.cookies.user_id, feed: req.body}) ;
+//          put({user_id: 1,  feed: req.body}) ;
+          put({user_id: req.cookies.user_id, feed: req.body}) ;
       })
       .post(function(rq,rs) {
           res = rs ;

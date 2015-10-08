@@ -18,6 +18,7 @@ var connection = mysql.createConnection({
   database : 'reader'
 });
 
+connection.connect() ;
 
 var status_predicate = '' ;
 
@@ -46,7 +47,6 @@ var q = "select reader.fe.id as id, "
 + "and (reader.fe.entry_key = reader.ues.entry_key)) "
 + "order by reader.fe.publication_date_utc desc limit 50" ; //?,?" ;
 
-connection.connect() ;
 
 async.waterfall([
   function(next) {
