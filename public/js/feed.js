@@ -58,6 +58,7 @@ function displayFeed(feed) {
   for (var i in feed) {
 	  node = feed[i] ;
 
+      // TODO: Use template engine
 	  frag = frag + '<div class="entry" uri="' + node.entry_uri + '" id="' + node.entry_key + '">'
                   + '<div class="header ' + node.status + '" id="header">'
                   + '<span class="title">' + node.entry_title + '</span>'
@@ -117,7 +118,6 @@ function showFeed(params) {
           context: this,
           success: function(data) {
 			         displayFeed(data) ;
-
           }
   }) ;
 }
@@ -135,6 +135,7 @@ function populateFeedList() {
 						 node ;
 					 for (var idx in json) {
 					   node = json[idx] ;
+                       // TODO: Use template engine
                        html = html + '<div id="folder_' + node.id + '" class="folder">' + node.folder_name + '</div>'
                                    + '<div id="feeds_' + node.id + '" class="feeds" style="display:none">' ;
                        var feeds = JSON.parse(node.feeds) ;
@@ -235,11 +236,11 @@ function searchByString(params) {
 }
 
 function setupFolderSelect() {
-                     $.ajax({url: "/api/userfolders",
-                             type: 'GET',
-                             contentType: "application/json",
-                             context: this,
-                             success: function(data) {
+  $.ajax({url: "/api/userfolders",
+          type: 'GET',
+          contentType: "application/json",
+          context: this,
+          success: function(data) {
 
 var substringMatcher = function(strs) {
   return function findMatches(q, cb) {
@@ -273,9 +274,9 @@ var substringMatcher = function(strs) {
     name: 'folders',
     source: substringMatcher(data)
     });
-                                      }
+    }
 
-                     }) ;
+  }) ;
 }
 
 function showManageFeeds() {
@@ -285,6 +286,7 @@ function showManageFeeds() {
           context: this,
           success: function(data) {
                      var selfrag ;
+//TODO: Use a template engine
                      var frag = "<table class='table table-striped table-bordered' id='manage-table' data-pagination='true' data-toggle='table'><thead><tr><th></th><th>Title</th><th>Folder</th><th></th></tr></thead><tbody>" ;
                      for (i in data) {
 //                       selfrag = '<div id="the-basics"><input class="typeahead" type="text" placeholder="' + data[i].folder_name + '" value="' + data[i].folder_name +'"></div>' ;
@@ -375,41 +377,40 @@ $("#settings").click(function(e) {
 
 $("#manage-feeds").click(function(e) {
   e.preventDefault() ;
-console.log($(this).html()) ;
+
   if (endsWith($(this).html(), "Manage Feeds")) {
     // Show manage feeds page, change button to say 'View Feeds'
-$(this).html('<span class="glyphicon glyphicon-arrow-left" aria-hidden="true"></span>&nbsp;&nbsp;View Feeds') ;
-showManageFeeds() ;
-$('#managefeeds').show() ;
-$('#feedcontents').hide() ;
+    $(this).html('<span class="glyphicon glyphicon-arrow-left" aria-hidden="true"></span>&nbsp;&nbsp;View Feeds') ;
+    showManageFeeds() ;
+    $('#managefeeds').show() ;
+    $('#feedcontents').hide() ;
   } else {
     // Show the view feeds page and change button to say 'Manage Feeds'
-$(this).html('<span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span>&nbsp;&nbsp;Manage Feeds') ;
-  refreshFeedList() ;
-$('#managefeeds').hide() ;
-$('#feedcontents').show() ;
-
+    $(this).html('<span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span>&nbsp;&nbsp;Manage Feeds') ;
+    refreshFeedList() ;
+    $('#managefeeds').hide() ;
+    $('#feedcontents').show() ;
   }
-console.log($(this))
 
 }) ;
 
 $("#suggest-search").click(function(e) {
   e.preventDefault() ;
-
   searchByString({q: $("#q").val()}) ;
-
 }) ;
 
 $("#save-edit-feed").click(function(e) {
-//alert('save') ;
-$('#modal-edit-feed').modal('hide'); 
-console.log('update feed: ' + $('#edit-url-id').val()) ;
-console.log('update feed: ' + $('#feedTitle').val()) ;
-console.log('update feed: ' + $('#feedFolder').val()) ;
 
-var json = '[{"feed_id":' + $('#edit-url-id').val() + ', "feed_title":"' + $('#feedTitle').val() + '","folder_name":"' + $('#feedFolder').val() + '"} ]' ;
-console.log(json) ;
+  var url_id = $('#edit-url-id').val()
+    , feed_title = $('#feedTitle').val()
+    , folder_name = $('#feedFolder').val()
+    , sel = '*[data-url-id="' + url_id + '"]';
+
+  $(sel).children().eq(0).html(feed_title);
+  $(sel).children().eq(1).html(folder_name);
+  $('#modal-edit-feed').modal('hide'); 
+
+  var json = '[{"feed_id":' + url_id + ', "feed_title":"' + feed_title + '","folder_name":"' + folder_name + '"} ]' ;
 
   $.ajax({url: "/api/subscription",
           type: 'PUT',
@@ -418,30 +419,9 @@ console.log(json) ;
           data: json,
           success: function(data) {
 			  console.log(data) ;
+              // TODO:  Update source fields in manage feeds table
           }
   }) ;
-//feed_id
-//folder_id
-//feed_title
 }) ;
 
-//$("#save-manage-feeds").click(function(e) {
-//var table = $('#manage-table').DataTable();
-////table.state.save() ;
-//console.log(table.data()) ;
-///*console.log(table.data().length) ;
-//var val, placeholder
-//table.data().each(function(d) {
-//  console.log(d) ;
-//val = $($(d[1]).children()[0]).attr('value') ;
-//placeholder = $($(d[1]).children()[0]).attr('placeholder') ;
-////console.log(val + ' - ' + placeholder) ;
-//if (val != placeholder) {
-////  console.log('folder changed...update') ;
-//}
-//}) ;
-//*/
-//}) ;
-
 }) ;
-
