@@ -80,13 +80,13 @@ module.exports.initRouting = function(router) {
       .get(function(rq,rs) {
 		  req = rq ;
 		  res = rs ;
-		  get({user_id: req.cookie.user_id, key: req.query.key})  ;
+		  get({user_id: req.cookies.user_id, key: req.query.key})  ;
 	  })
 
       .put(function(rq,rs) {
 		  req = rq ;
 		  res = rs ;
-          put({ user_id: req.cookie.user_id }) ;
+          put({ user_id: req.cookies.user_id }) ;
       })  ;
 	  
 } ;
