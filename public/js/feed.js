@@ -92,6 +92,12 @@ function displayFeed(feed) {
   });
 }
 
+function openMenu(params) {
+  console.log(params) ;
+// 183
+$("li#183").addClass('feedSelected') ;
+}
+
 function showFeed(params) {
 
   currentFeedId = params.id ;
