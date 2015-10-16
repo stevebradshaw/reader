@@ -94,8 +94,12 @@ function displayFeed(feed) {
 
 function openMenu(params) {
   console.log(params) ;
-// 183
-$("li#183").addClass('feedSelected') ;
+// 183Node
+var sel = 'li#' + params.id ;
+$(".feedSelected").removeClass("feedSelected") ;
+$(sel).addClass('feedSelected') ;
+$(sel).parent().css('display', '');
+showFeed(params) ;
 }
 
 function showFeed(params) {
@@ -163,8 +167,13 @@ function populateFeedList() {
 
                        //  add feedSelected class
                        $(t.target).addClass("feedSelected") ;
+
                        showFeed({ id: t.target.id, title: t.target.innerHTML }) ;
                      }) ;
+
+console.log(currentFeedId) ;
+					openMenu({id: currentFeedId, title: currentFeedTitle}) ;
+
                    }
   }) ;
 }
@@ -394,6 +403,8 @@ $("#manage-feeds").click(function(e) {
     // Show the view feeds page and change button to say 'Manage Feeds'
     $(this).html('<span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span>&nbsp;&nbsp;Manage Feeds') ;
     refreshFeedList() ;
+//	openMenu({id: currentFeedId, title: currentFeedTitle}) ;
+
     $('#managefeeds').hide() ;
     $('#feedcontents').show() ;
   }
