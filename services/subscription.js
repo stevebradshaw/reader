@@ -93,6 +93,21 @@ console.log(params) ;
 console.log('-----------------------------------------------------------------------------') ;
 }
 
+function update_feed_title(params) {
+  q = 'update user_feeds set feed_title = ? where user_id = ? and feed_id = ?' ;
+
+  connection.query(q, [params.feed.feed_title, params.user_id, params.feed.feed_id], function(err, result) {
+	  if (!err) {
+        console.log(err) ;
+        console.log(result) ;
+        res.end() ;
+	  } else {
+        res.status(500) ;
+	    res.send(err) ;
+	    res.end() ;
+	  }
+  }) ;
+}
 function put(params) {
 
   console.log(params) ;
@@ -102,6 +117,8 @@ function put(params) {
 
     var f = params.feed[x] ;
     // TODO: Update feed title
+    update_feed_title({ user_id: params.user_id, feed: f}) ;
+
     if (typeof f.folder_id === 'undefined') {
       create_uf( { user_id: params.user_id, feed: f} ) ;
     } else {
