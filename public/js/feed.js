@@ -310,7 +310,7 @@ function showManageFeeds() {
                        frag = frag + "<tr data-url-id=" + data[i].feed_id + "><td>" + data[i].feed_id
                             + "</td><td>" + data[i].feed_title + "</td><td>" + selfrag + "</td><td>"
                             + "<button id='edit-feed' class='btn btn-sm btn-primary'><span class='glyphicon glyphicon-pencil'></span></button>&nbsp;"
-                            + "<button id='delete-feed' class='btn btn-sm btn-danger'><span class='glyphicon glyphicon-trash'></span></button>"
+                            + "<button id='delete-feed' class='btn btn-sm btn-danger' data-toggle='modal' data-target='#confirm-delete'><span class='glyphicon glyphicon-trash'></span></button>"
                             + "</td></tr>" ;
                      }
                      frag = frag + "</tbody></table>" ;
@@ -329,6 +329,11 @@ function showManageFeeds() {
                                                                   ],
                                                      "aaSorting": [[1,'asc']]
                        }) ; 
+
+                     $('[id^=delete-feed]').click(function(e) {
+var tr = $(this).parent().parent()[0] ;
+console.log('delete subscription: ' + $(tr).data('url-id')) ;
+					 }) ;
 
                      $('[id^=edit-feed]').click(function(e) {
 var tr = $(this).parent().parent()[0] ;
@@ -425,7 +430,7 @@ $("#save-edit-feed").click(function(e) {
 
   $(sel).children().eq(0).html(feed_title);
   $(sel).children().eq(1).html(folder_name);
-  # update title in the folder list, just incase it is visible to the user
+  //update title in the folder list, just incase it is visible to the user
   $('li#' + url_id + '.feed').html(feed_title) ;
   $('#modal-edit-feed').modal('hide'); 
 
@@ -443,4 +448,6 @@ $("#save-edit-feed").click(function(e) {
   }) ;
 }) ;
 
+  // add on-show confirm dialog handler
+   $('.debug-url').html('<strong>Are you sure?</strong>');
 }) ;
