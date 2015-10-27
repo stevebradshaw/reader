@@ -425,6 +425,8 @@ $("#save-edit-feed").click(function(e) {
 
   $(sel).children().eq(0).html(feed_title);
   $(sel).children().eq(1).html(folder_name);
+  # update title in the folder list, just incase it is visible to the user
+  $('li#' + url_id + '.feed').html(feed_title) ;
   $('#modal-edit-feed').modal('hide'); 
 
   var json = '[{"feed_id":' + url_id + ', "feed_title":"' + feed_title + '","folder_name":"' + folder_name + '"} ]' ;
