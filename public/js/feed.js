@@ -310,7 +310,7 @@ function showManageFeeds() {
                        frag = frag + "<tr data-url-id=" + data[i].feed_id + "><td>" + data[i].feed_id
                             + "</td><td>" + data[i].feed_title + "</td><td>" + selfrag + "</td><td>"
                             + "<button id='edit-feed' class='btn btn-sm btn-primary'><span class='glyphicon glyphicon-pencil'></span></button>&nbsp;"
-                            + "<button id='delete-feed' class='btn btn-sm btn-danger' data-toggle='modal' data-target='#confirm-modal'><span class='glyphicon glyphicon-trash'></span></button>"
+                            + "<button id='delete-feed' class='btn btn-sm btn-danger' data-toggle='modal' data-target='#confirm-modal' data-feed-title='" + data[i].feed_title + "' data-url-id='" +  data[i].feed_id  + "'><span class='glyphicon glyphicon-trash'></span></button>"
                             + "</td></tr>" ;
                      }
                      frag = frag + "</tbody></table>" ;
@@ -450,12 +450,13 @@ $("#save-edit-feed").click(function(e) {
 
   // add on-show confirm dialog handler
 
-        $('#confirm-modal').on('show.bs.modal', function(e) {
+  $('#confirm-modal').on('show.bs.modal', function(e) {
             $(this).find('.btn-ok').attr('href', $(e.relatedTarget).data('href'));
             
             $('#confirm-body').html('<strong>Are you sure?</strong>');
-            $('#confirm-title').html('Confirm Delete') ;
-$('#confirm-ok').text('Delete') ;
-$('#confirm-cancel').text('Cancel') ;
-        });
+            $('#confirm-title').html('Confirm Unsubscribe') ;
+            $('#confirm-ok').text('Unsubscribe') ;
+            $('#confirm-cancel').text('Cancel') ;
+			$('#confirm-ok').click(function() { alert('do it') ;  $('#confirm-modal').modal('hide'); }) ;
+  });
 }) ;
