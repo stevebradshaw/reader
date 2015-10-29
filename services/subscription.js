@@ -34,7 +34,20 @@ function get(params) {
 
 } 
 
-function del() {
+function del(params) {
+  q1 = 'delete from user_entry_status where user_id = ? and feed_id = ?' ;
+
+  connection.query(q1, [ params.user_id, params.feed.feed_id ], function (err, result) {
+
+    q2 = 'delete from user_feeds where user_id = ? and feed_id = ?' ;
+
+    connection.query(q2, [ params.user_id, params.feed.feed_id ], function (err, result) {
+      console.log(err) ;
+      console.log(result) ;
+
+      // TODO: if the folder is now empty, delete it?
+    }) ;
+  }) ;
   res.end() ;
 }
 
@@ -256,7 +269,9 @@ module.exports.initRouting = function(router) {
       .delete(function(rq,rs) {
         res = rs ;
         req = rq ;
-        del() ;
+console.log(req) ;
+console.log(req.body) ;
+        del({user_id: req.cookies.user_id, feed: req.body.feed}) ;
       }) ;
 
 } ;

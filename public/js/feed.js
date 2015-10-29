@@ -451,12 +451,31 @@ $("#save-edit-feed").click(function(e) {
   // add on-show confirm dialog handler
 
   $('#confirm-modal').on('show.bs.modal', function(e) {
-            $(this).find('.btn-ok').attr('href', $(e.relatedTarget).data('href'));
+//            $(this).find('.btn-ok').attr('href', $(e.relatedTarget).data('href'));
+var feedTitle = $(e.relatedTarget).data('feed-title'),
+    urlID = $(e.relatedTarget).data('url-id');
+
+console.log('unsubscribe: ' + feedTitle) ;
+console.log('unsubscribe: ' + urlID) ;
             
-            $('#confirm-body').html('<strong>Are you sure?</strong>');
+            $('#confirm-body').html('Are you sure you want to unsubscribe from <strong>' + feedTitle + '</strong>?<br/><br/>You an subscribe again, but you will lose any previous interactions with the feed.');
             $('#confirm-title').html('Confirm Unsubscribe') ;
             $('#confirm-ok').text('Unsubscribe') ;
             $('#confirm-cancel').text('Cancel') ;
-			$('#confirm-ok').click(function() { alert('do it') ;  $('#confirm-modal').modal('hide'); }) ;
+			$('#confirm-ok').click(function() { 
+
+                                     var json = '[{"feed_id":' + urlID + ', "feed_title":"' + feedTitle + '"}]' ;
+                                     $.ajax({ url: "/api/subscription",
+                                              type: 'DELETE',
+                                              contentType: "application/json",
+                                              context: this,
+                                              data: json,
+                                              success: function(data) {
+console.log(data) ;
+                                              }
+                                     }) ;
+
+                                     $('#confirm-modal').modal('hide');
+                                   }) ;
   });
 }) ;
