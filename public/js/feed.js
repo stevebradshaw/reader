@@ -464,13 +464,15 @@ console.log('unsubscribe: ' + urlID) ;
             $('#confirm-cancel').text('Cancel') ;
 			$('#confirm-ok').click(function() { 
 
-                                     var json = '[{"feed_id":' + urlID + ', "feed_title":"' + feedTitle + '"}]' ;
+                                     var json = '{ "feed": {"feed_id":' + urlID + ', "feed_title":"' + feedTitle + '"}}' ;
+console.log(json) ;									 
                                      $.ajax({ url: "/api/subscription",
                                               type: 'DELETE',
                                               contentType: "application/json",
                                               context: this,
                                               data: json,
                                               success: function(data) {
+												  // TODO: if successful, remove feed from the manage feeds table, and from the feed menu on the left
 console.log(data) ;
                                               }
                                      }) ;
