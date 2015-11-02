@@ -132,6 +132,10 @@ function showFeed(params) {
   }) ;
 }
 
+function formatFeed(params) {
+  return '<li class="feed" id="' + params.id + '">' + params.feed_title + '</li>' ;
+}
+
 function populateFeedList() {
 
   $.ajax({url: "api/folderlist",
@@ -151,7 +155,8 @@ function populateFeedList() {
                        var feeds = JSON.parse(node.feeds) ;
 
                        for (var j in feeds) {
-                         html = html + '<li class="feed" id="' + feeds[j].id + '">' + feeds[j].feed_title + '</li>' ;
+                         html = html + formatFeed({ id: feeds[j].id, feed_title: feeds[j].feed_title }) ;
+//                         html = html + '<li class="feed" id="' + feeds[j].id + '">' + feeds[j].feed_title + '</li>' ;
                        }
                        html = html + '</div>' ;
 					 }  
@@ -185,6 +190,11 @@ function subscribeFeed(params) {
               url: '/api/subscription',
              data: { feed: { id: params.id } },              
           success: function (data) {                                
+console.log(data) ;
+                       // subscribed successfully so:
+                       // if category count was > 1, decrease it
+                       //    category count = 1, remove the category, remove the results as no suggestions left in :q
+                       //
                      var sel ;
                      for (i in data) {
                        sel = $('[data-category-id="' + data[i].category_id + '"]').children() ;
@@ -195,10 +205,7 @@ function subscribeFeed(params) {
                          $('[data-category-id="' + data[i].category_id + '"]').remove() ;
                        }
                      }
-                       // subscribed successfully so:
-                       // if category count was > 1, decrease it
-                       //    category count = 1, remove the category, remove the results as no suggestions left in :q
-                       //
+//                     frag = formatFeed({id:  
                    }                                                      
   }) ;
 
@@ -218,10 +225,11 @@ function showSearchResults(data) {
 
   $('#suggest-table').dataTable() ;
 
-  var st = $('#suggest-table').DataTable() ;
 
   $('#suggest-table').on('click', '#add-feed', function(event) {
+    // TODO: Pop up dialog and ask for folder.  When added, auto-update the menu 
     subscribeFeed({id: $(this).data('url-id')}) ;
+    var st = $('#suggest-table').DataTable() ;
     st.row( $(this).parent('tr')).remove().draw();
   }) ;
 }
@@ -294,6 +302,17 @@ var substringMatcher = function(strs) {
   }) ;
 }
 
+function editFeed(that) {
+  var tr = $(that).parent().parent()[0] ;
+
+  $('#edit-url-id').val($(tr).data('url-id')) ;
+  $('#feedTitle').val($(tr)[0].childNodes[0].textContent) ;
+  $('#folder-ta').html('<input id="feedFolder" class="typeahead" type="text" placeholder="Folder">') ;
+  $('#feedFolder').val($(tr)[0].childNodes[1].textContent) ;
+  setupFolderSelect() ;
+  $('#modal-edit-feed').modal('show') ;
+}
+
 function showManageFeeds() {
   $.ajax({url: "/api/subscription",
           type: 'GET',
@@ -336,7 +355,8 @@ console.log('delete subscription: ' + $(tr).data('url-id')) ;
 					 }) ;
 
                      $('[id^=edit-feed]').click(function(e) {
-var tr = $(this).parent().parent()[0] ;
+                                                  editFeed(this) ;
+/*var tr = $(this).parent().parent()[0] ;
 
 console.log(tr) ;
 console.log($(tr).data('url-id')) ;
@@ -348,7 +368,7 @@ $('#feedTitle').val($(tr)[0].childNodes[0].textContent) ;
 $('#folder-ta').html('<input id="feedFolder" class="typeahead" type="text" placeholder="Folder">') ;
 $('#feedFolder').val($(tr)[0].childNodes[1].textContent) ;
 setupFolderSelect() ;
-$('#modal-edit-feed').modal('show') ;
+$('#modal-edit-feed').modal('show') ;*/
                                                 }) ; 
                 }
   }) ;
@@ -358,6 +378,32 @@ function refreshFeedList() {
   // TODO:  refresh feeds, redisplay etc
 
   populateFeedList() ;
+}
+
+function saveEditFeed() {
+  var url_id = $('#edit-url-id').val()
+    , feed_title = $('#feedTitle').val()
+    , folder_name = $('#feedFolder').val()
+    , sel = '*[data-url-id="' + url_id + '"]';
+
+  $(sel).children().eq(0).html(feed_title);
+  $(sel).children().eq(1).html(folder_name);
+  //update title in the folder list, just incase it is visible to the user
+  $('li#' + url_id + '.feed').html(feed_title) ;
+  $('#modal-edit-feed').modal('hide'); 
+
+  var json = '[{"feed_id":' + url_id + ', "feed_title":"' + feed_title + '","folder_name":"' + folder_name + '"} ]' ;
+
+  $.ajax({url: "/api/subscription",
+          type: 'PUT',
+          contentType: "application/json",
+          context: this,
+          data: json,
+          success: function(data) {
+			  console.log(data) ;
+              // TODO:  Update source fields in manage feeds table
+          }
+  }) ;
 }
 
 $(document).ready(function() {
@@ -422,32 +468,8 @@ $("#suggest-search").click(function(e) {
 }) ;
 
 $("#save-edit-feed").click(function(e) {
-
-  var url_id = $('#edit-url-id').val()
-    , feed_title = $('#feedTitle').val()
-    , folder_name = $('#feedFolder').val()
-    , sel = '*[data-url-id="' + url_id + '"]';
-
-  $(sel).children().eq(0).html(feed_title);
-  $(sel).children().eq(1).html(folder_name);
-  //update title in the folder list, just incase it is visible to the user
-  $('li#' + url_id + '.feed').html(feed_title) ;
-  $('#modal-edit-feed').modal('hide'); 
-
-  var json = '[{"feed_id":' + url_id + ', "feed_title":"' + feed_title + '","folder_name":"' + folder_name + '"} ]' ;
-
-  $.ajax({url: "/api/subscription",
-          type: 'PUT',
-          contentType: "application/json",
-          context: this,
-          data: json,
-          success: function(data) {
-			  console.log(data) ;
-              // TODO:  Update source fields in manage feeds table
-          }
-  }) ;
+  saveEditFeed() ;
 }) ;
-
   // add on-show confirm dialog handler
 
   $('#confirm-modal').on('show.bs.modal', function(e) {
@@ -473,6 +495,7 @@ console.log(json) ;
                                               data: json,
                                               success: function(data) {
 												  // TODO: if successful, remove feed from the manage feeds table, and from the feed menu on the left
+												  $('li#' + urlID + '.feed').remove() ;
 console.log(data) ;
                                               }
                                      }) ;
