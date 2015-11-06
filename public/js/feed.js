@@ -4,27 +4,6 @@ function endsWith(str, suffix) {
     return str.indexOf(suffix, str.length - suffix.length) !== -1;
 }
 
-function setupButtons() {
-  $("#btn-feed-status").click(function(t) {
-    if ($(t.target).text() == "View: Unread") {
-      $(t.target).text("View: Read") ;
-    } else if ($(t.target).text() == "View: Read"){
-      $(t.target).text("View: All") ;
-    } else {
-      $(t.target).text("View: Unread") ;
-    }
-
-    showFeed({ id: currentFeedId, title: currentFeedTitle}) ;
-  }) ;
-
-  $("#btn-refresh-feed").click(function(t) {
-    showFeed({ id: currentFeedId, title: currentFeedTitle}) ;
-  }) ;
-
-  $("#btn-mark-all-read").click(function(t) {
-    setFeedStatus({ id: currentFeedId, status: 'R' }) ;
-  }) ;
-}
 
 function setFeedStatus(params) {
 
@@ -406,6 +385,33 @@ function saveEditFeed() {
   }) ;
 }
 
+////////////////////////////////////////////////////////////////////////////////////////////////////
+function setupToolBarButtons() {
+  $("#btn-feed-status").click(function(t) {
+    if ($(t.target).text() == "View: Unread") {
+      $(t.target).text("View: Read") ;
+    } else if ($(t.target).text() == "View: Read"){
+      $(t.target).text("View: All") ;
+    } else {
+      $(t.target).text("View: Unread") ;
+    }
+
+    showFeed({ id: currentFeedId, title: currentFeedTitle}) ;
+  }) ;
+
+  $("#btn-refresh-feed").click(function(t) {
+    showFeed({ id: currentFeedId, title: currentFeedTitle}) ;
+  }) ;
+
+  $("#btn-mark-all-read").click(function(t) {
+    setFeedStatus({ id: currentFeedId, status: 'R' }) ;
+  }) ;
+
+  $("#settings").click(function(e) {
+    e.preventDefault() ;
+  }) ;
+}
+////////////////////////////////////////////////////////////////////////////////////////////////////
 $(document).ready(function() {
   setupButtons() ;
   populateFeedList() ;
@@ -437,9 +443,6 @@ $(document).ready(function() {
 
   }) ;
 
-$("#settings").click(function(e) {
-  e.preventDefault() ;
-}) ;
 
 $("#manage-feeds").click(function(e) {
   e.preventDefault() ;
