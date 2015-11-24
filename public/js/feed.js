@@ -4,6 +4,24 @@ function endsWith(str, suffix) {
     return str.indexOf(suffix, str.length - suffix.length) !== -1;
 }
 
+function setupButtons() {
+  $("#btn-feed-status").click(function(t) {
+    if ($(t.target).text() == "View: Unread") {
+      $(t.target).text("View: Read") ;
+    } else if ($(t.target).text() == "View: Read"){
+      $(t.target).text("View: All") ;
+    } else {
+      $(t.target).text("View: Unread") ;
+    }
+    showFeed({ id: currentFeedId, title: currentFeedTitle}) ;
+  }) ;
+  $("#btn-refresh-feed").click(function(t) {
+    showFeed({ id: currentFeedId, title: currentFeedTitle}) ;
+  }) ;
+  $("#btn-mark-all-read").click(function(t) {
+    setFeedStatus({ id: currentFeedId, status: 'R' }) ;
+  }) ;
+}
 
 function setFeedStatus(params) {
 
@@ -56,7 +74,6 @@ function displayFeed(feed) {
                   + '<img id="mail_entry" src="/images/twitter.png" width="24" height="24" style="margin:1px ; cursor: pointer; ">'
                   + '<img id="google_share" src="/images/google+.png" width="24" height="24" style="margin:1px ; cursor: pointer; ">'
                   + '<img id="mail_entry" src="/images/mail.png" width="24" height="24" style="margin:1px ; cursor: pointer; "></span>'
-                  + '</div>' 
 				  + '</div>' 
 				  + '</div>' 
 				  + '</div>' ;
