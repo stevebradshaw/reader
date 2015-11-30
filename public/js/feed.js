@@ -451,8 +451,11 @@ $(document).ready(function() {
               $("#category-panel").html(frag) ;
               $("[id^='category-btn']").click(function(e) {
 
-              $("[id^='category-btn']").removeClass('btn-success') ; 
-                $(e.target).addClass('btn-success') ;
+//              $("[id^='category-btn']").removeClass('btn-success') ; 
+                $(e.target).toggleClass('btn-success') ;
+				console.log('---------------------------------------------------------------') ;
+				console.log($("[id^='category-btn']").find('.btn-success')) ;
+				console.log('---------------------------------------------------------------') ;
                 searchByCategory({category_id: $(this).data('category-id')}) ;
               }) ;
             }
