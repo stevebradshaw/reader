@@ -454,7 +454,9 @@ $(document).ready(function() {
 //              $("[id^='category-btn']").removeClass('btn-success') ; 
                 $(e.target).toggleClass('btn-success') ;
 				console.log('---------------------------------------------------------------') ;
-				console.log($("[id^='category-btn']").find('.btn-success')) ;
+				$("[id^='category-btn'].btn-success").each(function(index) {
+console.log($(this).data('category-id')) ;
+                }) ;
 				console.log('---------------------------------------------------------------') ;
                 searchByCategory({category_id: $(this).data('category-id')}) ;
               }) ;
