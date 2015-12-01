@@ -55,7 +55,7 @@ function displayFeed(feed) {
   for (var i in feed) {
 	  node = feed[i] ;
 
-      // TODO: Use template engine
+      // TODO: TEMPLATE 
 	  frag = frag + '<div class="entry" uri="' + node.entry_uri + '" id="' + node.entry_key + '">'
                   + '<div class="header ' + node.status + '" id="header">'
                   + '<span class="title">' + node.entry_title + '</span>'
@@ -209,6 +209,7 @@ console.log(data) ;
 
 function showSearchResults(data) {
 
+  // TODO: TEMPLATE 
   var frag = "<table id='suggest-table' data-pagination='true' data-toggle='table'><thead><tr><th>Feed</th><th></th></tr></thead><tbody>" ;
   for (i in data) {
     frag = frag + "<tr data-url-id=" + data[i].id + "'><td><h5><b>" + data[i].title + "</b></h5>" + data[i].url
@@ -316,7 +317,7 @@ function showManageFeeds() {
           context: this,
           success: function(data) {
                      var selfrag ;
-//TODO: Use a template engine
+//TODO: TEMPLATE 
                      var frag = "<table class='table table-striped table-bordered' id='manage-table' data-pagination='true' data-toggle='table'><thead><tr><th></th><th>Title</th><th>Folder</th><th></th></tr></thead><tbody>" ;
                      for (i in data) {
 //                       selfrag = '<div id="the-basics"><input class="typeahead" type="text" placeholder="' + data[i].folder_name + '" value="' + data[i].folder_name +'"></div>' ;
@@ -443,15 +444,12 @@ $(document).ready(function() {
             contentType: "application/json",
             context: this,
             success: function(data) {
-              
-              var frag = "" ;
-              for (i in data) {
-                frag = frag + "<button class='btn btn-sm' id='category-btn' data-category='" + data[i].category + "' data-category-id='" + data[i].id + "' style='margin:4px' type='button'>" + data[i].category + "&nbsp;&nbsp;<span class='badge'>" + data[i].number + "</span></button>" ;
-              }
-              $("#category-panel").html(frag) ;
+              var template = "{{#.}}<button class='btn btn-sm' id='category-btn' data-category='{{category}}' data-category-id='{{id}}' style='margin:4px' type='button'>{{category}}&nbsp;&nbsp;<span class='badge'>{{number}}</span></button>{{/.}}" ;
+			  var output = Mustache.render(template, data);
+
+              $("#category-panel").html(output) ;
               $("[id^='category-btn']").click(function(e) {
 
-//              $("[id^='category-btn']").removeClass('btn-success') ; 
                 $(e.target).toggleClass('btn-success') ;
 				console.log('---------------------------------------------------------------') ;
 				$("[id^='category-btn'].btn-success").each(function(index) {
