@@ -33,7 +33,7 @@ async.waterfall([
 		  },
 		  function(results,next) {
 			var d = item ;
-			d.feeds = JSON.stringify(results) ;
+			d.feeds = results ; //JSON.stringify(results) ;
 			data.push(d) ;
             t() ;
 		  }]) ;

@@ -128,9 +128,9 @@ function showFeed(params) {
   }) ;
 }
 
-function formatFeed(params) {
+/*function formatFeed(params) {
   return '<li class="feed" id="' + params.id + '">' + params.feed_title + '</li>' ;
-}
+}*/
 
 function populateFeedList() {
 
@@ -140,15 +140,21 @@ function populateFeedList() {
           dataType: "text",
           context: this,
           success: function(data) {
-			         var json = JSON.parse(data),
+
+var json = JSON.parse(data) ;
+var template = '{{#.}}<div id="folder_{{id}}" class="folder">{{folder_name}}</div><div id="feeds_{{id}}" class="feeds" style="display:none">{{#feeds}}<li class="feed" id="{{id}}">{{feed_title}}</li>{{/feeds}}</div>{{/.}}' ;
+var output = Mustache.render(template, json);
+$("#accordion").html(output) ;
+
+/*			         var json = JSON.parse(data),
 					     html = "",
 						 node ;
 					 for (var idx in json) {
 					   node = json[idx] ;
-                       // TODO: Use template engine
+                       // TODO: TEMPLATE 
                        html = html + '<div id="folder_' + node.id + '" class="folder">' + node.folder_name + '</div>'
                                    + '<div id="feeds_' + node.id + '" class="feeds" style="display:none">' ;
-                       var feeds = JSON.parse(node.feeds) ;
+                       var feeds = node.feeds ; //JSON.parse(node.feeds) ;
 
                        for (var j in feeds) {
                          html = html + formatFeed({ id: feeds[j].id, feed_title: feeds[j].feed_title }) ;
@@ -157,7 +163,7 @@ function populateFeedList() {
                        html = html + '</div>' ;
 					 }  
 
-					 $("#accordion").html(html) ;
+					 $("#accordion").html(html) ;*/
                      $(".folder").click(function(t) {
                        $("#feeds_" + t.target.id.substring(7)).slideToggle("fast") ;
                      }) ;
@@ -201,7 +207,6 @@ console.log(data) ;
                          $('[data-category-id="' + data[i].category_id + '"]').remove() ;
                        }
                      }
-//                     frag = formatFeed({id:  
                    }                                                      
   }) ;
 
