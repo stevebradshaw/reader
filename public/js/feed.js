@@ -128,10 +128,6 @@ function showFeed(params) {
   }) ;
 }
 
-/*function formatFeed(params) {
-  return '<li class="feed" id="' + params.id + '">' + params.feed_title + '</li>' ;
-}*/
-
 function populateFeedList() {
 
   $.ajax({url: "api/folderlist",
@@ -141,29 +137,11 @@ function populateFeedList() {
           context: this,
           success: function(data) {
 
-var json = JSON.parse(data) ;
-var template = '{{#.}}<div id="folder_{{id}}" class="folder">{{folder_name}}</div><div id="feeds_{{id}}" class="feeds" style="display:none">{{#feeds}}<li class="feed" id="{{id}}">{{feed_title}}</li>{{/feeds}}</div>{{/.}}' ;
-var output = Mustache.render(template, json);
-$("#accordion").html(output) ;
+                     var json = JSON.parse(data),
+                         template = '{{#.}}<div id="folder_{{id}}" class="folder">{{folder_name}}</div><div id="feeds_{{id}}" class="feeds" style="display:none">{{#feeds}}<li class="feed" id="{{id}}">{{feed_title}}</li>{{/feeds}}</div>{{/.}}' ;
 
-/*			         var json = JSON.parse(data),
-					     html = "",
-						 node ;
-					 for (var idx in json) {
-					   node = json[idx] ;
-                       // TODO: TEMPLATE 
-                       html = html + '<div id="folder_' + node.id + '" class="folder">' + node.folder_name + '</div>'
-                                   + '<div id="feeds_' + node.id + '" class="feeds" style="display:none">' ;
-                       var feeds = node.feeds ; //JSON.parse(node.feeds) ;
+                     $("#accordion").html(Mustache.render(template, json)) ;
 
-                       for (var j in feeds) {
-                         html = html + formatFeed({ id: feeds[j].id, feed_title: feeds[j].feed_title }) ;
-//                         html = html + '<li class="feed" id="' + feeds[j].id + '">' + feeds[j].feed_title + '</li>' ;
-                       }
-                       html = html + '</div>' ;
-					 }  
-
-					 $("#accordion").html(html) ;*/
                      $(".folder").click(function(t) {
                        $("#feeds_" + t.target.id.substring(7)).slideToggle("fast") ;
                      }) ;
@@ -178,7 +156,6 @@ $("#accordion").html(output) ;
                        showFeed({ id: t.target.id, title: t.target.innerHTML }) ;
                      }) ;
 
-console.log(currentFeedId) ;
 					openMenu({id: currentFeedId, title: currentFeedTitle}) ;
 
                    }
@@ -192,11 +169,10 @@ function subscribeFeed(params) {
               url: '/api/subscription',
              data: { feed: { id: params.id } },              
           success: function (data) {                                
-console.log(data) ;
-                       // subscribed successfully so:
-                       // if category count was > 1, decrease it
-                       //    category count = 1, remove the category, remove the results as no suggestions left in :q
-                       //
+                     // subscribed successfully so:
+                     // if category count was > 1, decrease it
+                     //    category count = 1, remove the category, remove the results as no suggestions left in :q
+                     //
                      var sel ;
                      for (i in data) {
                        sel = $('[data-category-id="' + data[i].category_id + '"]').children() ;
