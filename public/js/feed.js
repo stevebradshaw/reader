@@ -50,8 +50,37 @@ function setEntryStatus(params) {
 }
 
 function displayFeed(feed) {
+console.log('-- displayFeed ----------------------------------------------------------------') ;
+console.log(feed) ;
+//var json = JSON.parse(data),
+//template = '{{#.}}X{{entry_id}}{{/.}}' ;
+var template = '', output = '' ;
+template = template + '{{#.}}<div class="entry" uri="{{entry_uri}}" id="{{entry_key}}">'
+                  + '<div class="header {{status}}" id="header">'
+                  + '<span class="title">{{entry_title}}</span>'
+                  + '<span class="pubdate">{{publication_date}}</span>'
+                  + '</div>'
+                  + '<div class="content collapsed" id="content_{{entry_key}}">' 
+                  + '<div class="content-title " id="tittle_{{entry_key}}"><h4>{{entry_title}}</h4></div>' 
+                  + '<div class="content-body" id="body_{{entry_key}}">{{entry_html}}</div>' 
+                  + '<div class="content-footer" id="footer_{{entry_key}}">'
+                  + '<span class="glyphicon glyphicon-bookmark" aria-hidden="true"></span>'
+                  + '<span class="glyphicon glyphicon-tag" aria-hidden="true"></span>'
+                  + '<img id="bookmark" src="/images/book-grey-256.png" width="24" height="24" style="margin:1px ; cursor: pointer; ">'
+                  + '<img id="tag" src="/images/tag.png" width="24" height="24" style="margin:1px ; cursor: pointer; ">'
+                  + '<span class="social">'
+                  + '<img id="fb_share" src="/images/facebook.png" width="24" height="24" style="margin:1px ; cursor: pointer; ">'
+                  + '<img id="mail_entry" src="/images/twitter.png" width="24" height="24" style="margin:1px ; cursor: pointer; ">'
+                  + '<img id="google_share" src="/images/google+.png" width="24" height="24" style="margin:1px ; cursor: pointer; ">'
+                  + '<img id="mail_entry" src="/images/mail.png" width="24" height="24" style="margin:1px ; cursor: pointer; "></span>'
+				  + '</div>' 
+				  + '</div>' 
+				  + '</div>{{/.}}' ;
 
-  var frag = '', node ;
+var output = Mustache.render(template, feed) ;
+console.log(output) ;
+console.log('-------------------------------------------------------------------------------') ;
+/*  var frag = '', node ;
   for (var i in feed) {
 	  node = feed[i] ;
 
@@ -79,8 +108,9 @@ function displayFeed(feed) {
 				  + '</div>' ;
 
   }
+console.log(frag) ;*/
 
-  $("#entrylist").html(frag) ;
+  $("#entrylist").html(output) ;
   $("[id^=header]").click(function(t) {
       $(t.target.parentNode).removeClass('unread') ;
 	  setEntryStatus({ key: t.target.parentNode.parentNode.id, status: 'R' }) ;
