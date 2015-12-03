@@ -50,67 +50,30 @@ function setEntryStatus(params) {
 }
 
 function displayFeed(feed) {
-console.log('-- displayFeed ----------------------------------------------------------------') ;
-console.log(feed) ;
-//var json = JSON.parse(data),
-//template = '{{#.}}X{{entry_id}}{{/.}}' ;
-var template = '', output = '' ;
-template = template + '{{#.}}<div class="entry" uri="{{entry_uri}}" id="{{entry_key}}">'
-                  + '<div class="header {{status}}" id="header">'
-                  + '<span class="title">{{entry_title}}</span>'
-                  + '<span class="pubdate">{{publication_date}}</span>'
-                  + '</div>'
-                  + '<div class="content collapsed" id="content_{{entry_key}}">' 
-                  + '<div class="content-title " id="tittle_{{entry_key}}"><h4>{{entry_title}}</h4></div>' 
-                  + '<div class="content-body" id="body_{{entry_key}}">{{entry_html}}</div>' 
-                  + '<div class="content-footer" id="footer_{{entry_key}}">'
-                  + '<span class="glyphicon glyphicon-bookmark" aria-hidden="true"></span>'
-                  + '<span class="glyphicon glyphicon-tag" aria-hidden="true"></span>'
-                  + '<img id="bookmark" src="/images/book-grey-256.png" width="24" height="24" style="margin:1px ; cursor: pointer; ">'
-                  + '<img id="tag" src="/images/tag.png" width="24" height="24" style="margin:1px ; cursor: pointer; ">'
-                  + '<span class="social">'
-                  + '<img id="fb_share" src="/images/facebook.png" width="24" height="24" style="margin:1px ; cursor: pointer; ">'
-                  + '<img id="mail_entry" src="/images/twitter.png" width="24" height="24" style="margin:1px ; cursor: pointer; ">'
-                  + '<img id="google_share" src="/images/google+.png" width="24" height="24" style="margin:1px ; cursor: pointer; ">'
-                  + '<img id="mail_entry" src="/images/mail.png" width="24" height="24" style="margin:1px ; cursor: pointer; "></span>'
-				  + '</div>' 
-				  + '</div>' 
-				  + '</div>{{/.}}' ;
+  var template = '' ;
+  template = template + '{{#.}}<div class="entry" uri="{{entry_uri}}" id="{{entry_key}}">'
+                      + '<div class="header {{status}}" id="header">'
+                      + '<span class="title">{{entry_title}}</span>'
+                      + '<span class="pubdate">{{publication_date}}</span>'
+                      + '</div>'
+                      + '<div class="content collapsed" id="content_{{entry_key}}">' 
+                      + '<div class="content-title " id="tittle_{{entry_key}}"><h4>{{entry_title}}</h4></div>' 
+                      + '<div class="content-body" id="body_{{entry_key}}">{{entry_html}}</div>' 
+                      + '<div class="content-footer" id="footer_{{entry_key}}">'
+                      + '<span class="glyphicon glyphicon-bookmark" aria-hidden="true"></span>'
+                      + '<span class="glyphicon glyphicon-tag" aria-hidden="true"></span>'
+                      + '<img id="bookmark" src="/images/book-grey-256.png" width="24" height="24" style="margin:1px ; cursor: pointer; ">'
+                      + '<img id="tag" src="/images/tag.png" width="24" height="24" style="margin:1px ; cursor: pointer; ">'
+                      + '<span class="social">'
+                      + '<img id="fb_share" src="/images/facebook.png" width="24" height="24" style="margin:1px ; cursor: pointer; ">'
+                      + '<img id="mail_entry" src="/images/twitter.png" width="24" height="24" style="margin:1px ; cursor: pointer; ">'
+                      + '<img id="google_share" src="/images/google+.png" width="24" height="24" style="margin:1px ; cursor: pointer; ">'
+                      + '<img id="mail_entry" src="/images/mail.png" width="24" height="24" style="margin:1px ; cursor: pointer; "></span>'
+				      + '</div>' 
+				      + '</div>' 
+    				  + '</div>{{/.}}' ;
 
-var output = Mustache.render(template, feed) ;
-console.log(output) ;
-console.log('-------------------------------------------------------------------------------') ;
-/*  var frag = '', node ;
-  for (var i in feed) {
-	  node = feed[i] ;
-
-      // TODO: TEMPLATE 
-	  frag = frag + '<div class="entry" uri="' + node.entry_uri + '" id="' + node.entry_key + '">'
-                  + '<div class="header ' + node.status + '" id="header">'
-                  + '<span class="title">' + node.entry_title + '</span>'
-                  + '<span class="pubdate">' + node.publication_date + '</span>'
-                  + '</div>'
-                  + '<div class="content collapsed" id="content_' + node.entry_key + '">' 
-                  + '<div class="content-title " id="tittle_' + node.entry_key + '"><h4>' + node.entry_title + '</h4></div>' 
-                  + '<div class="content-body" id="body_' + node.entry_key + '">' + node.entry_html + '</div>' 
-                  + '<div class="content-footer" id="footer_' + node.entry_key + '">'
-                  + '<span class="glyphicon glyphicon-bookmark" aria-hidden="true"></span>'
-                  + '<span class="glyphicon glyphicon-tag" aria-hidden="true"></span>'
-                  + '<img id="bookmark" src="/images/book-grey-256.png" width="24" height="24" style="margin:1px ; cursor: pointer; ">'
-                  + '<img id="tag" src="/images/tag.png" width="24" height="24" style="margin:1px ; cursor: pointer; ">'
-                  + '<span class="social">'
-                  + '<img id="fb_share" src="/images/facebook.png" width="24" height="24" style="margin:1px ; cursor: pointer; ">'
-                  + '<img id="mail_entry" src="/images/twitter.png" width="24" height="24" style="margin:1px ; cursor: pointer; ">'
-                  + '<img id="google_share" src="/images/google+.png" width="24" height="24" style="margin:1px ; cursor: pointer; ">'
-                  + '<img id="mail_entry" src="/images/mail.png" width="24" height="24" style="margin:1px ; cursor: pointer; "></span>'
-				  + '</div>' 
-				  + '</div>' 
-				  + '</div>' ;
-
-  }
-console.log(frag) ;*/
-
-  $("#entrylist").html(output) ;
+  $("#entrylist").html(Mustache.render(template, feed)) ;
   $("[id^=header]").click(function(t) {
       $(t.target.parentNode).removeClass('unread') ;
 	  setEntryStatus({ key: t.target.parentNode.parentNode.id, status: 'R' }) ;
@@ -220,16 +183,16 @@ function subscribeFeed(params) {
 
 function showSearchResults(data) {
 
-  // TODO: TEMPLATE 
-  var frag = "<table id='suggest-table' data-pagination='true' data-toggle='table'><thead><tr><th>Feed</th><th></th></tr></thead><tbody>" ;
-  for (i in data) {
-    frag = frag + "<tr data-url-id=" + data[i].id + "'><td><h5><b>" + data[i].title + "</b></h5>" + data[i].url
-         + "</td><td id='add-feed' data-url-id='" + data[i].id
-         + "' style='vertical-align:middle'><span id='Xadd-feed' data-url-id='"
-         + data[i].id + "' class='glyphicon glyphicon-plus' aria-hidden='true'></span></td></tr>" ;
-  }
-  frag = frag + "</tbody></table>" ;
-  $('#search-results').html(frag) ;
+  var template = "<table id='suggest-table' data-pagination='true' data-toggle='table'><thead><tr><th>Feed</th><th></th></tr></thead><tbody>" 
+               + "{{#.}}"
+	  		   + "<tr data-url-id={{id}}'><td><h5><b>{{title}}</b></h5>{{url}}"
+	 		   + "</td><td id='add-feed' data-url-id='{{id}}"
+			   + "' style='vertical-align:middle'><span id='Xadd-feed' data-url-id='"
+			   + "{{id}}' class='glyphicon glyphicon-plus' aria-hidden='true'></span></td></tr>"
+			   + "{{/.}}"
+			   + "</tbody></table>" ;
+
+  $('#search-results').html(Mustache.render(template, data)) ;
 
   $('#suggest-table').dataTable() ;
 
@@ -327,13 +290,29 @@ function showManageFeeds() {
           contentType: "application/json",
           context: this,
           success: function(data) {
-                     var selfrag ;
+//                     var selfrag ;
 //TODO: TEMPLATE 
-                     var frag = "<table class='table table-striped table-bordered' id='manage-table' data-pagination='true' data-toggle='table'><thead><tr><th></th><th>Title</th><th>Folder</th><th></th></tr></thead><tbody>" ;
-                     for (i in data) {
+//                     var frag = "<table class='table table-striped table-bordered' id='manage-table' data-pagination='true' data-toggle='table'><thead><tr><th></th><th>Title</th><th>Folder</th><th></th></tr></thead><tbody>" ;
+var template = "<table class='table table-striped table-bordered' id='manage-table' data-pagination='true' data-toggle='table'><thead><tr><th></th><th>Title</th><th>Folder</th><th></th></tr></thead><tbody>"
+             + "{{#.}}"
+             + "<tr data-url-id={{feed_id}}>"
+			 + "<td>{{feed_id}}</td>"
+			 + "<td>{{feed_title}}</td>"
+			 + "<td>{{folder_name}}</td>"
+			 + "<td><button id='edit-feed' class='btn btn-sm btn-primary'><span class='glyphicon glyphicon-pencil'></span></button>&nbsp;"
+             + "<button id='delete-feed' class='btn btn-sm btn-danger' data-toggle='modal' data-target='#confirm-modal' data-feed-title='{{feed_title}}' data-url-id='{{feed_id}}'><span class='glyphicon glyphicon-trash'></span></button>"
+             + "</td></tr>"
+			 + "{{/.}}"
+			 + "</tbody></table>" ;
+console.log('--------------------------------') ;
+var output = Mustache.render(template, data)
+console.log(output) ;
+console.log('--------------------------------') ;
+/*                     for (i in data) {
 //                       selfrag = '<div id="the-basics"><input class="typeahead" type="text" placeholder="' + data[i].folder_name + '" value="' + data[i].folder_name +'"></div>' ;
 //console.log('typeahead: ' + selfrag) ;
                        selfrag = data[i].folder_name ;
+					   console.log(selfrag) ;
                        frag = frag + "<tr data-url-id=" + data[i].feed_id + "><td>" + data[i].feed_id
                             + "</td><td>" + data[i].feed_title + "</td><td>" + selfrag + "</td><td>"
                             + "<button id='edit-feed' class='btn btn-sm btn-primary'><span class='glyphicon glyphicon-pencil'></span></button>&nbsp;"
@@ -341,9 +320,11 @@ function showManageFeeds() {
                             + "</td></tr>" ;
                      }
                      frag = frag + "</tbody></table>" ;
-
+console.log(frag) ;
+console.log('--------------------------------') ;
 //                     $("#manage-list").html(frag) ;
-                     $("#managefeeds").html(frag) ;
+//                     $("#managefeeds").html(frag) ;*/
+                     $("#managefeeds").html(output) ;
                      $('.selectpicker').selectpicker();
 
 
