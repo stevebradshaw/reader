@@ -290,44 +290,22 @@ function showManageFeeds() {
           contentType: "application/json",
           context: this,
           success: function(data) {
-//                     var selfrag ;
-//TODO: TEMPLATE 
-//                     var frag = "<table class='table table-striped table-bordered' id='manage-table' data-pagination='true' data-toggle='table'><thead><tr><th></th><th>Title</th><th>Folder</th><th></th></tr></thead><tbody>" ;
-var template = "<table class='table table-striped table-bordered' id='manage-table' data-pagination='true' data-toggle='table'><thead><tr><th></th><th>Title</th><th>Folder</th><th></th></tr></thead><tbody>"
-             + "{{#.}}"
-             + "<tr data-url-id={{feed_id}}>"
-			 + "<td>{{feed_id}}</td>"
-			 + "<td>{{feed_title}}</td>"
-			 + "<td>{{folder_name}}</td>"
-			 + "<td><button id='edit-feed' class='btn btn-sm btn-primary'><span class='glyphicon glyphicon-pencil'></span></button>&nbsp;"
-             + "<button id='delete-feed' class='btn btn-sm btn-danger' data-toggle='modal' data-target='#confirm-modal' data-feed-title='{{feed_title}}' data-url-id='{{feed_id}}'><span class='glyphicon glyphicon-trash'></span></button>"
-             + "</td></tr>"
-			 + "{{/.}}"
-			 + "</tbody></table>" ;
-console.log('--------------------------------') ;
-var output = Mustache.render(template, data)
-console.log(output) ;
-console.log('--------------------------------') ;
-/*                     for (i in data) {
-//                       selfrag = '<div id="the-basics"><input class="typeahead" type="text" placeholder="' + data[i].folder_name + '" value="' + data[i].folder_name +'"></div>' ;
-//console.log('typeahead: ' + selfrag) ;
-                       selfrag = data[i].folder_name ;
-					   console.log(selfrag) ;
-                       frag = frag + "<tr data-url-id=" + data[i].feed_id + "><td>" + data[i].feed_id
-                            + "</td><td>" + data[i].feed_title + "</td><td>" + selfrag + "</td><td>"
-                            + "<button id='edit-feed' class='btn btn-sm btn-primary'><span class='glyphicon glyphicon-pencil'></span></button>&nbsp;"
-                            + "<button id='delete-feed' class='btn btn-sm btn-danger' data-toggle='modal' data-target='#confirm-modal' data-feed-title='" + data[i].feed_title + "' data-url-id='" +  data[i].feed_id  + "'><span class='glyphicon glyphicon-trash'></span></button>"
-                            + "</td></tr>" ;
-                     }
-                     frag = frag + "</tbody></table>" ;
-console.log(frag) ;
-console.log('--------------------------------') ;
-//                     $("#manage-list").html(frag) ;
-//                     $("#managefeeds").html(frag) ;*/
-                     $("#managefeeds").html(output) ;
+
+                     var template = "<table class='table table-striped table-bordered' id='manage-table' data-pagination='true' data-toggle='table'>"
+                                  + "<thead><tr><th></th><th>Title</th><th>Folder</th><th></th></tr></thead><tbody>"
+                                  + "{{#.}}"
+                                  + "<tr data-url-id={{feed_id}}>"
+                     			  + "<td>{{feed_id}}</td>"
+                     			  + "<td>{{feed_title}}</td>"
+                     			  + "<td>{{folder_name}}</td>"
+                     			  + "<td><button id='edit-feed' class='btn btn-sm btn-primary'><span class='glyphicon glyphicon-pencil'></span></button>&nbsp;"
+                                  + "<button id='delete-feed' class='btn btn-sm btn-danger' data-toggle='modal' data-target='#confirm-modal' data-feed-title='{{feed_title}}' data-url-id='{{feed_id}}'><span class='glyphicon glyphicon-trash'></span></button>"
+                                  + "</td></tr>"
+                     			  + "{{/.}}"
+                     			  + "</tbody></table>" ;
+
+                     $("#managefeeds").html(Mustache.render(template, data)) ;
                      $('.selectpicker').selectpicker();
-
-
 
                      $('#manage-table').dataTable({"aoColumns": [ { //"targets": [ 0 ],
                                                                       "visible": false },
@@ -411,7 +389,7 @@ function setupToolBarButtons() {
 
   $("#btn-refresh-feed").click(function(t) {
     showFeed({ id: currentFeedId, title: currentFeedTitle}) ;
-  }) ;
+  }) ; 
 
   $("#btn-mark-all-read").click(function(t) {
     setFeedStatus({ id: currentFeedId, status: 'R' }) ;
