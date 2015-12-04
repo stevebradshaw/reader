@@ -1,5 +1,36 @@
 var currentFeedId, currentFeedTitle ;
 
+var cache = {} ;
+
+function populateCache(params) {
+  //
+  // Parameters
+  //
+  // params.key - the cache key to populate
+  // params.url - url to load into the cache
+  //
+  // TODO
+  //
+  // params.defer - whether to load immediately or wait until the cache entry is requested
+  // params.ttl - how long (in seconds) should the entry remain in the cache
+  //
+
+  $.get( params.url , function( data ) {
+	cache[params.key] = data ;
+  });
+
+}
+
+function getCacheEntry(params) {
+  return cache[params.key] ;
+}
+
+populateCache({ key: "suggest", url: "templates/suggest.tmpl"}) ;
+populateCache({ key: "feedentries", url: "templates/feed-entries.tmpl"}) ;
+populateCache({ key: "folderlist", url: "templates/folderlist.tmpl"}) ;
+populateCache({ key: "searchresults", url: "templates/searchresults.tmpl"}) ;
+populateCache({ key: "managefeeds", url: "templates/managefeeds.tmpl"}) ;
+
 function endsWith(str, suffix) {
     return str.indexOf(suffix, str.length - suffix.length) !== -1;
 }
@@ -50,28 +81,7 @@ function setEntryStatus(params) {
 }
 
 function displayFeed(feed) {
-  var template = '' ;
-  template = template + '{{#.}}<div class="entry" uri="{{entry_uri}}" id="{{entry_key}}">'
-                      + '<div class="header {{status}}" id="header">'
-                      + '<span class="title">{{entry_title}}</span>'
-                      + '<span class="pubdate">{{publication_date}}</span>'
-                      + '</div>'
-                      + '<div class="content collapsed" id="content_{{entry_key}}">' 
-                      + '<div class="content-title " id="tittle_{{entry_key}}"><h4>{{entry_title}}</h4></div>' 
-                      + '<div class="content-body" id="body_{{entry_key}}">{{entry_html}}</div>' 
-                      + '<div class="content-footer" id="footer_{{entry_key}}">'
-                      + '<span class="glyphicon glyphicon-bookmark" aria-hidden="true"></span>'
-                      + '<span class="glyphicon glyphicon-tag" aria-hidden="true"></span>'
-                      + '<img id="bookmark" src="/images/book-grey-256.png" width="24" height="24" style="margin:1px ; cursor: pointer; ">'
-                      + '<img id="tag" src="/images/tag.png" width="24" height="24" style="margin:1px ; cursor: pointer; ">'
-                      + '<span class="social">'
-                      + '<img id="fb_share" src="/images/facebook.png" width="24" height="24" style="margin:1px ; cursor: pointer; ">'
-                      + '<img id="mail_entry" src="/images/twitter.png" width="24" height="24" style="margin:1px ; cursor: pointer; ">'
-                      + '<img id="google_share" src="/images/google+.png" width="24" height="24" style="margin:1px ; cursor: pointer; ">'
-                      + '<img id="mail_entry" src="/images/mail.png" width="24" height="24" style="margin:1px ; cursor: pointer; "></span>'
-				      + '</div>' 
-				      + '</div>' 
-    				  + '</div>{{/.}}' ;
+  var template = getCacheEntry({ key: "feedentries"})  ;
 
   $("#entrylist").html(Mustache.render(template, feed)) ;
   $("[id^=header]").click(function(t) {
@@ -83,6 +93,7 @@ function displayFeed(feed) {
 
 function openMenu(params) {
   console.log(params) ;
+
 // 183Node
 var sel = 'li#' + params.id ;
 $(".feedSelected").removeClass("feedSelected") ;
@@ -131,7 +142,7 @@ function populateFeedList() {
           success: function(data) {
 
                      var json = JSON.parse(data),
-                         template = '{{#.}}<div id="folder_{{id}}" class="folder">{{folder_name}}</div><div id="feeds_{{id}}" class="feeds" style="display:none">{{#feeds}}<li class="feed" id="{{id}}">{{feed_title}}</li>{{/feeds}}</div>{{/.}}' ;
+					 template = getCacheEntry({ key: 'folderlist'}) ;
 
                      $("#accordion").html(Mustache.render(template, json)) ;
 
@@ -183,14 +194,7 @@ function subscribeFeed(params) {
 
 function showSearchResults(data) {
 
-  var template = "<table id='suggest-table' data-pagination='true' data-toggle='table'><thead><tr><th>Feed</th><th></th></tr></thead><tbody>" 
-               + "{{#.}}"
-	  		   + "<tr data-url-id={{id}}'><td><h5><b>{{title}}</b></h5>{{url}}"
-	 		   + "</td><td id='add-feed' data-url-id='{{id}}"
-			   + "' style='vertical-align:middle'><span id='Xadd-feed' data-url-id='"
-			   + "{{id}}' class='glyphicon glyphicon-plus' aria-hidden='true'></span></td></tr>"
-			   + "{{/.}}"
-			   + "</tbody></table>" ;
+  var template = getCacheEntry({ key: 'searchresults' }) ;
 
   $('#search-results').html(Mustache.render(template, data)) ;
 
@@ -291,7 +295,8 @@ function showManageFeeds() {
           context: this,
           success: function(data) {
 
-                     var template = "<table class='table table-striped table-bordered' id='manage-table' data-pagination='true' data-toggle='table'>"
+var template = getCacheEntry({ key: 'managefeeds' }) ;
+/*                     var template = "<table class='table table-striped table-bordered' id='manage-table' data-pagination='true' data-toggle='table'>"
                                   + "<thead><tr><th></th><th>Title</th><th>Folder</th><th></th></tr></thead><tbody>"
                                   + "{{#.}}"
                                   + "<tr data-url-id={{feed_id}}>"
@@ -302,7 +307,7 @@ function showManageFeeds() {
                                   + "<button id='delete-feed' class='btn btn-sm btn-danger' data-toggle='modal' data-target='#confirm-modal' data-feed-title='{{feed_title}}' data-url-id='{{feed_id}}'><span class='glyphicon glyphicon-trash'></span></button>"
                                   + "</td></tr>"
                      			  + "{{/.}}"
-                     			  + "</tbody></table>" ;
+                     			  + "</tbody></table>" ;*/
 
                      $("#managefeeds").html(Mustache.render(template, data)) ;
                      $('.selectpicker').selectpicker();
@@ -414,10 +419,9 @@ $(document).ready(function() {
             contentType: "application/json",
             context: this,
             success: function(data) {
-              var template = "{{#.}}<button class='btn btn-sm' id='category-btn' data-category='{{category}}' data-category-id='{{id}}' style='margin:4px' type='button'>{{category}}&nbsp;&nbsp;<span class='badge'>{{number}}</span></button>{{/.}}" ;
-			  var output = Mustache.render(template, data);
+              var template = getCacheEntry({ key: 'suggest'}) ; //cache['suggest'] ;
 
-              $("#category-panel").html(output) ;
+              $("#category-panel").html(Mustache.render(template, data)) ;
               $("[id^='category-btn']").click(function(e) {
 
                 $(e.target).toggleClass('btn-success') ;
