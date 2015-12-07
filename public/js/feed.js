@@ -15,7 +15,10 @@ function populateCache(params) {
   // params.ttl - how long (in seconds) should the entry remain in the cache
   //
 
-  var node = { url: params.url, data: '', defer: params.defer, ttl: params.ttl }
+var defer = typeof params.defer !== 'undefined' ? params.defer : false,
+    ttl = typeof params.ttl !== 'undefined' ? params.ttl : 0 ;
+
+  var node = { url: params.url, data: '', defer: defer, ttl: ttl } ;
 
   if (params.defer == true ) {
 	cache[params.key] = node ; //{ /*url: params.url, */data: data } ;
@@ -29,18 +32,21 @@ console.log(params.key + ' - defer') ;
 
 }
 
-function populateCache(params) {
-console.log('populate - ' || params.key) ;
+function loadCache(params) {
+console.log('loadCache') ;
+console.log(params) ;
     $.get( params.url , function( data ) {
+console.log(data) ;		
   	  cache[params.key].data = data ; // = node ; //{ /*url: params.url, */data: data } ;
     });
 
 }
 
 function getCacheEntry(params) {
-
-  if (cache[params.key].defer == true) {
-    populateCache(params) ;
+console.log('getCacheEntry') ;
+console.log(params) ;
+  if (cache[params.key].defer === true) {
+    loadCache(params) ;
   }
   console.log(cache[params.key].defer) ;
   return cache[params.key].data ;
