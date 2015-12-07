@@ -1,6 +1,6 @@
 var currentFeedId, currentFeedTitle ;
 
-var cache = {} ;
+var cache = [] ;
 
 function populateCache(params) {
   //
@@ -15,22 +15,44 @@ function populateCache(params) {
   // params.ttl - how long (in seconds) should the entry remain in the cache
   //
 
-  $.get( params.url , function( data ) {
-	cache[params.key] = data ;
-  });
+  var node = { url: params.url, data: '', defer: params.defer, ttl: params.ttl }
+
+  if (params.defer == true ) {
+	cache[params.key] = node ; //{ /*url: params.url, */data: data } ;
+console.log(params.key + ' - defer') ;
+  } else {
+    $.get( params.url , function( data ) {
+      node.data = data ; 
+  	  cache[params.key] = node ; //{ /*url: params.url, */data: data } ;
+    });
+  }
+
+}
+
+function populateCache(params) {
+console.log('populate - ' || params.key) ;
+    $.get( params.url , function( data ) {
+  	  cache[params.key].data = data ; // = node ; //{ /*url: params.url, */data: data } ;
+    });
 
 }
 
 function getCacheEntry(params) {
-  return cache[params.key] ;
+
+  if (cache[params.key].defer == true) {
+    populateCache(params) ;
+  }
+  console.log(cache[params.key].defer) ;
+  return cache[params.key].data ;
 }
 
-populateCache({ key: "suggest", url: "templates/suggest.tmpl"}) ;
+populateCache({ key: "suggest", url: "templates/suggest.tmpl", defer: true }) ;
 populateCache({ key: "feedentries", url: "templates/feed-entries.tmpl"}) ;
 populateCache({ key: "folderlist", url: "templates/folderlist.tmpl"}) ;
 populateCache({ key: "searchresults", url: "templates/searchresults.tmpl"}) ;
 populateCache({ key: "managefeeds", url: "templates/managefeeds.tmpl"}) ;
 
+console.log(cache) ;
 function endsWith(str, suffix) {
     return str.indexOf(suffix, str.length - suffix.length) !== -1;
 }
