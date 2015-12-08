@@ -11,48 +11,35 @@ function populateCache(params) {
   //
   // TODO
   //
-  // params.defer - whether to load immediately or wait until the cache entry is requested
+  // params.defer - whether to load immediately or wait until the cache entry is requested. May be
+  //                performance implications of defering the load of a resource
   // params.ttl - how long (in seconds) should the entry remain in the cache
   //
+  // Debug logging of cache operations
+  //
 
-var defer = typeof params.defer !== 'undefined' ? params.defer : false,
-    ttl = typeof params.ttl !== 'undefined' ? params.ttl : 0 ;
+  var ttl = typeof params.ttl !== 'undefined' ? params.ttl : 0 ;
 
-  var node = { url: params.url, data: '', defer: defer, ttl: ttl } ;
+  var node = { url: params.url, data: '', ttl: ttl } ;
 
-  if (params.defer == true ) {
-	cache[params.key] = node ; //{ /*url: params.url, */data: data } ;
-console.log(params.key + ' - defer') ;
-  } else {
-    $.get( params.url , function( data ) {
-      node.data = data ; 
-  	  cache[params.key] = node ; //{ /*url: params.url, */data: data } ;
-    });
-  }
+  $.get( params.url , function( data ) {
+    node.data = data ; 
+   cache[params.key] = node ; //{ /*url: params.url, */data: data } ;
+  });
 
 }
 
 function loadCache(params) {
-console.log('loadCache') ;
-console.log(params) ;
-    $.get( params.url , function( data ) {
-console.log(data) ;		
-  	  cache[params.key].data = data ; // = node ; //{ /*url: params.url, */data: data } ;
-    });
-
+  $.get( params.url , function( data ) {
+    cache[params.key].data = data ; // = node ; //{ /*url: params.url, */data: data } ;
+  });
 }
 
 function getCacheEntry(params) {
-console.log('getCacheEntry') ;
-console.log(params) ;
-  if (cache[params.key].defer === true) {
-    loadCache(params) ;
-  }
-  console.log(cache[params.key].defer) ;
   return cache[params.key].data ;
 }
 
-populateCache({ key: "suggest", url: "templates/suggest.tmpl", defer: true }) ;
+populateCache({ key: "suggest", url: "templates/suggest.tmpl"}) ;
 populateCache({ key: "feedentries", url: "templates/feed-entries.tmpl"}) ;
 populateCache({ key: "folderlist", url: "templates/folderlist.tmpl"}) ;
 populateCache({ key: "searchresults", url: "templates/searchresults.tmpl"}) ;
