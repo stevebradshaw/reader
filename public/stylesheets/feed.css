@@ -32,6 +32,10 @@
 .feed:hover {
   background-color: #def;
 }
+.search-result:hover {
+  background-color: #5cb85c;
+  cursor: pointer;
+}
 ul {
   padding-left: 0px;
 }

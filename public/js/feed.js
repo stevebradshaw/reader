@@ -213,14 +213,18 @@ function showSearchResults(data) {
 
   $('#search-results').html(Mustache.render(template, data)) ;
 
-  $('#suggest-table').dataTable() ;
+  $('#suggest-table').dataTable({ "pageLength": 50 }) ;
 
 
-  $('#suggest-table').on('click', '#add-feed', function(event) {
+  $('#suggest-table').on('click', '.search-result', function(event) {
+  //$('#suggest-table').on('click', '#add-feed', function(event) {
+console.log('add feed - ' + $(this).data('url-id')) ;
+console.log($(this)) ;
     // TODO: Pop up dialog and ask for folder.  When added, auto-update the menu 
     subscribeFeed({id: $(this).data('url-id')}) ;
     var st = $('#suggest-table').DataTable() ;
-    st.row( $(this).parent('tr')).remove().draw();
+    st.row( $(this)).remove().draw();
+    //st.row( $(this).parent('tr')).remove().draw();
   }) ;
 }
 
@@ -294,11 +298,16 @@ var substringMatcher = function(strs) {
 
 function editFeed(that) {
   var tr = $(that).parent().parent()[0] ;
+console.log(tr) ;
 
+console.log('url-id = ' + $(tr).data('url-id')) ;
+console.log($(tr)[0].childNodes) ; //.childNodes[0].textContent) ;
+console.log($(tr)[0].childNodes[2].textContent) ; //.childNodes[0].textContent) ;
+console.log($(tr)[0].childNodes[4].textContent) ; //.childNodes[0].textContent) ;
   $('#edit-url-id').val($(tr).data('url-id')) ;
-  $('#feedTitle').val($(tr)[0].childNodes[0].textContent) ;
+  $('#feedTitle').val($(tr)[0].childNodes[2].textContent) ;
   $('#folder-ta').html('<input id="feedFolder" class="typeahead" type="text" placeholder="Folder">') ;
-  $('#feedFolder').val($(tr)[0].childNodes[1].textContent) ;
+  $('#feedFolder').val($(tr)[0].childNodes[4].textContent) ;
   setupFolderSelect() ;
   $('#modal-edit-feed').modal('show') ;
 }
@@ -342,6 +351,7 @@ console.log('delete subscription: ' + $(tr).data('url-id')) ;
 					 }) ;
 
                      $('[id^=edit-feed]').click(function(e) {
+console.log(this) ;
                                                   editFeed(this) ;
 /*var tr = $(this).parent().parent()[0] ;
 
