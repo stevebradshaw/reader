@@ -21,6 +21,7 @@ function setupButtons() {
              type: 'POST',
              success : function(data) {
                           if (CookieMgr.read("loggedin") == "yes") {
+							  toastr.success('Sign in successful!') ;
                              window.location = "/reader" ;
                           } else {
                             // TODO:  handle signin failed...
@@ -39,7 +40,6 @@ console.log('bad error!!!!') ;
   }) ;
 
   $("#signup-button").click(function() {
-toastr.success('do signup') ;
     console.log('do signup') ;
     $.ajax({ url: "api/signup",
 

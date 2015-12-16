@@ -188,10 +188,12 @@ function subscribeFeed(params) {
               url: '/api/subscription',
              data: { feed: { id: params.id } },              
           success: function (data) {                                
+console.log(data) ;
                      // subscribed successfully so:
                      // if category count was > 1, decrease it
                      //    category count = 1, remove the category, remove the results as no suggestions left in :q
                      //
+					 toastr.success('You are now subscribed to ' + data[0].feed_title, 'Subscription Successful!') ;
                      var sel ;
                      for (i in data) {
                        sel = $('[data-category-id="' + data[i].category_id + '"]').children() ;
