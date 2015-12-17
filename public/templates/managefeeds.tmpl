@@ -5,8 +5,8 @@
 <td>{{feed_id}}</td>
 <td>{{feed_title}}</td>
 <td>{{folder_name}}</td>
-<td><button id='edit-feed' class='btn btn-sm btn-primary'><span class='glyphicon glyphicon-pencil'></span></button>&nbsp;
-<button id='delete-feed' class='btn btn-sm btn-danger' data-toggle='modal' data-target='#confirm-modal' data-feed-title='{{feed_title}}' data-url-id='{{feed_id}}'><span class='glyphicon glyphicon-trash'></span></button>
+<td><button id='edit-feed' class='btn btn-sm btn-primary' data-toggle='modal' data-target='#modal-edit-feed' data-feed-title='{{feed_title}}' data-url-id='{{feed_id}}'><span class='glyphicon glyphicon-pencil'></span></button>&nbsp;
+    <button id='delete-feed' class='btn btn-sm btn-danger' data-toggle='modal' data-target='#confirm-modal' data-feed-title='{{feed_title}}' data-url-id='{{feed_id}}'><span class='glyphicon glyphicon-trash'></span></button>
 </td></tr>
 {{/.}}
 </tbody></table>

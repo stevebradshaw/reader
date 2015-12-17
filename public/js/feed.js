@@ -527,4 +527,10 @@ console.log(data) ;
                                      $('#confirm-modal').modal('hide');
                                    }) ;
   });
+
+  $('#edit-modal').on('show.bs.modal', function(e) {
+	  
+	  
+  }) ;
+
 }) ;
