@@ -193,7 +193,7 @@ console.log(data) ;
                      // if category count was > 1, decrease it
                      //    category count = 1, remove the category, remove the results as no suggestions left in :q
                      //
-					 toastr.success('You are now subscribed to ' + data[0].feed_title, 'Subscription Successful!') ;
+					 toastr.success('You are now subscribed to <b>' + data[0].feed_title + '</b>', 'Subscription Successful!') ;
                      var sel ;
                      for (i in data) {
                        sel = $('[data-category-id="' + data[i].category_id + '"]').children() ;
@@ -347,10 +347,10 @@ var template = getCacheEntry({ key: 'managefeeds' }) ;
                                                      "aaSorting": [[1,'asc']]
                        }) ; 
 
-                     $('[id^=delete-feed]').click(function(e) {
+/*                     $('[id^=delete-feed]').click(function(e) {
 var tr = $(this).parent().parent()[0] ;
 console.log('delete subscription: ' + $(tr).data('url-id')) ;
-					 }) ;
+					 }) ;*/
 
                      $('[id^=edit-feed]').click(function(e) {
 console.log(this) ;
