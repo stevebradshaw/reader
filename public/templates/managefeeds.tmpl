@@ -1,12 +1,12 @@
 <table class='table table-striped table-bordered' id='manage-table' data-pagination='true' data-toggle='table'>
 <thead><tr><th></th><th>Title</th><th>Folder</th><th></th></tr></thead><tbody>
 {{#.}}
-<tr data-url-id={{feed_id}}>
+<tr data-url-id={{feed_id}} data-Xfeed-title="{{feed_title}}" data-Xfolder-name="{{folder_name}}">
 <td>{{feed_id}}</td>
 <td>{{feed_title}}</td>
 <td>{{folder_name}}</td>
-<td><button id='edit-feed' class='btn btn-sm btn-primary' data-toggle='modal' data-target='#modal-edit-feed' data-feed-title='{{feed_title}}' data-url-id='{{feed_id}}'><span class='glyphicon glyphicon-pencil'></span></button>&nbsp;
-    <button id='delete-feed' class='btn btn-sm btn-danger' data-toggle='modal' data-target='#confirm-modal' data-feed-title='{{feed_title}}' data-url-id='{{feed_id}}'><span class='glyphicon glyphicon-trash'></span></button>
+<td><button id='edit-feed' class='btn btn-sm btn-primary' data-toggle='modal' data-target='#modal-edit-feed' data-url-id={{feed_id}} data-feed-title="{{feed_title}}" data-folder-name="{{folder_name}}"><span class='glyphicon glyphicon-pencil'></span></button>&nbsp;
+    <button id='delete-feed' class='btn btn-sm btn-danger' data-toggle='modal' data-target='#confirm-modal' data-url-id={{feed_id}} data-feed-title="{{feed_title}}"><span class='glyphicon glyphicon-trash'></span></button>
 </td></tr>
 {{/.}}
 </tbody></table>

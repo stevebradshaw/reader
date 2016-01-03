@@ -42,9 +42,8 @@ function del(params) {
     q2 = 'delete from user_feeds where user_id = ? and feed_id = ?' ;
 
     connection.query(q2, [ params.user_id, params.feed.feed_id ], function (err, result) {
-      console.log(err) ;
-      console.log(result) ;
-
+      // TODO: handle error condition?
+      //
       // TODO: if the folder is now empty, delete it?
     }) ;
   }) ;
@@ -54,29 +53,19 @@ function del(params) {
 
 function create_uf(params) {
 
-console.log(params) ;
-
   q = 'insert into user_folders (user_id, folder_name) values (?, ?)'
     + ' on duplicate key update folder_name = ?, id = LAST_INSERT_ID(id)' ;
 
   connection.query(q, [ params.user_id, params.feed.folder_name, params.feed.folder_name], function (err, result) {
-    console.log(err) ;
+
     if (!err) {
-      console.log(result) ;
       q2 = 'update user_feeds set folder_id = ? where user_id = ? and feed_id = ?' ;
-console.log('---------------------') ;
-console.log(result.insertId) ;
-console.log(params.user_id) ;
-console.log(params.feed.feed_id) ;
-console.log('---------------------') ;
       connection.query(q2, [ result.insertId, params.user_id, params.feed.feed_id ], function (err, result) {
-        console.log(err) ;
+
         if (!err) {
-          console.log(result) ;
           // TODO: finally, check if any folders are now empty and delete?
           q3 = 'delete from user_folders uf where user_id = 1 and not exists (select 1 from user_feeds u where u.user_id =1 and u.folder_id = uf.id)' ;
-		  console.log(q3) ;
-  res.end() ;
+          res.end() ;
         }
       }) ;
     } else {
@@ -88,13 +77,10 @@ console.log('---------------------') ;
 }
 
 function update_uf(params) {
-console.log('-- UPDATE -------------------------------------------------------------------') ;
-console.log(params) ;
+
   q = 'update user_folders set folder_name = ? where user_id = ? and id = ?'  ;
   connection.query(q, [ params.feed.folder_name, params.user_id, params.feed.folder_id ], function(err, result) {
 	  if (!err) {
-        console.log(err) ;
-        console.log(result) ;
         res.end() ;
 	  } else {
         res.status(500) ;
@@ -103,7 +89,6 @@ console.log(params) ;
 	  }
   }) ;
 
-console.log('-----------------------------------------------------------------------------') ;
 }
 
 function update_feed_title(params) {
@@ -111,8 +96,6 @@ function update_feed_title(params) {
 
   connection.query(q, [params.feed.feed_title, params.user_id, params.feed.feed_id], function(err, result) {
 	  if (!err) {
-        console.log(err) ;
-        console.log(result) ;
         res.end() ;
 	  } else {
         res.status(500) ;
@@ -123,20 +106,19 @@ function update_feed_title(params) {
 }
 function put(params) {
 
-  console.log(params) ;
-
-
   for (x in params.feed) {
 
     var f = params.feed[x] ;
     // TODO: Update feed title
     update_feed_title({ user_id: params.user_id, feed: f}) ;
 
-    if (typeof f.folder_id === 'undefined') {
-      create_uf( { user_id: params.user_id, feed: f} ) ;
-    } else {
-console.log('update') ;
-      update_uf(params) ;
+    // TODO: Don't hard-code the catch-all folder name
+    if (f.folder_name != 'Uncategorised') {
+      if (typeof f.folder_id === 'undefined') {
+        create_uf( { user_id: params.user_id, feed: f} ) ;
+      } else {
+        update_uf(params) ;
+      }
     }
 /*async.waterfall([
     function(next) { 
@@ -172,7 +154,7 @@ function post(params) {
               res.status(201) ;
               var q3 = 'select * from user_feeds uf, feed_categories fc where uf.id = ? and uf.feed_id = fc.feed_id' ;
               connection.query(q3, data.insertId, function (err,data) {
-res.send(data) ;
+              res.send(data) ;
               res.end() ;
                                                   }) ;
             } else {
@@ -193,54 +175,6 @@ res.send(data) ;
     // need to create feed and subscribe user to it
   }
 
-/*  var q = "select id, email, password, admin from users where email = ? and active = 'Y'";
-
-  connection.query(q, params.username, function(err,data) {
-
-    if (!err) {
-
-      if (data.length == 0) {
-        res.status(404) ;
-        res.end() ;
-      } else {
-
-
-        bcrypt.compare(params.password, data[0].password, function(err, isMatch) {
-	        if(err) {
-			  return console.error(err);
-			}
-
-			console.log('do they match?', isMatch);
-            if (isMatch) {
-				res.cookie("loggedin", "yes", { maxAge: 3600*1000, path: "/"});
-                res.cookie("user_id", data[0].id, { maxAge: 3600*1000, path: "/"});
-                res.cookie("email", data[0].email, { maxAge: 3600*1000, path: "/"});
-
-                var sessionid = "SESSION:" + uuid.v1() ;
-
-                res.cookie("sessionid", sessionid, { maxAge: 3600*1000, path: "/"});
-                var sess = { email: data[0].email, id: data[0].id } ;
-  
-                client.set(sessionid, JSON.stringify(sess), redis.print);
-
-                client.expire(sessionid, 24*60*60);
-                res.status(200) ;
-
-
-		    } else {
-              console.log("password doesn't match") ;
-              res.status(401) ;
-			}
-            res.end() ;
-        });
-      } 
-    } else { 
-      console.log('error') ;
-      console.log(err) ;
-      res.status(500) ;
-      res.end() ;
-    }
-  }) ;*/
 }
 
 module.exports.initRouting = function(router) {
@@ -255,22 +189,18 @@ module.exports.initRouting = function(router) {
       .put(function(rq,rs) {
           res = rs ;
           req = rq ;
-		  console.log(req.body) ;
 //          put({user_id: 1,  feed: req.body}) ;
           put({user_id: req.cookies.user_id, feed: req.body}) ;
       })
       .post(function(rq,rs) {
           res = rs ;
           req = rq ;
-		  console.log(req.body) ;
           post({user_id: req.cookies.user_id, feed: req.body.feed}) ;
       }) 
 
       .delete(function(rq,rs) {
         res = rs ;
         req = rq ;
-console.log(req) ;
-console.log(req.body) ;
         del({user_id: req.cookies.user_id, feed: req.body.feed}) ;
       }) ;
 

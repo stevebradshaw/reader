@@ -44,10 +44,9 @@ function post(params) {
 					            , function(err,data) {
 
 	if (!err) {
-
+      // TODO:  something!
 	} else {
-      console.log('error') ;
-      console.log(err) ;
+      // TODO:  Handle error
 	}
           }) ;
           // override the cleartext password with the hashed one

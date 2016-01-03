@@ -322,18 +322,6 @@ function showManageFeeds() {
           success: function(data) {
 
 var template = getCacheEntry({ key: 'managefeeds' }) ;
-/*                     var template = "<table class='table table-striped table-bordered' id='manage-table' data-pagination='true' data-toggle='table'>"
-                                  + "<thead><tr><th></th><th>Title</th><th>Folder</th><th></th></tr></thead><tbody>"
-                                  + "{{#.}}"
-                                  + "<tr data-url-id={{feed_id}}>"
-                     			  + "<td>{{feed_id}}</td>"
-                     			  + "<td>{{feed_title}}</td>"
-                     			  + "<td>{{folder_name}}</td>"
-                     			  + "<td><button id='edit-feed' class='btn btn-sm btn-primary'><span class='glyphicon glyphicon-pencil'></span></button>&nbsp;"
-                                  + "<button id='delete-feed' class='btn btn-sm btn-danger' data-toggle='modal' data-target='#confirm-modal' data-feed-title='{{feed_title}}' data-url-id='{{feed_id}}'><span class='glyphicon glyphicon-trash'></span></button>"
-                                  + "</td></tr>"
-                     			  + "{{/.}}"
-                     			  + "</tbody></table>" ;*/
 
                      $("#managefeeds").html(Mustache.render(template, data)) ;
                      $('.selectpicker').selectpicker();
@@ -347,28 +335,12 @@ var template = getCacheEntry({ key: 'managefeeds' }) ;
                                                      "aaSorting": [[1,'asc']]
                        }) ; 
 
-/*                     $('[id^=delete-feed]').click(function(e) {
-var tr = $(this).parent().parent()[0] ;
-console.log('delete subscription: ' + $(tr).data('url-id')) ;
-					 }) ;*/
 
-                     $('[id^=edit-feed]').click(function(e) {
+/*                     $('[id^=XXedit-feed]').click(function(e) {
+alert('edit feed') ;
 console.log(this) ;
                                                   editFeed(this) ;
-/*var tr = $(this).parent().parent()[0] ;
-
-console.log(tr) ;
-console.log($(tr).data('url-id')) ;
-console.log($(tr)[0].childNodes[0].textContent) ;
-console.log($(tr)[0].childNodes[1].textContent) ;
-
-$('#edit-url-id').val($(tr).data('url-id')) ;
-$('#feedTitle').val($(tr)[0].childNodes[0].textContent) ;
-$('#folder-ta').html('<input id="feedFolder" class="typeahead" type="text" placeholder="Folder">') ;
-$('#feedFolder').val($(tr)[0].childNodes[1].textContent) ;
-setupFolderSelect() ;
-$('#modal-edit-feed').modal('show') ;*/
-                                                }) ; 
+                                                }) ; */
                 }
   }) ;
 }
@@ -377,32 +349,6 @@ function refreshFeedList() {
   // TODO:  refresh feeds, redisplay etc
 
   populateFeedList() ;
-}
-
-function saveEditFeed() {
-  var url_id = $('#edit-url-id').val()
-    , feed_title = $('#feedTitle').val()
-    , folder_name = $('#feedFolder').val()
-    , sel = '*[data-url-id="' + url_id + '"]';
-
-  $(sel).children().eq(0).html(feed_title);
-  $(sel).children().eq(1).html(folder_name);
-  //update title in the folder list, just incase it is visible to the user
-  $('li#' + url_id + '.feed').html(feed_title) ;
-  $('#modal-edit-feed').modal('hide'); 
-
-  var json = '[{"feed_id":' + url_id + ', "feed_title":"' + feed_title + '","folder_name":"' + folder_name + '"} ]' ;
-
-  $.ajax({url: "/api/subscription",
-          type: 'PUT',
-          contentType: "application/json",
-          context: this,
-          data: json,
-          success: function(data) {
-			  console.log(data) ;
-              // TODO:  Update source fields in manage feeds table
-          }
-  }) ;
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -465,70 +411,113 @@ console.log($(this).data('category-id')) ;
   }) ;
 
 
-$("#manage-feeds").click(function(e) {
-  e.preventDefault() ;
+  $("#manage-feeds").click(function(e) {
+    e.preventDefault() ;
 
-  if (endsWith($(this).html(), "Manage Feeds")) {
-    // Show manage feeds page, change button to say 'View Feeds'
-    $(this).html('<span class="glyphicon glyphicon-arrow-left" aria-hidden="true"></span>&nbsp;&nbsp;View Feeds') ;
-    showManageFeeds() ;
-    $('#managefeeds').show() ;
-    $('#feedcontents').hide() ;
-  } else {
-    // Show the view feeds page and change button to say 'Manage Feeds'
-    $(this).html('<span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span>&nbsp;&nbsp;Manage Feeds') ;
-    refreshFeedList() ;
+    if (endsWith($(this).html(), "Manage Feeds")) {
+      // Show manage feeds page, change button to say 'View Feeds'
+      $(this).html('<span class="glyphicon glyphicon-arrow-left" aria-hidden="true"></span>&nbsp;&nbsp;View Feeds') ;
+      showManageFeeds() ;
+      $('#managefeeds').show() ;
+      $('#feedcontents').hide() ;
+    } else {
+      // Show the view feeds page and change button to say 'Manage Feeds'
+      $(this).html('<span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span>&nbsp;&nbsp;Manage Feeds') ;
+      refreshFeedList() ;
 //	openMenu({id: currentFeedId, title: currentFeedTitle}) ;
 
-    $('#managefeeds').hide() ;
-    $('#feedcontents').show() ;
-  }
+      $('#managefeeds').hide() ;
+      $('#feedcontents').show() ;
+    }
 
-}) ;
+  }) ;
 
-$("#suggest-search").click(function(e) {
-  e.preventDefault() ;
-  searchByString({q: $("#q").val()}) ;
-}) ;
+  $("#suggest-search").click(function(e) {
+    e.preventDefault() ;
+    searchByString({q: $("#q").val()}) ;
+  }) ;
 
-$("#save-edit-feed").click(function(e) {
-  saveEditFeed() ;
-}) ;
   // add on-show confirm dialog handler
 
+  $('#modal-edit-feed').on('show.bs.modal', function(e) {
+    $('#edit-url-id').val($(e.relatedTarget).data('url-id')) ;
+    $('#feedTitle').val($(e.relatedTarget).data('feed-title')) ;
+    $('#folder-ta').html('<input id="feedFolder" class="typeahead" type="text" placeholder="Folder">') ;
+    setupFolderSelect() ;
+    $('#feedFolder').val($(e.relatedTarget).data('folder-name')) ;
+    $("#save-edit-feed").unbind('click').click(function(e) {
+
+  var url_id = $('#edit-url-id').val()
+    , feed_title = $('#feedTitle').val()
+    , folder_name = $('#feedFolder').val()
+    , sel = '*[data-url-id="' + url_id + '"]';
+
+//  $(sel).children().eq(0).html(feed_title);
+//  $(sel).children().eq(1).html(folder_name);
+//  //update title in the folder list, just incase it is visible to the user
+//  $('li#' + url_id + '.feed').html(feed_title) ;
+  $('#modal-edit-feed').modal('hide'); 
+
+  var json = '[{"feed_id":' + url_id + ', "feed_title":"' + feed_title + '","folder_name":"' + folder_name + '"} ]' ;
+console.log('PUT /api/subscription') ;
+console.log(json) ;
+  $.ajax({url: "/api/subscription",
+          type: 'PUT',
+          contentType: "application/json",
+          context: this,
+          data: json,
+          success: function(data) {
+			  console.log(data) ;
+/*  var url_id = $('#edit-url-id').val()
+    , feed_title = $('#feedTitle').val()
+    , folder_name = $('#feedFolder').val()
+    , sel = '*[data-url-id="' + url_id + '"]';*/
+  $(sel).children().eq(0).html(feed_title);
+  $(sel).children().eq(1).html(folder_name);
+  //update title in the folder list, just incase it is visible to the user
+  $('li#' + url_id + '.feed').html(feed_title) ;
+  // Update data-feed-title and data-folder-name on buttons
+  $('*[data-url-id="' + url_id + '"]:nth-child(1)').data('feed-title', feed_title) ;
+  $('*[data-url-id="' + url_id + '"]:nth-child(1)').data('folder-name', folder_name) ;
+  $('*[data-url-id="' + url_id + '"]:nth-child(2)').data('feed-title', feed_title) ;
+  // TODO:  Work out why 'uncategorised' category is getting duplicated!
+          }
+  }) ;
+
+    }) ;
+  }) ;
+
   $('#confirm-modal').on('show.bs.modal', function(e) {
-//            $(this).find('.btn-ok').attr('href', $(e.relatedTarget).data('href'));
-var feedTitle = $(e.relatedTarget).data('feed-title'),
-    urlID = $(e.relatedTarget).data('url-id');
+ 
+    var feedTitle = $(e.relatedTarget).data('feed-title'),
+        urlID = $(e.relatedTarget).data('url-id');
 
-console.log('unsubscribe: ' + feedTitle) ;
-console.log('unsubscribe: ' + urlID) ;
-            
-            $('#confirm-body').html('Are you sure you want to unsubscribe from <strong>' + feedTitle + '</strong>?<br/><br/>You an subscribe again, but you will lose any previous interactions with the feed.');
-            $('#confirm-title').html('Confirm Unsubscribe') ;
-            $('#confirm-ok').text('Unsubscribe') ;
-            $('#confirm-cancel').text('Cancel') ;
-			$('#confirm-ok').click(function() { 
+    $('#confirm-body').html('Are you sure you want to unsubscribe from <strong>' + feedTitle + '</strong>?<br/><br/>You an subscribe again, but you will lose any previous interactions with the feed.');
+    $('#confirm-title').html('Confirm Unsubscribe') ;
+    $('#confirm-ok').text('Unsubscribe') ;
+    $('#confirm-cancel').text('Cancel') ;
+    $('#confirm-ok').unbind('click').click(function() { 
 
-                                     var json = '{ "feed": {"feed_id":' + urlID + ', "feed_title":"' + feedTitle + '"}}' ;
-console.log(json) ;									 
-                                     $.ajax({ url: "/api/subscription",
-                                              type: 'DELETE',
-                                              contentType: "application/json",
-                                              context: this,
-                                              data: json,
-                                              success: function(data) {
-												  // TODO: if successful, remove feed from the manage feeds table, and from the feed menu on the left
-												  $('li#' + urlID + '.feed').remove() ;
-console.log(data) ;
-                                              }
-                                     }) ;
+                             var json = '{ "feed": {"feed_id":' + urlID + ', "feed_title":"' + feedTitle + '"}}' ;
+                             $.ajax({ url: "/api/subscription",
+                                      type: 'DELETE',
+                                      contentType: "application/json",
+                                      context: this,
+                                      data: json,
+                                      success: function(data) {
+                         			             // TODO: if successful, remove feed from the manage feeds table, and from the feed menu on the left
+                         						 $('li#' + urlID + '.feed').remove() ;
+var row = $(sel = '*[data-url-id="' + urlID + '"]') ;
+var st = $('#manage-table').DataTable() ;
+st.row( row.remove().draw());
 
-                                     $('#confirm-modal').modal('hide');
+                                               }  
+                         
                                    }) ;
-  });
+                             $('#confirm-modal').modal('hide');
+    });
 
-  $('#edit-modal').on('show.bs.modal', function(e) {
+//  $('#edit-modal').on('show.bs.modal', function(e) {
 	  
 	  
   }) ;

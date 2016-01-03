@@ -6,7 +6,6 @@ var //md5 = require('md5'),
     client = redis.createClient(),
     uuid = require('node-uuid') ;
 
-
 var req, res ;
 var t ;
 
@@ -20,34 +19,7 @@ var connection = mysql.createConnection({
 connection.connect() ;
 
 function get(params) {
-/*  var data = [] ;
-	
-  var q = "select url_id,"
-        + "entry_key,"
-        + "entry_xml,"
-        + "entry_html,"
-        + "date_extracted,"
-        + "entry_title,"
-        + "publication_date,"
-        + "publication_tz,"
-        + "publication_date_utc,"
-        + "entry_uri,"
-        + "entry_author"
-	    + " from feed_entries"
-	    + " where entry_key = ?" ;
 
-
-  async.waterfall([
-    function(next) {
-  	connection.query(q,params.key, next) ;
-  },
-  function(results, next) {
-	  res.send(results) ;
-  }
-], function (err,res) {
-
-}) ;
-*/	 
 } 
 
 //function delete() {
@@ -95,8 +67,6 @@ function post(params) {
         });
       } 
     } else { 
-      console.log('error') ;
-      console.log(err) ;
       res.status(500) ;
       res.end() ;
     }
