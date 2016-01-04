@@ -120,14 +120,6 @@ function put(params) {
         update_uf(params) ;
       }
     }
-/*async.waterfall([
-    function(next) { 
-        var q = "select id from user_folders where user_id = ? and folder_name = 'Blogs'" ;
-		 connection.query(q, [ params.user_id ], next) ;
-	},
-    function(results, next){ console.log('second ') ; console.log(results) ; }
-]);*/
-
   }
 }
 

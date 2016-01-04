@@ -4,12 +4,13 @@ var mysql = require('mysql'),
 var req, res ;
 var t ;
 
-  var connection = mysql.createConnection({
-    host     : 'localhost',
-    user     : 'reader_dev',
-    password : 'dev',
-    database : 'reader'
-  });
+// TODO: Move connection details
+var connection = mysql.createConnection({
+  host     : 'localhost',
+  user     : 'reader_dev',
+  password : 'dev',
+  database : 'reader'
+});
 
 connection.connect() ;
 
@@ -32,7 +33,6 @@ function get(params) {
     qparams.push(params.category_id) ;
   }
 
-  console.log(qparams) ;
   async.waterfall([
     function(next) {
   	  connection.query(q,qparams, next) ;
@@ -42,6 +42,7 @@ function get(params) {
       res.end() ;
     }
   ], function (err,res) {
+	 // TODO: Improve error handling
      console.log(err) ;
   }) ;
 }
