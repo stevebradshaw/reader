@@ -476,8 +476,19 @@ console.log(json) ;
   $(sel).children().eq(1).html(folder_name);
   //update title in the folder list, just incase it is visible to the user
   $('li#' + url_id + '.feed').html(feed_title) ;
-  // TODO: if folder has changed, move feed in folder list
-  $('li#' + url_id + '.feed').remove() ;
+  // if folder has changed, move feed in folder list
+//  $('li#' + url_id + '.feed').remove() ;
+  $("[id^=feeds][data-folder-name='" + folder_name + "']").append($('li#' + url_id + '.feed')) ;
+  // TODO: Now sort the nodes as the moved node may be in the wrong place!
+  var arr = $("[id^=feeds][data-folder-name='" + folder_name + "']").children() ; // $("[data-folder-name='Uncategorised']").children() ;
+  arr.sort(function(a,b) {
+	 
+    var x = $(a).html(), y = $(b).html() ;
+    return x.localeCompare(y); 
+	 
+  }) ;
+
+  $("[id^=feeds][data-folder-name='" + folder_name + "']").html(arr) ;
   
   // Update data-feed-title and data-folder-name on buttons
   $('*[data-url-id="' + url_id + '"]:nth-child(1)').data('feed-title', feed_title) ;
