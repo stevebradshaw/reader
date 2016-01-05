@@ -476,11 +476,15 @@ console.log(json) ;
   $(sel).children().eq(1).html(folder_name);
   //update title in the folder list, just incase it is visible to the user
   $('li#' + url_id + '.feed').html(feed_title) ;
+  // TODO: if folder has changed, move feed in folder list
+  $('li#' + url_id + '.feed').remove() ;
+  
   // Update data-feed-title and data-folder-name on buttons
   $('*[data-url-id="' + url_id + '"]:nth-child(1)').data('feed-title', feed_title) ;
   $('*[data-url-id="' + url_id + '"]:nth-child(1)').data('folder-name', folder_name) ;
   $('*[data-url-id="' + url_id + '"]:nth-child(2)').data('feed-title', feed_title) ;
-  // TODO:  Work out why 'uncategorised' category is getting duplicated!
+
+  
           }
   }) ;
 
@@ -506,6 +510,7 @@ console.log(json) ;
                                       data: json,
                                       success: function(data) {
                          			             // TODO: if successful, remove feed from the manage feeds table, and from the feed menu on the left
+console.log('remove li#' + urlID) ;
                          						 $('li#' + urlID + '.feed').remove() ;
 var row = $(sel = '*[data-url-id="' + urlID + '"]') ;
 var st = $('#manage-table').DataTable() ;
