@@ -16,20 +16,23 @@ var connection = mysql.createConnection({
 
 
 var q1 = "select id, folder_name from user_folders where user_id = ? union select 0 id,'Uncategorised' folder_name  order by if(folder_name='Uncategorised', 'ZZZZZZZZZZ', folder_name)", 
-    q2 = "select f.id, uf.feed_title from feeds f, user_feeds uf where uf.user_id = ? and f.id = uf.feed_id and uf.folder_id = ?" ;
+    q2 = "select f.id, uf.feed_title from feeds f, user_feeds uf where uf.user_id = ? and f.id = uf.feed_id and uf.folder_id = ? order by feed_title" ;
 
 connection.connect() ;
 
 async.waterfall([
   function(next) {
+console.log('folderlist - 1') ;
 	connection.query(q1,params.user_id,next) ;
   },
   function(results, next) {
 	async.forEachSeries(results, function(item, next) {
+console.log('folderlist - 2') ;
         var t = next ;
 		async.waterfall([
 		  function(next) {
             connection.query(q2,[params.user_id, item.id],next) ;
+console.log('folderlist - 3') ;
 		  },
 		  function(results,next) {
 			var d = item ;
@@ -40,6 +43,7 @@ async.waterfall([
 
 	},
 	function() {
+console.log('folderlist - 4') ;
 	  connection.end() ;
       //params.res.send(data) ;
 
