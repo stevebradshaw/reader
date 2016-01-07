@@ -106,6 +106,9 @@ function update_feed_title(params) {
 }
 function put(params) {
 
+  async.waterfall([
+    function(next) {
+
   for (x in params.feed) {
 
     var f = params.feed[x] ;
@@ -121,6 +124,16 @@ function put(params) {
       }
     }
   }
+
+    },
+    function(results, next) {
+      res.send(results) ;
+      res.end() ;
+    }
+  ], function (err,res) {
+     console.log(err) ;
+  }) ;
+
 }
 
 function post(params) {
