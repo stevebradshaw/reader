@@ -467,7 +467,9 @@ console.log(json) ;
           context: this,
           data: json,
           success: function(data) {
+console.log('update success') ;
 			  console.log(data) ;
+console.log(json) ;
 /*  var url_id = $('#edit-url-id').val()
     , feed_title = $('#feedTitle').val()
     , folder_name = $('#feedFolder').val()
