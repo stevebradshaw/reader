@@ -470,6 +470,12 @@ console.log(json) ;
 console.log('update success') ;
 			  console.log(data) ;
 console.log(json) ;
+if ($("[id^=folder_]").filter(function() { return $(this).text() === "Oracle TechX" ; }).length === 0 ) {
+  console.log('that was a new folder so add it to the menu etc') ;
+} else {
+  console.log('existing tree so do different stuff') ;
+}
+
 /*  var url_id = $('#edit-url-id').val()
     , feed_title = $('#feedTitle').val()
     , folder_name = $('#feedFolder').val()
