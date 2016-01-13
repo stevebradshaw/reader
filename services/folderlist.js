@@ -15,15 +15,26 @@ var connection = mysql.createConnection({
 });
 
 
+
 var q1 = "select id, folder_name from user_folders where user_id = ? union select 0 id,'Uncategorised' folder_name  order by if(folder_name='Uncategorised', 'ZZZZZZZZZZ', folder_name)", 
     q2 = "select f.id, uf.feed_title from feeds f, user_feeds uf where uf.user_id = ? and f.id = uf.feed_id and uf.folder_id = ? order by feed_title" ;
+
+
+
+console.log('q1: ' + q1) ;
 
 connection.connect() ;
 
 async.waterfall([
   function(next) {
 console.log('folderlist - 1') ;
+if ( typeof req.query.folder_name !== 'undefined' ) {
+  q1 = "select * from (" + q1 + ") x where folder_name = ?" ; 
+  console.log(q1) 
+	connection.query(q1, [ params.user_id,req.query.folder_name ],next) ;
+} else {
 	connection.query(q1,params.user_id,next) ;
+}
   },
   function(results, next) {
 	async.forEachSeries(results, function(item, next) {
@@ -63,6 +74,7 @@ module.exports.initRouting = function(router) {
       .get(function(rq,rs) {
 		  req = rq ;
 		  res = rs ;
+		  console.log(req) ;
 		  get({user_id: req.cookies.user_id})  ;
 	  })
 	  

@@ -459,8 +459,7 @@ console.log($(this).data('category-id')) ;
   $('#modal-edit-feed').modal('hide'); 
 
   var json = '[{"feed_id":' + url_id + ', "feed_title":"' + feed_title + '","folder_name":"' + folder_name + '"} ]' ;
-console.log('PUT /api/subscription') ;
-console.log(json) ;
+
   $.ajax({url: "/api/subscription",
           type: 'PUT',
           contentType: "application/json",
@@ -468,32 +467,8 @@ console.log(json) ;
           data: json,
           success: function(data) {
 console.log('update success') ;
-			  console.log(data) ;
+console.log(data) ;
 console.log(json) ;
-if ($("[id^=folder_]").filter(function() { return $(this).text() === "Oracle TechX" ; }).length === 0 ) {
-  console.log('that was a new folder so add it to the menu etc') ;
-  $.ajax({url: "/api/folderlist?folder_name=" + folder_name,
-          type: 'GET',
-		  contentType: "application/json",
-		  context: this,
-		  success: function(data) {
-             console.log('MUNGE THIS') ;
-			 console.log(data) ;
-console.log(JSON.parse(data)) ;
-			  var json = JSON.parse(data),
-			      template = getCacheEntry({ key: 'folderlist'}) ;
-			 console.log(json) ; 
-			 $("#accordion").append(Mustache.render(template, json)) ;
-			 console.log('appended') ;
-
-		  } 
-  }) ;
-
-         
-} else {
-  console.log('existing tree so do different stuff') ;
-}
-
 /*  var url_id = $('#edit-url-id').val()
     , feed_title = $('#feedTitle').val()
     , folder_name = $('#feedFolder').val()
@@ -514,15 +489,13 @@ console.log(JSON.parse(data)) ;
 	 
   }) ;
 
-  $("[id^=feeds][data-folder-name='" + folder_name + "']").html(arr) ;
+      $("[id^=feeds][data-folder-name='" + folder_name + "']").html(arr) ;
   
-  // Update data-feed-title and data-folder-name on buttons
-  $('*[data-url-id="' + url_id + '"]:nth-child(1)').data('feed-title', feed_title) ;
-  $('*[data-url-id="' + url_id + '"]:nth-child(1)').data('folder-name', folder_name) ;
-  $('*[data-url-id="' + url_id + '"]:nth-child(2)').data('feed-title', feed_title) ;
-
-  
-          }
+      // Update data-feed-title and data-folder-name on button data attributes
+      $('*[data-url-id="' + url_id + '"]:nth-child(1)').data('feed-title', feed_title) ;
+      $('*[data-url-id="' + url_id + '"]:nth-child(1)').data('folder-name', folder_name) ;
+      $('*[data-url-id="' + url_id + '"]:nth-child(2)').data('feed-title', feed_title) ;
+    }
   }) ;
 
     }) ;
