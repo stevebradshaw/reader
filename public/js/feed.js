@@ -470,7 +470,7 @@ console.log(json) ;
 console.log('update success') ;
 			  console.log(data) ;
 console.log(json) ;
-if ($("[id^=folder_]").filter(function() { return $(this).text() === "Oracle TechX" ; }).length === 0 ) {
+if ($("[id^=folder_]").filter(function() { return $(this).text() === folder_name ; }).length === 0 ) {
   console.log('that was a new folder so add it to the menu etc') ;
   $.ajax({url: "/api/folderlist?folder_name=" + folder_name,
           type: 'GET',
@@ -521,14 +521,11 @@ console.log(arr) ;
          
 } else {
   console.log('existing tree so do different stuff') ;
-}
 
 /*  var url_id = $('#edit-url-id').val()
     , feed_title = $('#feedTitle').val()
     , folder_name = $('#feedFolder').val()
     , sel = '*[data-url-id="' + url_id + '"]';*/
-  $(sel).children().eq(0).html(feed_title);
-  $(sel).children().eq(1).html(folder_name);
   //update title in the folder list, just incase it is visible to the user
   $('li#' + url_id + '.feed').html(feed_title) ;
   // if folder has changed, move feed in folder list
@@ -544,7 +541,11 @@ console.log(arr) ;
   }) ;
 
   $("[id^=feeds][data-folder-name='" + folder_name + "']").html(arr) ;
-  
+}  
+  // update manage feeds table
+  $(sel).children().eq(0).html(feed_title);
+  $(sel).children().eq(1).html(folder_name);
+
   // Update data-feed-title and data-folder-name on buttons
   $('*[data-url-id="' + url_id + '"]:nth-child(1)').data('feed-title', feed_title) ;
   $('*[data-url-id="' + url_id + '"]:nth-child(1)').data('folder-name', folder_name) ;
