@@ -58,6 +58,9 @@ console.log('folderlist - 4') ;
 	  connection.end() ;
       //params.res.send(data) ;
 
+console.log('---------------------------------------------------------') ;
+console.log(JSON.stringify(data)) ;
+console.log('---------------------------------------------------------') ;
       res.send(data) ;
 
 	}) ;

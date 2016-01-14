@@ -479,12 +479,41 @@ if ($("[id^=folder_]").filter(function() { return $(this).text() === "Oracle Tec
 		  success: function(data) {
              console.log('MUNGE THIS') ;
 			 console.log(data) ;
-console.log(JSON.parse(data)) ;
-			  var json = JSON.parse(data),
+console.log('json is') ;
+console.log(data) ;
+			  var json = data, //JSON.parse(data),
 			      template = getCacheEntry({ key: 'folderlist'}) ;
+console.log('template') ;
+console.log(template) ;
 			 console.log(json) ; 
+console.log('append to accordion') ;
 			 $("#accordion").append(Mustache.render(template, json)) ;
 			 console.log('appended') ;
+
+             // now sort the accordion
+             var arr = $('#accordion').children() ;
+console.log(arr) ;
+             arr.sort(function(a,b) {
+               var x = $(a).html(), y = $(b).html() ;
+               return x.localeCompare(y); 
+             }) ;
+console.log(arr) ;
+             $('#accordion').html(arr) ;
+
+             // finally, redo all the click events on teh accordion
+             $(".folder").unbind('click').click(function(t) {
+                 $("#feeds_" + t.target.id.substring(7)).slideToggle("fast") ;
+             }) ;
+
+             $(".feed").unbind('click').click(function(t) {
+               //  clear feedSelected class
+               $(".feedSelected").removeClass("feedSelected") ;
+
+               //  add feedSelected class
+               $(t.target).addClass("feedSelected") ;
+
+               showFeed({ id: t.target.id, title: t.target.innerHTML }) ;
+             }) ;
 
 		  } 
   }) ;
