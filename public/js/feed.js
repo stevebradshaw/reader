@@ -161,8 +161,8 @@ function populateFeedList() {
 
                      $("#accordion").html(Mustache.render(template, json)) ;
 
-                     $(".folder").click(function(t) {
-                       $("#feeds_" + t.target.id.substring(7)).slideToggle("fast") ;
+                     $(".feed_title_bar").click(function(t) {
+                       $("#feeds_" + t.target.parentElement.id.substring(7)).slideToggle("fast") ;
                      }) ;
 
                      $(".feed").click(function(t) {

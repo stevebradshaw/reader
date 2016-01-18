@@ -20,15 +20,17 @@
 .folder {
   padding-bottom: 2px;
   padding-top: 4px;
-  font-weight: bold;
   cursor: pointer;
+}
+.feed_title_bar {
+  font-weight: bold;
 }
 .feed {
   border-left: 3px solid #fff;
   padding-left: 3px;
   cursor: pointer;
 }
-.folder:hover,
+.feed_title_bar:hover,
 .feed:hover {
   background-color: #def;
 }
