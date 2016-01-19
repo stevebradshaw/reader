@@ -45,7 +45,6 @@ populateCache({ key: "folderlist", url: "templates/folderlist.tmpl"}) ;
 populateCache({ key: "searchresults", url: "templates/searchresults.tmpl"}) ;
 populateCache({ key: "managefeeds", url: "templates/managefeeds.tmpl"}) ;
 
-console.log(cache) ;
 function endsWith(str, suffix) {
     return str.indexOf(suffix, str.length - suffix.length) !== -1;
 }
@@ -107,14 +106,11 @@ function displayFeed(feed) {
 }
 
 function openMenu(params) {
-  console.log(params) ;
-
-// 183Node
-var sel = 'li#' + params.id ;
-$(".feedSelected").removeClass("feedSelected") ;
-$(sel).addClass('feedSelected') ;
-$(sel).parent().css('display', '');
-showFeed(params) ;
+  var sel = 'li#' + params.id ;
+  $(".feedSelected").removeClass("feedSelected") ;
+  $(sel).addClass('feedSelected') ;
+  $(sel).parent().css('display', '');
+  showFeed(params) ;
 }
 
 function showFeed(params) {
@@ -188,7 +184,6 @@ function subscribeFeed(params) {
               url: '/api/subscription',
              data: { feed: { id: params.id } },              
           success: function (data) {                                
-console.log(data) ;
                      // subscribed successfully so:
                      // if category count was > 1, decrease it
                      //    category count = 1, remove the category, remove the results as no suggestions left in :q
@@ -220,8 +215,6 @@ function showSearchResults(data) {
 
   $('#suggest-table').on('click', '.search-result', function(event) {
   //$('#suggest-table').on('click', '#add-feed', function(event) {
-console.log('add feed - ' + $(this).data('url-id')) ;
-console.log($(this)) ;
     // TODO: Pop up dialog and ask for folder.  When added, auto-update the menu 
     subscribeFeed({id: $(this).data('url-id')}) ;
     var st = $('#suggest-table').DataTable() ;
@@ -300,12 +293,6 @@ var substringMatcher = function(strs) {
 
 function editFeed(that) {
   var tr = $(that).parent().parent()[0] ;
-console.log(tr) ;
-
-console.log('url-id = ' + $(tr).data('url-id')) ;
-console.log($(tr)[0].childNodes) ; //.childNodes[0].textContent) ;
-console.log($(tr)[0].childNodes[2].textContent) ; //.childNodes[0].textContent) ;
-console.log($(tr)[0].childNodes[4].textContent) ; //.childNodes[0].textContent) ;
   $('#edit-url-id').val($(tr).data('url-id')) ;
   $('#feedTitle').val($(tr)[0].childNodes[2].textContent) ;
   $('#folder-ta').html('<input id="feedFolder" class="typeahead" type="text" placeholder="Folder">') ;
@@ -321,27 +308,19 @@ function showManageFeeds() {
           context: this,
           success: function(data) {
 
-var template = getCacheEntry({ key: 'managefeeds' }) ;
+                     var template = getCacheEntry({ key: 'managefeeds' }) ;
 
                      $("#managefeeds").html(Mustache.render(template, data)) ;
                      $('.selectpicker').selectpicker();
 
-                     $('#manage-table').dataTable({"aoColumns": [ { //"targets": [ 0 ],
-                                                                      "visible": false },
-                                                                    {},//feed title
-                                                                    {},//folder
-					                     						   {},
-                                                                  ],
-                                                     "aaSorting": [[1,'asc']]
-                       }) ; 
-
-
-/*                     $('[id^=XXedit-feed]').click(function(e) {
-alert('edit feed') ;
-console.log(this) ;
-                                                  editFeed(this) ;
-                                                }) ; */
-                }
+                     $('#manage-table').dataTable({"aoColumns": [ { "visible": false },
+                                                                  {},//feed title
+                                                                  {},//folder
+					                     						  {},
+                                                                ],
+                                                   "aaSorting": [[1,'asc']]
+                     }) ; 
+                   }
   }) ;
 }
 
@@ -378,6 +357,117 @@ function setupToolBarButtons() {
   }) ;
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
+function setupEditFeedModal(e) {
+    $('#edit-url-id').val($(e.relatedTarget).data('url-id')) ;
+    $('#feedTitle').val($(e.relatedTarget).data('feed-title')) ;
+    $('#folder-ta').html('<input id="feedFolder" class="typeahead" type="text" placeholder="Folder">') ;
+    setupFolderSelect() ;
+    $('#feedFolder').val($(e.relatedTarget).data('folder-name')) ;
+    $("#save-edit-feed").unbind('click').click(function(e) {
+
+  var url_id = $('#edit-url-id').val()
+    , feed_title = $('#feedTitle').val()
+    , folder_name = $('#feedFolder').val()
+    , sel = '*[data-url-id="' + url_id + '"]';
+
+  $('#modal-edit-feed').modal('hide'); 
+
+  var json = '[{"feed_id":' + url_id + ', "feed_title":"' + feed_title + '","folder_name":"' + folder_name + '"} ]' ;
+
+  $.ajax({url: "/api/subscription",
+          type: 'PUT',
+          contentType: "application/json",
+          context: this,
+          data: json,
+          success: function(data) {
+
+                     if ($("[id^=folder_] > .feed_title_bar").filter(function() { return $(this).text() === folder_name ; }).length === 0 ) {
+                       // its a new folder, so have to rebuild the folder list
+                      
+                       // first, remove the feed from the list.
+                       // TODO:  If folder that contained the feed is now empty, should it be removed as well?
+
+                       $('li#' + url_id).remove() ; 
+
+                       // get the json for the new folder
+                       $.ajax({url: "/api/folderlist?folder_name=" + folder_name,
+                               type: 'GET',
+                      		   contentType: "application/json",
+                     		   context: this,
+                     		   success: function(data) {
+                                          // transform the json into html
+			                              var json = data,
+                             			      template = getCacheEntry({ key: 'folderlist'}) ;
+
+                                          // insert the html into the folder list
+                             			  $("#accordion").append(Mustache.render(template, json)) ;
+
+                                          // now sort the folder list accordion
+                                          // TODO: sort ordering is slightly out e.g. 'SQL' comes after 'SQL Server'
+                                          var arr = $('#accordion').children() ;
+ 
+                                          arr.sort(function(a,b) {
+                                            var x = $(a).html(), y = $(b).html() ;
+                                            return x.localeCompare(y); 
+                                          }) ;
+
+                                          $('#accordion').html(arr) ;
+
+                                          // finally, redo all the click events on teh accordion
+                                          $(".folder").unbind('click').click(function(t) {
+                                            $("#feeds_" + t.target.parentElement.id.substring(7)).slideToggle("fast") ;
+                                          }) ;
+
+                                          $(".feed").unbind('click').click(function(t) {
+                                            //  clear feedSelected class
+                                            $(".feedSelected").removeClass("feedSelected") ;
+
+                                            //  add feedSelected class
+                                            $(t.target).addClass("feedSelected") ;
+
+                                            showFeed({ id: t.target.id, title: t.target.innerHTML }) ;
+                                          }) ;
+                             		    } 
+                       }) ;
+
+         
+                     } else {
+                       // its an existing folder
+
+                       // update title in the folder list, just incase it is visible to the user
+                       $('li#' + url_id + '.feed').html(feed_title) ;
+
+                       // if folder has changed, move feed in folder list
+                       $("[id^=feeds][data-folder-name='" + folder_name + "']").append($('li#' + url_id + '.feed')) ;
+
+                       // Now sort the nodes as the moved node may be in the wrong place!
+                       var arr = $("[id^=feeds][data-folder-name='" + folder_name + "']").children() ;
+                       arr.sort(function(a,b) {
+                                  var x = $(a).html(), y = $(b).html() ;
+                                  return x.localeCompare(y); 
+	 
+                                }) ;
+
+                       $("[id^=feeds][data-folder-name='" + folder_name + "']").html(arr) ;
+                     }  
+            // update manage feeds table
+            $(sel).children().eq(0).html(feed_title);
+            $(sel).children().eq(1).html(folder_name);
+
+            // Update data-feed-title and data-folder-name on buttons
+            $('*[data-url-id="' + url_id + '"]:nth-child(1)').data('feed-title', feed_title) ;
+            $('*[data-url-id="' + url_id + '"]:nth-child(1)').data('folder-name', folder_name) ;
+            $('*[data-url-id="' + url_id + '"]:nth-child(2)').data('feed-title', feed_title) ;
+          }
+        }) ;
+
+    }) ;
+}
+////////////////////////////////////////////////////////////////////////////////////////////////////
+funcion setupConfirmModal() {
+
+}
+////////////////////////////////////////////////////////////////////////////////////////////////////
 $(document).ready(function() {
   setupButtons() ;
   populateFeedList() ;
@@ -398,11 +488,11 @@ $(document).ready(function() {
               $("[id^='category-btn']").click(function(e) {
 
                 $(e.target).toggleClass('btn-success') ;
-				console.log('---------------------------------------------------------------') ;
+/*				console.log('---------------------------------------------------------------') ;
 				$("[id^='category-btn'].btn-success").each(function(index) {
 console.log($(this).data('category-id')) ;
                 }) ;
-				console.log('---------------------------------------------------------------') ;
+				console.log('---------------------------------------------------------------') ;*/
                 searchByCategory({category_id: $(this).data('category-id')}) ;
               }) ;
             }
@@ -439,124 +529,7 @@ console.log($(this).data('category-id')) ;
 
   // add on-show confirm dialog handler
 
-  $('#modal-edit-feed').on('show.bs.modal', function(e) {
-    $('#edit-url-id').val($(e.relatedTarget).data('url-id')) ;
-    $('#feedTitle').val($(e.relatedTarget).data('feed-title')) ;
-    $('#folder-ta').html('<input id="feedFolder" class="typeahead" type="text" placeholder="Folder">') ;
-    setupFolderSelect() ;
-    $('#feedFolder').val($(e.relatedTarget).data('folder-name')) ;
-    $("#save-edit-feed").unbind('click').click(function(e) {
-
-  var url_id = $('#edit-url-id').val()
-    , feed_title = $('#feedTitle').val()
-    , folder_name = $('#feedFolder').val()
-    , sel = '*[data-url-id="' + url_id + '"]';
-
-//  $(sel).children().eq(0).html(feed_title);
-//  $(sel).children().eq(1).html(folder_name);
-//  //update title in the folder list, just incase it is visible to the user
-//  $('li#' + url_id + '.feed').html(feed_title) ;
-  $('#modal-edit-feed').modal('hide'); 
-
-  var json = '[{"feed_id":' + url_id + ', "feed_title":"' + feed_title + '","folder_name":"' + folder_name + '"} ]' ;
-console.log('PUT /api/subscription') ;
-console.log(json) ;
-  $.ajax({url: "/api/subscription",
-          type: 'PUT',
-          contentType: "application/json",
-          context: this,
-          data: json,
-          success: function(data) {
-console.log('update success') ;
-			  console.log(data) ;
-console.log(json) ;
-if ($("[id^=folder_]").filter(function() { return $(this).text() === folder_name ; }).length === 0 ) {
-  console.log('that was a new folder so add it to the menu etc') ;
-  $.ajax({url: "/api/folderlist?folder_name=" + folder_name,
-          type: 'GET',
-		  contentType: "application/json",
-		  context: this,
-		  success: function(data) {
-             console.log('MUNGE THIS') ;
-			 console.log(data) ;
-console.log('json is') ;
-console.log(data) ;
-			  var json = data, //JSON.parse(data),
-			      template = getCacheEntry({ key: 'folderlist'}) ;
-console.log('template') ;
-console.log(template) ;
-			 console.log(json) ; 
-console.log('append to accordion') ;
-			 $("#accordion").append(Mustache.render(template, json)) ;
-			 console.log('appended') ;
-
-             // now sort the accordion
-             var arr = $('#accordion').children() ;
-console.log(arr) ;
-             arr.sort(function(a,b) {
-               var x = $(a).html(), y = $(b).html() ;
-               return x.localeCompare(y); 
-             }) ;
-console.log(arr) ;
-             $('#accordion').html(arr) ;
-
-             // finally, redo all the click events on teh accordion
-             $(".folder").unbind('click').click(function(t) {
-                 $("#feeds_" + t.target.id.substring(7)).slideToggle("fast") ;
-             }) ;
-
-             $(".feed").unbind('click').click(function(t) {
-               //  clear feedSelected class
-               $(".feedSelected").removeClass("feedSelected") ;
-
-               //  add feedSelected class
-               $(t.target).addClass("feedSelected") ;
-
-               showFeed({ id: t.target.id, title: t.target.innerHTML }) ;
-             }) ;
-
-		  } 
-  }) ;
-
-         
-} else {
-  console.log('existing tree so do different stuff') ;
-
-/*  var url_id = $('#edit-url-id').val()
-    , feed_title = $('#feedTitle').val()
-    , folder_name = $('#feedFolder').val()
-    , sel = '*[data-url-id="' + url_id + '"]';*/
-  //update title in the folder list, just incase it is visible to the user
-  $('li#' + url_id + '.feed').html(feed_title) ;
-  // if folder has changed, move feed in folder list
-//  $('li#' + url_id + '.feed').remove() ;
-  $("[id^=feeds][data-folder-name='" + folder_name + "']").append($('li#' + url_id + '.feed')) ;
-  // TODO: Now sort the nodes as the moved node may be in the wrong place!
-  var arr = $("[id^=feeds][data-folder-name='" + folder_name + "']").children() ; // $("[data-folder-name='Uncategorised']").children() ;
-  arr.sort(function(a,b) {
-	 
-    var x = $(a).html(), y = $(b).html() ;
-    return x.localeCompare(y); 
-	 
-  }) ;
-
-  $("[id^=feeds][data-folder-name='" + folder_name + "']").html(arr) ;
-}  
-  // update manage feeds table
-  $(sel).children().eq(0).html(feed_title);
-  $(sel).children().eq(1).html(folder_name);
-
-  // Update data-feed-title and data-folder-name on buttons
-  $('*[data-url-id="' + url_id + '"]:nth-child(1)').data('feed-title', feed_title) ;
-  $('*[data-url-id="' + url_id + '"]:nth-child(1)').data('folder-name', folder_name) ;
-  $('*[data-url-id="' + url_id + '"]:nth-child(2)').data('feed-title', feed_title) ;
-
-  
-          }
-  }) ;
-
-    }) ;
-  }) ;
+  $('#modal-edit-feed').on('show.bs.modal', function(e) { setupEditFeedModal(e) }) ;
 
   $('#confirm-modal').on('show.bs.modal', function(e) {
  
