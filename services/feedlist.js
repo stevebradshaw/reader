@@ -4,12 +4,12 @@ var mysql = require('mysql'),
 var req, res ;
 var t ;
 
-  var connection = mysql.createConnection({
-    host     : 'localhost',
-    user     : 'reader_dev',
-    password : 'dev',
-    database : 'reader'
-  });
+var connection = mysql.createConnection({
+  host     : 'localhost',
+  user     : 'reader_dev',
+  password : 'dev',
+  database : 'reader'
+});
 
 connection.connect() ;
 

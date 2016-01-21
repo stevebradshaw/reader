@@ -403,11 +403,9 @@ function setupEditFeedModal(e) {
                              			  $("#accordion").append(Mustache.render(template, json)) ;
 
                                           // now sort the folder list accordion
-                                          // TODO: sort ordering is slightly out e.g. 'SQL' comes after 'SQL Server'
                                           var arr = $('#accordion').children() ;
- 
                                           arr.sort(function(a,b) {
-                                            var x = $(a).html(), y = $(b).html() ;
+                                            var x = $(a).data('folder-name'), y = $(b).data('folder-name') ;
                                             return x.localeCompare(y); 
                                           }) ;
 
@@ -464,7 +462,7 @@ function setupEditFeedModal(e) {
     }) ;
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-funcion setupConfirmModal() {
+function setupConfirmModal() {
 
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
